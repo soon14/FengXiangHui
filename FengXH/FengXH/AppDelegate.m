@@ -2,11 +2,12 @@
 //  AppDelegate.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/7/9.
+//  Created by sun on 2018/7/9.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "MyTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //创建窗口
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.window makeKeyAndVisible];
+    MyTabBarController * tabbar = [[MyTabBarController alloc]init];
+    [self.window setRootViewController:tabbar];
+    
+    
+    
+    
     return YES;
 }
 
