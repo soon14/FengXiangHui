@@ -38,7 +38,7 @@
         [_itemTitleLabel setTextColor:KUIColorFromHex(0x666666)];
         [_itemTitleLabel setFont:KFont(13)];
         [_itemTitleLabel setTextAlignment:NSTextAlignmentCenter];
-        [_itemTitleLabel setText:@"全部秒杀"];
+//        [_itemTitleLabel setText:@"全部秒杀"];
     }
     return _itemTitleLabel;
 }
@@ -46,7 +46,7 @@
 - (UIImageView *)itemImageView {
     if (!_itemImageView) {
         _itemImageView = [[UIImageView alloc] init];
-        [_itemImageView setBackgroundColor:KTableBackgroundColor];
+//        [_itemImageView setBackgroundColor:];
     }
     return _itemImageView;
 }

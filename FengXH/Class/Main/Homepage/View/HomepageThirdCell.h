@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "HomepageThirdItem.h"
+#import "HomepageDataModel.h"
 
 typedef void (^HomeThirdCellBlock)(NSInteger index);
 
 @interface HomepageThirdCell : UICollectionViewCell
 
-@property(nonatomic , strong)NSArray *recentyLotteries;
+@property(nonatomic , strong)NSArray *menuDataArray;
 /** block */
 @property(nonatomic , strong)HomeThirdCellBlock thirdCellBlock;
 

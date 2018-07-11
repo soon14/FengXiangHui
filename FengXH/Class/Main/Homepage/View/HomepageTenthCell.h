@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^TenthCellCartBlock)();
 
 @interface HomepageTenthCell : UICollectionViewCell
 
@@ -20,5 +21,7 @@
 @property(nonatomic , strong)UILabel *originPriceLabel;
 /** 购物车按钮 */
 @property(nonatomic , strong)UIButton *cartButton;
+/** block */
+@property(nonatomic , strong)TenthCellCartBlock cellCartBlock;
 
 @end

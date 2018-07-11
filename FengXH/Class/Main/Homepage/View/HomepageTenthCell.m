@@ -50,11 +50,20 @@
     return self;
 }
 
+
+#pragma mark - 购物车方法
+- (void)cartButtonAction:(UIButton *)sender {
+    if (self.cellCartBlock) {
+        self.cellCartBlock();
+    }
+}
+
 #pragma mark - lazy
 - (UIButton *)cartButton {
     if (!_cartButton) {
         _cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cartButton setImage:[UIImage imageNamed:@"home_goods_cart"] forState:UIControlStateNormal];
+        [_cartButton addTarget:self action:@selector(cartButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cartButton;
 }

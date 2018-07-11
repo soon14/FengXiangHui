@@ -25,15 +25,18 @@
     }
 }
 
-- (void)setRecentyLotteries:(NSArray *)recentyLotteries {
-    _recentyLotteries = recentyLotteries;
+- (void)setMenuDataArray:(NSArray *)menuDataArray {
+    _menuDataArray = menuDataArray;
     for (UIView *subViews in self.contentView.subviews) {
         [subViews removeFromSuperview];
     }
     float itemWidth = KMAINSIZE.width/5;
     float itemHeight = 100;
-    for (NSInteger i=0; i<10; i++) {
+    for (NSInteger i=0; i<menuDataArray.count; i++) {
+        HomepageDataMenuDataModel *menuData = menuDataArray[i];
         HomepageThirdItem *item = [[HomepageThirdItem alloc]init];
+        [item.itemImageView setYy_imageURL:[NSURL URLWithString:menuData.imgurl]];
+        [item.itemTitleLabel setText:menuData.text];
         [item setFrame:CGRectMake((i%5)*itemWidth, (i/5)*itemHeight, itemWidth, itemHeight)];
         [item setTag:i];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(itemTapAction:)];

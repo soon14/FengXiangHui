@@ -11,6 +11,8 @@
 		3A2BF2DC20F4955B00480F25 /* HomepageNinthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2DB20F4955B00480F25 /* HomepageNinthView.m */; };
 		3A2BF2DF20F4957500480F25 /* HomepageNinthItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2DE20F4957500480F25 /* HomepageNinthItem.m */; };
 		3A2BF2E220F4B32000480F25 /* HomepageTenthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2E120F4B32000480F25 /* HomepageTenthCell.m */; };
+		3A2BF2E620F5925E00480F25 /* HomepageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2E520F5925E00480F25 /* HomepageDataModel.m */; };
+		3A2BF2EA20F599BB00480F25 /* HomepageBannerJumpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2E920F599BB00480F25 /* HomepageBannerJumpViewController.m */; };
 		3AED395A20F30AF40095D7C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395920F30AF40095D7C1 /* AppDelegate.m */; };
 		3AED395D20F30AF40095D7C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395C20F30AF40095D7C1 /* ViewController.m */; };
 		3AED396020F30AF40095D7C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AED395E20F30AF40095D7C1 /* Main.storyboard */; };
@@ -153,6 +155,10 @@
 		3A2BF2DE20F4957500480F25 /* HomepageNinthItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepageNinthItem.m; sourceTree = "<group>"; };
 		3A2BF2E020F4B32000480F25 /* HomepageTenthCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomepageTenthCell.h; sourceTree = "<group>"; };
 		3A2BF2E120F4B32000480F25 /* HomepageTenthCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepageTenthCell.m; sourceTree = "<group>"; };
+		3A2BF2E420F5925E00480F25 /* HomepageDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomepageDataModel.h; sourceTree = "<group>"; };
+		3A2BF2E520F5925E00480F25 /* HomepageDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepageDataModel.m; sourceTree = "<group>"; };
+		3A2BF2E820F599BB00480F25 /* HomepageBannerJumpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomepageBannerJumpViewController.h; sourceTree = "<group>"; };
+		3A2BF2E920F599BB00480F25 /* HomepageBannerJumpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepageBannerJumpViewController.m; sourceTree = "<group>"; };
 		3AED395520F30AF40095D7C1 /* FengXH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FengXH.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AED395820F30AF40095D7C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3AED395920F30AF40095D7C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -436,6 +442,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A2BF2E320F5915C00480F25 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3A2BF2E420F5925E00480F25 /* HomepageDataModel.h */,
+				3A2BF2E520F5925E00480F25 /* HomepageDataModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3A2BF2E720F5998E00480F25 /* HomepageBanner */ = {
+			isa = PBXGroup;
+			children = (
+				3A2BF2E820F599BB00480F25 /* HomepageBannerJumpViewController.h */,
+				3A2BF2E920F599BB00480F25 /* HomepageBannerJumpViewController.m */,
+			);
+			path = HomepageBanner;
+			sourceTree = "<group>";
+		};
 		3AED394C20F30AF40095D7C1 = {
 			isa = PBXGroup;
 			children = (
@@ -1021,8 +1045,10 @@
 		3AED3AEB20F32DCF0095D7C1 /* Homepage */ = {
 			isa = PBXGroup;
 			children = (
+				3A2BF2E320F5915C00480F25 /* Model */,
 				3AED3B0320F33FA00095D7C1 /* View */,
 				3AED3B0220F33F940095D7C1 /* Controller */,
+				3A2BF2E720F5998E00480F25 /* HomepageBanner */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -1265,6 +1291,7 @@
 				3AED3A9020F313830095D7C1 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				3AED3A8720F313830095D7C1 /* MJRefreshAutoNormalFooter.m in Sources */,
 				3AED3A8520F313830095D7C1 /* MJRefreshAutoStateFooter.m in Sources */,
+				3A2BF2E620F5925E00480F25 /* HomepageDataModel.m in Sources */,
 				3AED396820F30AF50095D7C1 /* main.m in Sources */,
 				3AED3A8C20F313830095D7C1 /* MJRefreshHeader.m in Sources */,
 				3AED3AC020F313830095D7C1 /* JHSysAlertUtil.m in Sources */,
@@ -1296,6 +1323,7 @@
 				3AED3A7D20F313830095D7C1 /* UIScrollView+MJRefresh.m in Sources */,
 				3AED3A8120F313830095D7C1 /* UIView+MJExtension.m in Sources */,
 				3AED3AD020F313840095D7C1 /* UIImage+YYWebImage.m in Sources */,
+				3A2BF2EA20F599BB00480F25 /* HomepageBannerJumpViewController.m in Sources */,
 				3AED3A9820F313830095D7C1 /* MASLayoutConstraint.m in Sources */,
 				3AED3A7920F313830095D7C1 /* WebViewJavascriptBridgeBase.m in Sources */,
 				3A2BF2DF20F4957500480F25 /* HomepageNinthItem.m in Sources */,
