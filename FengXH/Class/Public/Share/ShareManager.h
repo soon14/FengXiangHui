@@ -20,4 +20,7 @@
 //#pragma mark - 判断两个日期是否是同一天
 //+ (BOOL)isSameDay:(NSDate *)date1 date2:(NSDate *)date2;
 
+//获取当前时间戳有两种方法(以秒为单位)
++ (NSString *)getNowTimeTimestamp;
+
 @end

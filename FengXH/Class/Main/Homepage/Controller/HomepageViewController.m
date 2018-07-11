@@ -18,7 +18,7 @@
 #import "HomepageNinthView.h"
 #import "HomepageTenthCell.h"
 #import "HomepageDataModel.h"
-#import "HomepageBannerJumpViewController.h"
+#import "HomepageWebJumpViewController.h"
 
 @interface HomepageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -90,19 +90,29 @@
         } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==4) {
         //热点
-        return (CGSize){KMAINSIZE.width, 40};
+        if (self.dataModel.M1482809676486.data) {
+            return (CGSize){KMAINSIZE.width, 40};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==5) {
         //店主礼包、京东优选、店主专区
-        return (CGSize){KMAINSIZE.width, 160*KScreenRatio};
+        if (self.dataModel.M1528772177656) {
+            return (CGSize){KMAINSIZE.width, 160*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==6) {
         //整点秒杀倒计时
-        return (CGSize){KMAINSIZE.width, 40};
+        if (self.dataModel.M1510122188416) {
+            return (CGSize){KMAINSIZE.width, 40};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==7) {
         //整点秒杀商品
-        return (CGSize){KMAINSIZE.width, 130};
+        if (self.dataModel.M1510122188416.data.goods) {
+            return (CGSize){KMAINSIZE.width, 130};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==8) {
         //类目精选图片
-        return (CGSize){KMAINSIZE.width, 60};
+        if (self.dataModel.M1512455635232.data) {
+            return (CGSize){KMAINSIZE.width, 60};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==9) {
         //吃货联盟图片
         return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
@@ -328,33 +338,45 @@
         }
     } else if (indexPath.section==4) {
         //热点图片
-        HomepageFourthCell *fourthCell = (HomepageFourthCell *)cell;
-        fourthCell.noticeDataModel = self.dataModel.M1482809676486.data;
+        if (self.dataModel.M1482809676486.data) {
+            HomepageFourthCell *fourthCell = (HomepageFourthCell *)cell;
+            fourthCell.noticeDataModel = self.dataModel.M1482809676486.data;
+        }
     } else if (indexPath.section==5) {
         //热点内容
-        HomepageFifthCell *fifthCell = (HomepageFifthCell *)cell;
-        fifthCell.fifthCellBlock = ^(NSInteger index) {
-            NSLog(@"%ld",index);
-        };
+        if (self.dataModel.M1528772177656) {
+            HomepageFifthCell *fifthCell = (HomepageFifthCell *)cell;
+            fifthCell.picturewModel = self.dataModel.M1528772177656;
+            fifthCell.fifthCellBlock = ^(NSInteger index) {
+                [weakSelf picturewDidClicked:index];
+            };
+        }
     } else if (indexPath.section==6) {
         //整点秒杀倒计时
-        HomepageSixthCell *sixthCell = (HomepageSixthCell *)cell;
-        [sixthCell.countDownLabel setText:@"20点场  距开始10:30:43"];
-        sixthCell.sixthCellBlock = ^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:@"更多..."];
-        };
+        if (self.dataModel.M1510122188416) {
+            HomepageSixthCell *sixthCell = (HomepageSixthCell *)cell;
+            sixthCell.secondKillModel = self.dataModel.M1510122188416;
+            sixthCell.sixthCellBlock = ^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:@"更多..."];
+            };
+        }
     } else if (indexPath.section==7) {
         //整点秒杀商品
-        UICollectionViewCell *seventhCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageSeventhView *seventhView = [HomepageSeventhView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 130) GoodsInfoArray:goodsArray SeventhBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个",index]];
-        }];
-        [seventhCell.contentView addSubview:seventhView];
+        if (self.dataModel.M1510122188416.data.goods) {
+            UICollectionViewCell *seventhCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1510122188416.data.goods;
+            HomepageSeventhView *seventhView = [HomepageSeventhView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 130) GoodsInfoArray:goodsArray SeventhBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个",index]];
+            }];
+            [seventhCell.contentView addSubview:seventhView];
+        }
     } else if (indexPath.section==8) {
         //类目精选图片
-        HomepageEighthCell *eighthCell = (HomepageEighthCell *)cell;
-        eighthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//05//b7ZP5aGq5117cqQksK1gk5QCa12Z86.png";
+        if (self.dataModel.M1512455635232.data) {
+            HomepageEighthCell *eighthCell = (HomepageEighthCell *)cell;
+            HomepageDataCategoryDataModel *categoryModel = [self.dataModel.M1512455635232.data firstObject];
+            eighthCell.pictureURL = categoryModel.imgurl;
+        }
     } else if (indexPath.section==9) {
         //吃货联盟图片
         HomepageEighthCell *ninthCell = (HomepageEighthCell *)cell;
@@ -461,7 +483,7 @@
 #pragma mark - 滚动广告跳转
 - (void)bannerDidClicked:(NSInteger)index {
     HomepageDataBannerDataModel *bannerModel = self.dataModel.M1471835880921.data[index];
-    HomepageBannerJumpViewController *bannerJumpVC = [[HomepageBannerJumpViewController alloc] init];
+    HomepageWebJumpViewController *bannerJumpVC = [[HomepageWebJumpViewController alloc] init];
     bannerJumpVC.jumpURL = bannerModel.linkurl;
     bannerJumpVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:bannerJumpVC animated:YES];
@@ -470,13 +492,28 @@
 #pragma mark - 10个专区-1 被点击
 - (void)menuFirstDidClicked:(NSInteger)index {
     HomepageDataMenuDataModel *menuModel = self.dataModel.M1471835886075.data[index];
-    [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"linkurl:%@",menuModel.linkurl]];
+    HomepageWebJumpViewController *JumpVC = [[HomepageWebJumpViewController alloc] init];
+    JumpVC.jumpURL = menuModel.linkurl;
+    JumpVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:JumpVC animated:YES];
 }
 
-#pragma mark - 10个专区-1 被点击
+#pragma mark - 10个专区-2 被点击
 - (void)menuSecondDidClicked:(NSInteger)index {
     HomepageDataMenuDataModel *menuModel = self.dataModel.M1529474107640.data[index];
-    [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"linkurl:%@",menuModel.linkurl]];
+    HomepageWebJumpViewController *JumpVC = [[HomepageWebJumpViewController alloc] init];
+    JumpVC.jumpURL = menuModel.linkurl;
+    JumpVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:JumpVC animated:YES];
+}
+
+#pragma mark - 热点内容被点击
+- (void)picturewDidClicked:(NSInteger)index {
+    HomepageDataPicturewDataModel *pictureModel = self.dataModel.M1528772177656.data[index];
+    HomepageWebJumpViewController *JumpVC = [[HomepageWebJumpViewController alloc] init];
+    JumpVC.jumpURL = pictureModel.linkurl;
+    JumpVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:JumpVC animated:YES];
 }
 
 #pragma mark - 首页数据请求

@@ -2,7 +2,7 @@
 //  HomepageDataModel.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/7/11.
+//  Created by sun on 2018/7/11.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
@@ -62,3 +62,51 @@
 @implementation HomepageDataNoticeDataDetailsModel
 
 @end
+
+
+@implementation HomepageDataPicturewModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPicturewDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataPicturewDataModel
+
+@end
+
+
+@implementation HomepageDataSecondKillModel
+
+@end
+
+@implementation HomepageDataSecondKillDataModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods":[HomepageDataSecondKillGoodsModel class]};
+}
+
+@end
+
+@implementation HomepageDataSecondKillGoodsModel
+
+@end
+
+
+@implementation HomepageDataCategoryModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataCategoryDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataCategoryDataModel
+
+@end
+
+
+
+
+

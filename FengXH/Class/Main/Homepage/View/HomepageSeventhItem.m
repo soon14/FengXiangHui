@@ -44,8 +44,6 @@
         [_originPriceLabel setTextColor:KUIColorFromHex(0x999999)];
         [_originPriceLabel setFont:KFont(11)];
         [_originPriceLabel setTextAlignment:NSTextAlignmentCenter];
-        NSAttributedString *attString = [[NSAttributedString alloc] initWithString:@"¥399" attributes:@{NSFontAttributeName:KFont(11), NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSStrikethroughColorAttributeName:[UIColor lightGrayColor], NSBaselineOffsetAttributeName:@(0)}];
-        [_originPriceLabel setAttributedText:attString];
     }
     return _originPriceLabel;
 }

@@ -9,7 +9,7 @@
 #import "HomepageSeventhView.h"
 #import "HomepageSeventhItem.h"
 
-#define imageWidth 80
+#define imageWidth 85
 
 @interface HomepageSeventhView()
 
@@ -77,7 +77,7 @@
     }
     
     //设置ScrollView的contentSize
-    if (self.goodsArr.count<4) {
+    if (self.goodsArr.count<5) {
         self.direct.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 0);
     } else {
         self.direct.contentSize = CGSizeMake(self.goodsArr.count*imageWidth, 0);
@@ -85,6 +85,13 @@
     
     for (NSInteger tag=0; tag<self.goodsArr.count; tag++) {
         HomepageSeventhItem *itemView = [[HomepageSeventhItem alloc]initWithFrame:CGRectMake(imageWidth*tag, 0, imageWidth, self.frame.size.height)];
+        HomepageDataSecondKillGoodsModel *goodsModel = self.goodsArr[tag];
+        [itemView.goodsImageView setYy_imageURL:[NSURL URLWithString:goodsModel.thumb]];
+        [itemView.nowPriceLabel setText:[NSString stringWithFormat:@"¥%@",goodsModel.price]];
+        
+        NSAttributedString *attString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%@",goodsModel.marketprice] attributes:@{NSFontAttributeName:KFont(11), NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSStrikethroughColorAttributeName:[UIColor lightGrayColor], NSBaselineOffsetAttributeName:@(0)}];
+        [itemView.originPriceLabel setAttributedText:attString];
+        
         //添加手势
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageClick:)];
         [self.direct addSubview:itemView];

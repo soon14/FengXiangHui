@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomepageDataModel.h"
 typedef void(^SeventhCellBlock)(NSInteger index);
 
 @interface HomepageSeventhView : UIView

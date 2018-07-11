@@ -7,11 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomepageDataModel.h"
 typedef void (^FifthCellBlock)(NSInteger index);
 
 @interface HomepageFifthCell : UICollectionViewCell
 
+/** 数据模型 */
+@property(nonatomic , strong)HomepageDataPicturewModel *picturewModel;
 /** block */
 @property(nonatomic , strong)FifthCellBlock fifthCellBlock;
+/** leftItem */
+@property(nonatomic , strong)UIImageView *leftItem;
+/** middleItem */
+@property(nonatomic , strong)UIImageView *middleItem;
+/** rightItem */
+@property(nonatomic , strong)UIImageView *rightItem;
 
 @end

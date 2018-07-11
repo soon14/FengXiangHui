@@ -2,21 +2,21 @@
 //  HomepageBannerJumpViewController.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/7/11.
+//  Created by sun on 2018/7/11.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
-#import "HomepageBannerJumpViewController.h"
+#import "HomepageWebJumpViewController.h"
 #import "WKWebViewJavascriptBridge.h"
 
-@interface HomepageBannerJumpViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
+@interface HomepageWebJumpViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 
 @property(nonatomic , strong)WKWebView *webView;
 @property(nonatomic , strong)UIProgressView *progressView;
 
 @end
 
-@implementation HomepageBannerJumpViewController
+@implementation HomepageWebJumpViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -45,6 +45,7 @@
         if (newprogress == 1) {
             self.progressView.hidden = YES;
             [self.progressView setProgress:0 animated:NO];
+            
         }else {
             self.progressView.hidden = NO;
             [self.progressView setProgress:newprogress animated:YES];
