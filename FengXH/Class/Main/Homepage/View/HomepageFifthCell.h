@@ -13,7 +13,7 @@ typedef void (^FifthCellBlock)(NSInteger index);
 @interface HomepageFifthCell : UICollectionViewCell
 
 /** 数据模型 */
-@property(nonatomic , strong)HomepageDataPicturewModel *picturewModel;
+@property(nonatomic , strong)HomepageDataHotPictureModel *picturewModel;
 /** block */
 @property(nonatomic , strong)FifthCellBlock fifthCellBlock;
 /** leftItem */

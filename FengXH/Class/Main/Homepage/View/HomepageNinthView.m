@@ -93,7 +93,13 @@
     
     for (NSInteger tag=0; tag<self.goodsArr.count; tag++) {
         HomepageNinthItem *itemView = [[HomepageNinthItem alloc]initWithFrame:CGRectMake(itemWidth*tag, 0, itemWidth, self.frame.size.height)];
-        [itemView.goodsImageView setYy_imageURL:[NSURL URLWithString:@"https://img.vipfxh.com//images//7//2017//11//T05Kk0swbWk9xu8wfU068Y6fYYF006.jpg"]];
+        HomepageDataCategoryGoodsDataModel *goodsModel = self.goodsArr[tag];
+        [itemView.goodsImageView setYy_imageURL:[NSURL URLWithString:goodsModel.thumb]];
+        [itemView.goodsTitleLabel setText:goodsModel.title];
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"原价¥%@",goodsModel.productprice]];
+        [attString addAttributes:@{NSFontAttributeName:KFont(13), NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSStrikethroughColorAttributeName:[UIColor lightGrayColor], NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(2, goodsModel.productprice.length+1)];
+        [itemView.originPriceLabel setAttributedText:attString];
+        [itemView.nowPriceLabel setText:[NSString stringWithFormat:@"¥%@",goodsModel.marketprice]];
         //添加手势
         UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageClick:)];
         [self.direct addSubview:itemView];

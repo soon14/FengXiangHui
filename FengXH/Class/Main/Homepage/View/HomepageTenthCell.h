@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomepageDataModel.h"
 typedef void (^TenthCellCartBlock)();
 
 @interface HomepageTenthCell : UICollectionViewCell
@@ -23,5 +24,7 @@ typedef void (^TenthCellCartBlock)();
 @property(nonatomic , strong)UIButton *cartButton;
 /** block */
 @property(nonatomic , strong)TenthCellCartBlock cellCartBlock;
+/** 数据模型 */
+@property(nonatomic , strong)HomepageDataGuessYouLikeGoodsDataModel *goodsModel;
 
 @end

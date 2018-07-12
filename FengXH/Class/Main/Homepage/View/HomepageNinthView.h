@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomepageDataModel.h"
 typedef void(^NinthCellBlock)(NSInteger index);
 
 @interface HomepageNinthView : UIView

@@ -50,12 +50,23 @@
     return self;
 }
 
-
 #pragma mark - 购物车方法
 - (void)cartButtonAction:(UIButton *)sender {
     if (self.cellCartBlock) {
         self.cellCartBlock();
     }
+}
+
+
+- (void)setGoodsModel:(HomepageDataGuessYouLikeGoodsDataModel *)goodsModel {
+    _goodsModel = goodsModel;
+    [self.goodsImageView setYy_imageURL:[NSURL URLWithString:_goodsModel.thumb]];
+    [self.goodsTitleLabel setText:_goodsModel.title];
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"原价¥%@",goodsModel.productprice]];
+    [attString addAttributes:@{NSFontAttributeName:KFont(13), NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSStrikethroughColorAttributeName:[UIColor lightGrayColor], NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(2, goodsModel.productprice.length+1)];
+    [self.originPriceLabel setAttributedText:attString];
+    [self.nowPriceLabel setText:[NSString stringWithFormat:@"¥%@",goodsModel.price]];
+    
 }
 
 #pragma mark - lazy
@@ -74,7 +85,7 @@
         [_nowPriceLabel setTextColor:KRedColor];
         [_nowPriceLabel setFont:KFont(13)];
         [_nowPriceLabel setAdjustsFontSizeToFitWidth:YES];
-        [_nowPriceLabel setText:@"¥450"];
+//        [_nowPriceLabel setText:@"¥450"];
     }
     return _nowPriceLabel;
 }
@@ -85,7 +96,7 @@
         [_originPriceLabel setTextColor:KUIColorFromHex(0x999999)];
         [_originPriceLabel setFont:KFont(13)];
         [_originPriceLabel setAdjustsFontSizeToFitWidth:YES];
-        [_originPriceLabel setText:@"原价¥321"];
+//        [_originPriceLabel setText:@"原价¥321"];
     }
     return _originPriceLabel;
 }
@@ -97,7 +108,7 @@
         [_goodsTitleLabel setFont:KFont(14)];
         [_goodsTitleLabel setAdjustsFontSizeToFitWidth:YES];
         [_goodsTitleLabel setNumberOfLines:2];
-        [_goodsTitleLabel setText:@"维他奶 原味豆奶植物蛋白饮料..."];
+//        [_goodsTitleLabel setText:@"维他奶 原味豆奶植物蛋白饮料..."];
     }
     return _goodsTitleLabel;
 }

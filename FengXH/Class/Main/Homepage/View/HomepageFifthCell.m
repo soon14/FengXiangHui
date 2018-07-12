@@ -39,18 +39,18 @@
     return self;
 }
 
-- (void)setPicturewModel:(HomepageDataPicturewModel *)picturewModel {
+- (void)setPicturewModel:(HomepageDataHotPictureModel *)picturewModel {
     _picturewModel = picturewModel;
     if (_picturewModel.data.count>0) {
-        HomepageDataPicturewDataModel *picterewModel = _picturewModel.data[0];
+        HomepageDataPictureDataModel *picterewModel = _picturewModel.data[0];
         [self.leftItem setYy_imageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",picterewModel.imgurl]]];
     }
     if (_picturewModel.data.count>1) {
-        HomepageDataPicturewDataModel *picterewModel = _picturewModel.data[1];
+        HomepageDataPictureDataModel *picterewModel = _picturewModel.data[1];
         [self.middleItem setYy_imageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",picterewModel.imgurl]]];
     }
     if (_picturewModel.data.count>2) {
-        HomepageDataPicturewDataModel *picterewModel = _picturewModel.data[2];
+        HomepageDataPictureDataModel *picterewModel = _picturewModel.data[2];
         [self.rightItem setYy_imageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",picterewModel.imgurl]]];
     }
     

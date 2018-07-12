@@ -66,7 +66,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section==22) {
-        return 8;
+        return self.dataModel.M1530682437506.goods_list.count;
     } return 1;
 }
 
@@ -115,46 +115,74 @@
         } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==9) {
         //吃货联盟图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455725970.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==10) {
         //吃货联盟商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1516787844386.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==11) {
         //爱在护肤图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455784147.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==12) {
         //爱在护肤商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1512373325297.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==13) {
         //美时美刻图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455826986.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==14) {
         //美时美刻商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1512373372365.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==15) {
         //安家落户图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455857299.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==16) {
         //安家落户商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1487819230395.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==17) {
         //咿呀学语图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455916966.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==18) {
         //咿呀学语商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1487818916357.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==19) {
         //强身健体图片
-        return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        if (self.dataModel.M1512455889850.data) {
+            return (CGSize){KMAINSIZE.width, 147*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==20) {
         //强身健体商品
-        return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        if (self.dataModel.M1512373413982.goods_list) {
+            return (CGSize){KMAINSIZE.width, 227*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==21) {
         //猜你喜欢图片
-        return (CGSize){KMAINSIZE.width, 45};
+        if (self.dataModel.M1530682233521.data) {
+            return (CGSize){KMAINSIZE.width, 45};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     } else if (indexPath.section==22) {
         //猜你喜欢的商品
-        return (CGSize){(KMAINSIZE.width-20)/3, 207*KScreenRatio};
+        if (self.dataModel.M1530682437506.goods_list) {
+            return (CGSize){(KMAINSIZE.width-20)/3, 207*KScreenRatio};
+        } return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
     }
     return (CGSize){KMAINSIZE.width, CGFLOAT_MIN};
 }
@@ -374,102 +402,139 @@
         //类目精选图片
         if (self.dataModel.M1512455635232.data) {
             HomepageEighthCell *eighthCell = (HomepageEighthCell *)cell;
-            HomepageDataCategoryDataModel *categoryModel = [self.dataModel.M1512455635232.data firstObject];
+            HomepageDataPictureDataModel *categoryModel = [self.dataModel.M1512455635232.data firstObject];
             eighthCell.pictureURL = categoryModel.imgurl;
         }
     } else if (indexPath.section==9) {
         //吃货联盟图片
-        HomepageEighthCell *ninthCell = (HomepageEighthCell *)cell;
-        ninthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455725970.data) {
+            HomepageEighthCell *ninthCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455725970.data firstObject];
+            ninthCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==10) {
         //吃货联盟商品
-        UICollectionViewCell *tenthCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *tenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [tenthCell.contentView addSubview:tenthView];
+        if (self.dataModel.M1516787844386.goods_list) {
+            UICollectionViewCell *tenthCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1516787844386.goods_list;
+            HomepageNinthView *tenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [tenthCell.contentView addSubview:tenthView];
+        }
     } else if (indexPath.section==11) {
         //爱在护肤图片
-        HomepageEighthCell *eleventh = (HomepageEighthCell *)cell;
-        eleventh.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455784147.data) {
+            HomepageEighthCell *eleventh = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455784147.data firstObject];
+            eleventh.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==12) {
         //爱在护肤商品
-        UICollectionViewCell *twelfthCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *twelfthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [twelfthCell.contentView addSubview:twelfthView];
+        if (self.dataModel.M1512373325297.goods_list) {
+            UICollectionViewCell *twelfthCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1512373325297.goods_list;
+            HomepageNinthView *twelfthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [twelfthCell.contentView addSubview:twelfthView];
+        }
     } else if (indexPath.section==13) {
         //美时美刻图片
-        HomepageEighthCell *thirteenthCell = (HomepageEighthCell *)cell;
-        thirteenthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455826986.data) {
+            HomepageEighthCell *thirteenthCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455826986.data firstObject];
+            thirteenthCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==14) {
         //美时美刻商品
-        UICollectionViewCell *fourteenthCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *fourteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [fourteenthCell.contentView addSubview:fourteenthView];
+        if (self.dataModel.M1512373372365.goods_list) {
+            UICollectionViewCell *fourteenthCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1512373372365.goods_list;
+            HomepageNinthView *fourteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [fourteenthCell.contentView addSubview:fourteenthView];
+        }
     } else if (indexPath.section==15) {
         //安家落户图片
-        HomepageEighthCell *fifteenthCell = (HomepageEighthCell *)cell;
-        fifteenthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455857299.data) {
+            HomepageEighthCell *fifteenthCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455857299.data firstObject];
+            fifteenthCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==16) {
         //安家落户商品
-        UICollectionViewCell *sixteenthCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *sixteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [sixteenthCell.contentView addSubview:sixteenthView];
+        if (self.dataModel.M1487819230395.goods_list) {
+            UICollectionViewCell *sixteenthCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1487819230395.goods_list;
+            HomepageNinthView *sixteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [sixteenthCell.contentView addSubview:sixteenthView];
+        }
     } else if (indexPath.section==17) {
         //咿呀学语图片
-        HomepageEighthCell *seventeenthCell = (HomepageEighthCell *)cell;
-        seventeenthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455916966.data) {
+            HomepageEighthCell *seventeenthCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455916966.data firstObject];
+            seventeenthCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==18) {
         //咿呀学语商品
-        UICollectionViewCell *eighteenthCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *eighteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [eighteenthCell.contentView addSubview:eighteenthView];
+        if (self.dataModel.M1487818916357.goods_list) {
+            UICollectionViewCell *eighteenthCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1487818916357.goods_list;
+            HomepageNinthView *eighteenthView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [eighteenthCell.contentView addSubview:eighteenthView];
+        }
     } else if (indexPath.section==19) {
         //强身健体图片
-        HomepageEighthCell *ninteenthCell = (HomepageEighthCell *)cell;
-        ninteenthCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//aDPztDzGKkVVu7GavdkddAk7zG8wD4.png";
+        if (self.dataModel.M1512455889850.data) {
+            HomepageEighthCell *ninteenthCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1512455889850.data firstObject];
+            ninteenthCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==20) {
         //强身健体商品
-        UICollectionViewCell *twentiethCell = (UICollectionViewCell *)cell;
-        NSArray *goodsArray = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
-        HomepageNinthView *twentiethView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
-        } CartClickBlock:^(NSInteger index) {
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
-        }];
-        [twentiethCell.contentView addSubview:twentiethView];
+        if (self.dataModel.M1512373413982.goods_list) {
+            UICollectionViewCell *twentiethCell = (UICollectionViewCell *)cell;
+            NSArray *goodsArray = self.dataModel.M1512373413982.goods_list;
+            HomepageNinthView *twentiethView = [HomepageNinthView direcWithtFrame:CGRectMake(0, 0, KMAINSIZE.width, 227*KScreenRatio) GoodsInfoArray:goodsArray NinthBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个被点击",index]];
+            } CartClickBlock:^(NSInteger index) {
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",index]];
+            }];
+            [twentiethCell.contentView addSubview:twentiethView];
+        }
     } else if (indexPath.section==21) {
         //猜你喜欢图片
-        HomepageEighthCell *twentyFirstCell = (HomepageEighthCell *)cell;
-        twentyFirstCell.pictureURL = @"https://img.vipfxh.com//images//7//2018//07//ZU4chI8fFfXH558XU45544592R3V58.jpg";
+        if (self.dataModel.M1530682233521.data) {
+            HomepageEighthCell *twentyFirstCell = (HomepageEighthCell *)cell;
+            HomepageDataPictureDataModel *categoryImageModel = [self.dataModel.M1530682233521.data firstObject];
+            twentyFirstCell.pictureURL = categoryImageModel.imgurl;
+        }
     } else if (indexPath.section==22) {
-        HomepageTenthCell *twentySecondCell = (HomepageTenthCell *)cell;
-        twentySecondCell.cellCartBlock = ^{
-            [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",indexPath.item]];
-        };
+        //猜你喜欢商品
+        if (self.dataModel.M1530682437506.goods_list) {
+            HomepageTenthCell *twentySecondCell = (HomepageTenthCell *)cell;
+            twentySecondCell.goodsModel = self.dataModel.M1530682437506.goods_list[indexPath.item];
+            twentySecondCell.cellCartBlock = ^{
+                [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"第%ld个加入购物车",indexPath.item]];
+            };
+        }
     }
 }
 
@@ -509,7 +574,7 @@
 
 #pragma mark - 热点内容被点击
 - (void)picturewDidClicked:(NSInteger)index {
-    HomepageDataPicturewDataModel *pictureModel = self.dataModel.M1528772177656.data[index];
+    HomepageDataPictureDataModel *pictureModel = self.dataModel.M1528772177656.data[index];
     HomepageWebJumpViewController *JumpVC = [[HomepageWebJumpViewController alloc] init];
     JumpVC.jumpURL = pictureModel.linkurl;
     JumpVC.hidesBottomBarWhenPushed = YES;

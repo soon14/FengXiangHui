@@ -64,15 +64,15 @@
 @end
 
 
-@implementation HomepageDataPicturewModel
+@implementation HomepageDataHotPictureModel
 
 + (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPicturewDataModel class]};
+    return @{@"data":[HomepageDataPictureDataModel class]};
 }
 
 @end
 
-@implementation HomepageDataPicturewDataModel
+@implementation HomepageDataPictureDataModel
 
 @end
 
@@ -94,17 +94,160 @@
 @end
 
 
-@implementation HomepageDataCategoryModel
+@implementation HomepageDataCategorySectionImageModel
 
 + (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataCategoryDataModel class]};
+    return @{@"data":[HomepageDataPictureDataModel class]};
 }
 
 @end
 
-@implementation HomepageDataCategoryDataModel
+
+@implementation HomepageDataFirstCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
 
 @end
+
+@implementation HomepageDataSecondCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataThirdCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataFourthCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataFifthCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+@implementation HomepageDataSixthCategoryImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataFirstCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataSecondCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataThirdCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataFourthCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataFifthCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataSixthCategoryGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataCategoryGoodsDataModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"goodsID" : @"id",
+             @"goods_description":@"description"
+             };
+}
+
+@end
+
+
+@implementation HomepageDataGuessYouLikeImageModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"data":[HomepageDataPictureDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataGuessYouLikeGoodsModel
+
++ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
+    return @{@"goods_list":[HomepageDataGuessYouLikeGoodsDataModel class]};
+}
+
+@end
+
+
+@implementation HomepageDataGuessYouLikeGoodsDataModel
+
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"goodsID" : @"id"};
+}
+
+@end
+
+
+
+
+
+
 
 
 

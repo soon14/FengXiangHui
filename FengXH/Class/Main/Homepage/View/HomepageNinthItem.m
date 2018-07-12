@@ -75,7 +75,7 @@
         [_nowPriceLabel setTextColor:KRedColor];
         [_nowPriceLabel setFont:KFont(13)];
         [_nowPriceLabel setAdjustsFontSizeToFitWidth:YES];
-        [_nowPriceLabel setText:@"¥450"];
+//        [_nowPriceLabel setText:@"¥450"];
     }
     return _nowPriceLabel;
 }
@@ -86,7 +86,7 @@
         [_originPriceLabel setTextColor:KUIColorFromHex(0x999999)];
         [_originPriceLabel setFont:KFont(13)];
         [_originPriceLabel setAdjustsFontSizeToFitWidth:YES];
-        [_originPriceLabel setText:@"原价¥321"];
+//        [_originPriceLabel setText:@"原价¥321"];
     }
     return _originPriceLabel;
 }
@@ -96,9 +96,8 @@
         _goodsTitleLabel = [[UILabel alloc] init];
         [_goodsTitleLabel setTextColor:KUIColorFromHex(0x333333)];
         [_goodsTitleLabel setFont:KFont(14)];
-        [_goodsTitleLabel setAdjustsFontSizeToFitWidth:YES];
         [_goodsTitleLabel setNumberOfLines:2];
-        [_goodsTitleLabel setText:@"维他奶 原味豆奶植物蛋白饮料..."];
+//        [_goodsTitleLabel setText:@"维他奶 原味豆奶植物蛋白饮料..."];
     }
     return _goodsTitleLabel;
 }
