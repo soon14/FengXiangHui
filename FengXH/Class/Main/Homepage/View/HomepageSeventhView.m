@@ -83,6 +83,10 @@
         self.direct.contentSize = CGSizeMake(self.goodsArr.count*imageWidth, 0);
     }
     
+    for (UIView *subViews in self.direct.subviews) {
+        [subViews removeFromSuperview];
+    }
+    
     for (NSInteger tag=0; tag<self.goodsArr.count; tag++) {
         HomepageSeventhItem *itemView = [[HomepageSeventhItem alloc]initWithFrame:CGRectMake(imageWidth*tag, 0, imageWidth, self.frame.size.height)];
         HomepageDataSecondKillGoodsModel *goodsModel = self.goodsArr[tag];

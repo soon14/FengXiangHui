@@ -25,7 +25,7 @@
     self.tabBar.backgroundColor = [UIColor whiteColor];
     [self initSubVC];
     
-    [self setSelectedIndex:0];
+    [self setSelectedIndex:4];
 }
 
 /**
@@ -35,7 +35,7 @@
 - (void)initSubVC{
     
     HomepageViewController * homeVC = [[HomepageViewController alloc]init];
-    [self setupChildVC:homeVC Title:@"首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_nol"];
+    [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_nol"];
     
     AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc]init];
     [self setupChildVC:allGoodsVC Title:@"全部商品" UnselectedImageName:@"home_icon_all_nol" SelectedImageName:@"home_icon_all_nol"];
@@ -47,7 +47,7 @@
     [self setupChildVC:shopCartVC Title:@"购物车" UnselectedImageName:@"home_icon_cart_nol" SelectedImageName:@"home_icon_cart_nol"];
     
     PersonalViewController * personalVC = [[PersonalViewController alloc]init];
-    [self setupChildVC:personalVC Title:@"我的" UnselectedImageName:@"home_icon_mine_nol" SelectedImageName:@"home_icon_mine_nol"];
+    [self setupChildVC:personalVC Title:@"会员中心" UnselectedImageName:@"home_icon_mine_nol" SelectedImageName:@"home_icon_mine_nol"];
 }
 
 /**

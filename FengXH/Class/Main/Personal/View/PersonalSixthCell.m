@@ -1,0 +1,33 @@
+//
+//  PersonalSixthCell.m
+//  FengXH
+//
+//  Created by sun on 2018/7/12.
+//  Copyright © 2018年 HubinSun. All rights reserved.
+//
+
+#import "PersonalSixthCell.h"
+
+@implementation PersonalSixthCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.backgroundColor = [UIColor whiteColor];
+        
+        
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

@@ -30,6 +30,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
 
+    [self.view addSubview:self.progressView];
+    [self.view insertSubview:self.webView belowSubview:self.progressView];
 }
 
 #pragma mark - 监听 web 按钮点击
@@ -62,6 +64,7 @@
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [self.webView removeObserver:self forKeyPath:@"title"];
     [self clearCache];
+    NSLog(@"%s",__func__);
 }
 
 /** 清理缓存的方法，这个方法会清除缓存类型为HTML类型的文件*/
@@ -117,7 +120,6 @@
         _webView.UIDelegate = self;
         [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
         [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-        [self.view insertSubview:_webView belowSubview:self.progressView];
     }
     return _webView;
 }
@@ -125,9 +127,8 @@
 - (UIProgressView *)progressView {
     if(!_progressView) {
         _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 3)];
-        self.progressView.tintColor = KRedColor;
-        self.progressView.trackTintColor = [UIColor whiteColor];
-        [self.view addSubview:self.progressView];
+        _progressView.tintColor = KRedColor;
+        _progressView.trackTintColor = [UIColor whiteColor];
     }
     return _progressView;
 }
@@ -136,6 +137,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

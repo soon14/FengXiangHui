@@ -91,6 +91,10 @@
         self.direct.contentSize = CGSizeMake(self.goodsArr.count*itemWidth, 0);
     }
     
+    for (UIView *subViews in self.direct.subviews) {
+        [subViews removeFromSuperview];
+    }
+    
     for (NSInteger tag=0; tag<self.goodsArr.count; tag++) {
         HomepageNinthItem *itemView = [[HomepageNinthItem alloc]initWithFrame:CGRectMake(itemWidth*tag, 0, itemWidth, self.frame.size.height)];
         HomepageDataCategoryGoodsDataModel *goodsModel = self.goodsArr[tag];

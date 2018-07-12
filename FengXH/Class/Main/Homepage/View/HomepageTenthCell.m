@@ -65,7 +65,7 @@
     NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"原价¥%@",goodsModel.productprice]];
     [attString addAttributes:@{NSFontAttributeName:KFont(13), NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSStrikethroughColorAttributeName:[UIColor lightGrayColor], NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(2, goodsModel.productprice.length+1)];
     [self.originPriceLabel setAttributedText:attString];
-    [self.nowPriceLabel setText:[NSString stringWithFormat:@"¥%@",goodsModel.price]];
+    [self.nowPriceLabel setText:[NSString stringWithFormat:@"¥%@",goodsModel.marketprice]];
     
 }
 
