@@ -13,11 +13,15 @@
 #import "PersonalFourthCell.h"
 #import "PersonalFifthCell.h"
 #import "PersonalSixthCell.h"
+#import "PersonalSectionCell.h"
+#import "PersonalFooterView.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 /** tableView */
 @property(nonatomic , strong)UITableView *personalTableView;
+/** footerView */
+@property(nonatomic , strong)PersonalFooterView *footerView;
 
 @end
 
@@ -30,6 +34,14 @@
     [self.view addSubview:self.personalTableView];
 }
 
+#pragma mark - footerView
+- (PersonalFooterView *)footerView {
+    if (!_footerView) {
+        _footerView = [[PersonalFooterView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 50)];
+    }
+    return _footerView;
+}
+
 #pragma mark - tableView
 - (UITableView *)personalTableView {
     if (!_personalTableView) {
@@ -39,6 +51,7 @@
         _personalTableView.showsVerticalScrollIndicator = NO;
         _personalTableView.dataSource = self;
         _personalTableView.delegate = self;
+        _personalTableView.tableFooterView = self.footerView;
     }
     return _personalTableView;
 }
@@ -48,13 +61,21 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section==0 || section==5) {
+        return 1;
+    } return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section==0) {
-        return 150;
-    } return 134;
+        return 155;
+    } else if (indexPath.section==5) {
+        return 180;
+    } else {
+        if (indexPath.row==0) {
+            return 44;
+        } return 90;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -80,36 +101,99 @@
         PersonalFirstCell *firstCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFirstCell class])];
         if (!firstCell) {
             firstCell = [[PersonalFirstCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFirstCell class])];
+            MJWeakSelf
+            firstCell.cellClickBlock = ^(NSInteger index) {
+                [weakSelf firstCellAction:index];
+            };
         }
         return firstCell;
     } else if (indexPath.section==1) {
         //时长金额
-        PersonalSecondCell *secondCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSecondCell class])];
-        if (!secondCell) {
-            secondCell = [[PersonalSecondCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalSecondCell class])];
+        if (indexPath.row==0) {
+            PersonalSectionCell *secondSectionCell = [tableView dequeueReusableCellWithIdentifier:@"secondSectionCellID"];
+            if (!secondSectionCell) {
+                secondSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"secondSectionCellID"];
+                [secondSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+            }
+            [secondSectionCell.titleLabel setText:@"时长金额：0元"];
+            return secondSectionCell;
+        } else {
+            PersonalSecondCell *secondCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSecondCell class])];
+            if (!secondCell) {
+                secondCell = [[PersonalSecondCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalSecondCell class])];
+                MJWeakSelf
+                secondCell.cellClickBlock = ^(NSInteger index) {
+                    [weakSelf secondCellAction:index];
+                };
+            }
+            return secondCell;
         }
-        return secondCell;
     } else if (indexPath.section==2) {
         //我的订单
-        PersonalThirdCell *thirdCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalThirdCell class])];
-        if (!thirdCell) {
-            thirdCell = [[PersonalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalThirdCell class])];
+        if (indexPath.row==0) {
+            PersonalSectionCell *thirdSectionCell = [tableView dequeueReusableCellWithIdentifier:@"thirdSectionCellID"];
+            if (!thirdSectionCell) {
+                thirdSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"thirdSectionCellID"];
+                [thirdSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+                [thirdSectionCell.titleLabel setText:@"我的订单"];
+                [thirdSectionCell.moreLabel setText:@"查看全部"];
+            }
+            return thirdSectionCell;
+        } else {
+            PersonalThirdCell *thirdCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalThirdCell class])];
+            if (!thirdCell) {
+                thirdCell = [[PersonalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalThirdCell class])];
+                MJWeakSelf
+                thirdCell.cellClickBlock = ^(NSInteger index) {
+                    [weakSelf thirdCellAction:index];
+                };
+            }
+            return thirdCell;
         }
-        return thirdCell;
     } else if (indexPath.section==3) {
         //我的小店
-        PersonalFourthCell *fourthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFourthCell class])];
-        if (!fourthCell) {
-            fourthCell = [[PersonalFourthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFourthCell class])];
+        if (indexPath.row==0) {
+            PersonalSectionCell *fourthSectionCell = [tableView dequeueReusableCellWithIdentifier:@"fourthSectionCellID"];
+            if (!fourthSectionCell) {
+                fourthSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"fourthSectionCellID"];
+                [fourthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+                [fourthSectionCell.titleLabel setText:@"我的小店"];
+                [fourthSectionCell.moreLabel setText:@"查看全部"];
+            }
+            return fourthSectionCell;
+        } else {
+            PersonalFourthCell *fourthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFourthCell class])];
+            if (!fourthCell) {
+                fourthCell = [[PersonalFourthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFourthCell class])];
+                MJWeakSelf
+                fourthCell.cellClickBlock = ^(NSInteger index) {
+                    [weakSelf fourthCellAction:index];
+                };
+            }
+            return fourthCell;
         }
-        return fourthCell;
     } else if (indexPath.section==4) {
         //商学院
-        PersonalFifthCell *fifthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFifthCell class])];
-        if (!fifthCell) {
-            fifthCell = [[PersonalFifthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFifthCell class])];
+        if (indexPath.row==0) {
+            PersonalSectionCell *fifthSectionCell = [tableView dequeueReusableCellWithIdentifier:@"fifthSectionCellID"];
+            if (!fifthSectionCell) {
+                fifthSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"fifthSectionCellID"];
+                [fifthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+                [fifthSectionCell.titleLabel setText:@"商学院（开发中...）"];
+                [fifthSectionCell.moreLabel setText:@"进入学习"];
+            }
+            return fifthSectionCell;
+        } else {
+            PersonalFifthCell *fifthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFifthCell class])];
+            if (!fifthCell) {
+                fifthCell = [[PersonalFifthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFifthCell class])];
+                MJWeakSelf
+                fifthCell.cellClickBlock = ^(NSInteger index) {
+                    [weakSelf fifthCellAction:index];
+                };
+            }
+            return fifthCell;
         }
-        return fifthCell;
     } else {
         //素材、海报等
         PersonalSixthCell *sixthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSixthCell class])];
@@ -120,10 +204,168 @@
     }
 }
 
+#pragma mark - didSelectRowAtIndexPath
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+    if (indexPath.section==1) {
+        if (indexPath.row==0) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [DBHUD ShowInView:self.view withTitle:@"时长金额"];
+        }
+    } else if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [DBHUD ShowInView:self.view withTitle:@"我的订单"];
+        }
+    } else if (indexPath.section==3) {
+        if (indexPath.row==0) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [DBHUD ShowInView:self.view withTitle:@"我的小店"];
+        }
+    } else if (indexPath.section==4) {
+        if (indexPath.row==0) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [DBHUD ShowInView:self.view withTitle:@"商学院"];
+        }
+    }
 }
+
+#pragma mark - firstCellAction
+- (void)firstCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            [DBHUD ShowInView:self.view withTitle:@"个人资料"];
+        }
+            break;
+        case 1: {
+            [DBHUD ShowInView:self.view withTitle:@"设置"];
+        }
+            break;
+        case 2: {
+            [DBHUD ShowInView:self.view withTitle:@"充值"];
+        }
+            break;
+        case 3: {
+            [DBHUD ShowInView:self.view withTitle:@"兑换"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - secondCellAction
+- (void)secondCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            [DBHUD ShowInView:self.view withTitle:@"云通话"];
+        }
+            break;
+        case 1: {
+            [DBHUD ShowInView:self.view withTitle:@"通话记录"];
+        }
+            break;
+        case 2: {
+            [DBHUD ShowInView:self.view withTitle:@"抵扣商城"];
+        }
+            break;
+        case 3: {
+            [DBHUD ShowInView:self.view withTitle:@"时长充值"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - thirdCellAction
+- (void)thirdCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            [DBHUD ShowInView:self.view withTitle:@"待付款"];
+        }
+            break;
+        case 1: {
+            [DBHUD ShowInView:self.view withTitle:@"待发货"];
+        }
+            break;
+        case 2: {
+            [DBHUD ShowInView:self.view withTitle:@"待收货"];
+        }
+            break;
+        case 3: {
+            [DBHUD ShowInView:self.view withTitle:@"退换货"];
+        }
+            break;
+        case 4: {
+            [DBHUD ShowInView:self.view withTitle:@"购物车"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - fourthCellAction
+- (void)fourthCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            [DBHUD ShowInView:self.view withTitle:@"邀请加入"];
+        }
+            break;
+        case 1: {
+            [DBHUD ShowInView:self.view withTitle:@"开店礼包"];
+        }
+            break;
+        case 2: {
+            [DBHUD ShowInView:self.view withTitle:@"我的团队"];
+        }
+            break;
+        case 3: {
+            [DBHUD ShowInView:self.view withTitle:@"佣金收益"];
+        }
+            break;
+        case 4: {
+            [DBHUD ShowInView:self.view withTitle:@"店铺管家"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - fifthCellAction
+- (void)fifthCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            [DBHUD ShowInView:self.view withTitle:@"新手攻略"];
+        }
+            break;
+        case 1: {
+            [DBHUD ShowInView:self.view withTitle:@"进阶必听"];
+        }
+            break;
+        case 2: {
+            [DBHUD ShowInView:self.view withTitle:@"店主风采"];
+        }
+            break;
+        case 3: {
+            [DBHUD ShowInView:self.view withTitle:@"空中课堂"];
+        }
+            break;
+        case 4: {
+            [DBHUD ShowInView:self.view withTitle:@"活动资讯"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 
 

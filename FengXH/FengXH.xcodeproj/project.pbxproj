@@ -29,6 +29,9 @@
 		3A2BF32720F7632200480F25 /* PersonalFourthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF32620F7632200480F25 /* PersonalFourthCell.m */; };
 		3A2BF32A20F7633100480F25 /* PersonalFifthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF32920F7633100480F25 /* PersonalFifthCell.m */; };
 		3A2BF32D20F7644600480F25 /* PersonalSixthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF32C20F7644600480F25 /* PersonalSixthCell.m */; };
+		3A2BF33020F8393F00480F25 /* PersonalSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF32F20F8393F00480F25 /* PersonalSectionCell.m */; };
+		3A2BF33320F87A0600480F25 /* PersonalCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF33220F87A0600480F25 /* PersonalCellItem.m */; };
+		3A2BF33620F8A0EB00480F25 /* PersonalFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF33520F8A0EB00480F25 /* PersonalFooterView.m */; };
 		3AED395A20F30AF40095D7C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395920F30AF40095D7C1 /* AppDelegate.m */; };
 		3AED395D20F30AF40095D7C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395C20F30AF40095D7C1 /* ViewController.m */; };
 		3AED396020F30AF40095D7C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AED395E20F30AF40095D7C1 /* Main.storyboard */; };
@@ -206,6 +209,12 @@
 		3A2BF32920F7633100480F25 /* PersonalFifthCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalFifthCell.m; sourceTree = "<group>"; };
 		3A2BF32B20F7644600480F25 /* PersonalSixthCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalSixthCell.h; sourceTree = "<group>"; };
 		3A2BF32C20F7644600480F25 /* PersonalSixthCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalSixthCell.m; sourceTree = "<group>"; };
+		3A2BF32E20F8393F00480F25 /* PersonalSectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalSectionCell.h; sourceTree = "<group>"; };
+		3A2BF32F20F8393F00480F25 /* PersonalSectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalSectionCell.m; sourceTree = "<group>"; };
+		3A2BF33120F87A0600480F25 /* PersonalCellItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalCellItem.h; sourceTree = "<group>"; };
+		3A2BF33220F87A0600480F25 /* PersonalCellItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalCellItem.m; sourceTree = "<group>"; };
+		3A2BF33420F8A0EB00480F25 /* PersonalFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalFooterView.h; sourceTree = "<group>"; };
+		3A2BF33520F8A0EB00480F25 /* PersonalFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalFooterView.m; sourceTree = "<group>"; };
 		3AED395520F30AF40095D7C1 /* FengXH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FengXH.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AED395820F30AF40095D7C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3AED395920F30AF40095D7C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -595,6 +604,12 @@
 				3A2BF32920F7633100480F25 /* PersonalFifthCell.m */,
 				3A2BF32B20F7644600480F25 /* PersonalSixthCell.h */,
 				3A2BF32C20F7644600480F25 /* PersonalSixthCell.m */,
+				3A2BF32E20F8393F00480F25 /* PersonalSectionCell.h */,
+				3A2BF32F20F8393F00480F25 /* PersonalSectionCell.m */,
+				3A2BF33120F87A0600480F25 /* PersonalCellItem.h */,
+				3A2BF33220F87A0600480F25 /* PersonalCellItem.m */,
+				3A2BF33420F8A0EB00480F25 /* PersonalFooterView.h */,
+				3A2BF33520F8A0EB00480F25 /* PersonalFooterView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1394,6 +1409,7 @@
 				3AED3AC420F313830095D7C1 /* YYKVStorage.m in Sources */,
 				3AED3A9B20F313830095D7C1 /* MASConstraint.m in Sources */,
 				3AED3AFE20F32FBE0095D7C1 /* ShopCartViewController.m in Sources */,
+				3A2BF33020F8393F00480F25 /* PersonalSectionCell.m in Sources */,
 				3AED3AC220F313830095D7C1 /* YYDiskCache.m in Sources */,
 				3AED3A9A20F313830095D7C1 /* View+MASAdditions.m in Sources */,
 				3AED3AB320F313830095D7C1 /* UIButton+AFNetworking.m in Sources */,
@@ -1442,6 +1458,7 @@
 				3AED3ADF20F313840095D7C1 /* HBBaseAPI.m in Sources */,
 				3AED3AB220F313830095D7C1 /* UIImageView+AFNetworking.m in Sources */,
 				3AED3A9720F313830095D7C1 /* MASConstraintMaker.m in Sources */,
+				3A2BF33320F87A0600480F25 /* PersonalCellItem.m in Sources */,
 				3AED3AAA20F313830095D7C1 /* IQUIScrollView+Additions.m in Sources */,
 				3AED3AA420F313830095D7C1 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				3AED3AD620F313840095D7C1 /* DTTimePeriodGroup.m in Sources */,
@@ -1456,6 +1473,7 @@
 				3AED3A9320F313830095D7C1 /* ZYBannerView.m in Sources */,
 				3AED3ADD20F313840095D7C1 /* UIView+Extension.m in Sources */,
 				3AED3A8320F313830095D7C1 /* MJRefreshBackStateFooter.m in Sources */,
+				3A2BF33620F8A0EB00480F25 /* PersonalFooterView.m in Sources */,
 				3AED3AA720F313830095D7C1 /* IQKeyboardManager.m in Sources */,
 				3AED3AD820F313840095D7C1 /* DTError.m in Sources */,
 				3A2BF30120F7384800480F25 /* AllGoodsRightCollectionViewCell.m in Sources */,

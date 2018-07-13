@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PersonalCellItem.h"
+typedef void (^PersonalSecondCellBlock)(NSInteger index);
 
 @interface PersonalSecondCell : UITableViewCell
+
+/** block */
+@property(nonatomic , strong)PersonalSecondCellBlock cellClickBlock;
 
 @end

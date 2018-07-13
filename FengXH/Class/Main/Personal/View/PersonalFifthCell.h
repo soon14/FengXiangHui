@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PersonalCellItem.h"
+typedef void (^PersonalFifthCellBlock)(NSInteger index);
 
 @interface PersonalFifthCell : UITableViewCell
+
+/** block */
+@property(nonatomic , strong)PersonalFifthCellBlock cellClickBlock;
 
 @end

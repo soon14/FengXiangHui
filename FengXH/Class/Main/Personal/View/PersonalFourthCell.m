@@ -12,11 +12,33 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor whiteColor];
         
+        CGFloat itemWidth = KMAINSIZE.width/5;
+        CGFloat itemHeight = 90;
+        
+        NSArray *imageArr = @[@"Personal_thjl",@"Personal_thjl",@"Personal_thjl",@"Personal_thjl",@"Personal_thjl"];
+        NSArray *titleArr = @[@"邀请加入",@"开店礼包",@"我的团队",@"佣金收益",@"店铺管家"];
+        for (NSInteger i=0; i<5; i++) {
+            PersonalCellItem *item = [[PersonalCellItem alloc] initWithFrame:CGRectMake(itemWidth*i, 0, itemWidth, itemHeight)];
+            [item.itemImageView setImage:[UIImage imageNamed:imageArr[i]]];
+            [item.itemTitleLabel setText:titleArr[i]];
+            [self addSubview:item];
+            [item setTag:i];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
+            [item addGestureRecognizer:tap];
+        }
         
     }
     return self;
+}
+
+#pragma mark - action
+- (void)clickAction:(UITapGestureRecognizer *)sender {
+    if (self.cellClickBlock) {
+        self.cellClickBlock(sender.view.tag);
+    }
 }
 
 

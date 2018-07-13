@@ -47,6 +47,7 @@
         [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_offset(-10);
             make.centerY.mas_equalTo(self.mas_centerY);
+            make.width.mas_equalTo(45);
         }];
         
     }
@@ -142,8 +143,7 @@
 }
 
 //时间戳转换为日期格式(毫秒的时间戳)
-- (NSString *)timeWithTimeIntervalString:(NSString *)timeString
-{
+- (NSString *)timeWithTimeIntervalString:(NSString *)timeString {
     // 格式化时间
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     formatter.timeZone = [NSTimeZone timeZoneWithName:@"shanghai"];
@@ -163,7 +163,11 @@
         _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_moreButton setTitleColor:KUIColorFromHex(0x333333) forState:UIControlStateNormal];
         [_moreButton setTitle:@"更多" forState:UIControlStateNormal];
+        [_moreButton setImage:[UIImage imageNamed:@"home_icon_arrow"] forState:UIControlStateNormal];
+        [_moreButton setTintColor:KUIColorFromHex(0x333333)];
         [_moreButton.titleLabel setFont:KFont(14)];
+        [_moreButton setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 0, -30)];
+        [_moreButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
         [_moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreButton;
