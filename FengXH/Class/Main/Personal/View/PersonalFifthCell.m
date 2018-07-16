@@ -18,7 +18,7 @@
         CGFloat itemWidth = KMAINSIZE.width/5;
         CGFloat itemHeight = 90;
         
-        NSArray *imageArr = @[@"Personal_thjl",@"Personal_thjl",@"Personal_thjl",@"Personal_thjl",@"Personal_thjl"];
+        NSArray *imageArr = @[@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu"];
         NSArray *titleArr = @[@"新手攻略",@"进阶必听",@"店主风采",@"空中课堂",@"活动咨询"];
         for (NSInteger i=0; i<5; i++) {
             PersonalCellItem *item = [[PersonalCellItem alloc] initWithFrame:CGRectMake(itemWidth*i, 0, itemWidth, itemHeight)];

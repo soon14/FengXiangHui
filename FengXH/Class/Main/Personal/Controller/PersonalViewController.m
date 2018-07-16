@@ -134,7 +134,7 @@
             PersonalSectionCell *thirdSectionCell = [tableView dequeueReusableCellWithIdentifier:@"thirdSectionCellID"];
             if (!thirdSectionCell) {
                 thirdSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"thirdSectionCellID"];
-                [thirdSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+                [thirdSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_wodedingdan"]];
                 [thirdSectionCell.titleLabel setText:@"我的订单"];
                 [thirdSectionCell.moreLabel setText:@"查看全部"];
             }
@@ -156,7 +156,7 @@
             PersonalSectionCell *fourthSectionCell = [tableView dequeueReusableCellWithIdentifier:@"fourthSectionCellID"];
             if (!fourthSectionCell) {
                 fourthSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"fourthSectionCellID"];
-                [fourthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+                [fourthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_wodexiaodian"]];
                 [fourthSectionCell.titleLabel setText:@"我的小店"];
                 [fourthSectionCell.moreLabel setText:@"查看全部"];
             }

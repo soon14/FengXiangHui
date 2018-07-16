@@ -66,7 +66,7 @@
 - (PersonalCellItem *)shopCartItem {
     if (!_shopCartItem) {
         _shopCartItem = [[PersonalCellItem alloc] init];
-        [_shopCartItem.itemImageView setImage:[UIImage imageNamed:@"Personal_thjl"]];
+        [_shopCartItem.itemImageView setImage:[UIImage imageNamed:@"Personal_tonghuajilu"]];
         [_shopCartItem.itemTitleLabel setText:@"购物车"];
         [_shopCartItem setTag:4];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
@@ -78,7 +78,7 @@
 - (PersonalCellItem *)refundingItem {
     if (!_refundingItem) {
         _refundingItem = [[PersonalCellItem alloc] init];
-        [_refundingItem.itemImageView setImage:[UIImage imageNamed:@"Personal_thjl"]];
+        [_refundingItem.itemImageView setImage:[UIImage imageNamed:@"Personal_tonghuajilu"]];
         [_refundingItem.itemTitleLabel setText:@"退换货"];
         [_refundingItem setTag:3];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
@@ -90,7 +90,7 @@
 - (PersonalCellItem *)waitReceiveItem {
     if (!_waitReceiveItem) {
         _waitReceiveItem = [[PersonalCellItem alloc] init];
-        [_waitReceiveItem.itemImageView setImage:[UIImage imageNamed:@"Personal_thjl"]];
+        [_waitReceiveItem.itemImageView setImage:[UIImage imageNamed:@"Personal_tonghuajilu"]];
         [_waitReceiveItem.itemTitleLabel setText:@"待收货"];
         [_waitReceiveItem setTag:2];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
@@ -102,7 +102,7 @@
 - (PersonalCellItem *)waitSendItem {
     if (!_waitSendItem) {
         _waitSendItem = [[PersonalCellItem alloc] init];
-        [_waitSendItem.itemImageView setImage:[UIImage imageNamed:@"Personal_thjl"]];
+        [_waitSendItem.itemImageView setImage:[UIImage imageNamed:@"Personal_tonghuajilu"]];
         [_waitSendItem.itemTitleLabel setText:@"待发货"];
         [_waitSendItem setTag:1];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
@@ -114,7 +114,7 @@
 - (PersonalCellItem *)waitPayItem {
     if (!_waitPayItem) {
         _waitPayItem = [[PersonalCellItem alloc] init];
-        [_waitPayItem.itemImageView setImage:[UIImage imageNamed:@"Personal_thjl"]];
+        [_waitPayItem.itemImageView setImage:[UIImage imageNamed:@"Personal_tonghuajilu"]];
         [_waitPayItem.itemTitleLabel setText:@"待付款"];
         [_waitPayItem setTag:0];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
