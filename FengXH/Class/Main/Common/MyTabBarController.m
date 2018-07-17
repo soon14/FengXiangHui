@@ -8,7 +8,7 @@
 
 #import "MyTabBarController.h"
 #import "HBNavigationController.h"
-#import "HomepageViewController.h"
+#import "NHomepageViewController.h"
 #import "AllGoodsViewController.h"
 #import "MyStoreViewController.h"
 #import "ShopCartViewController.h"
@@ -25,7 +25,7 @@
     self.tabBar.backgroundColor = [UIColor whiteColor];
     [self initSubVC];
     
-    [self setSelectedIndex:4];
+    [self setSelectedIndex:0];
 }
 
 /**
@@ -34,7 +34,7 @@
 
 - (void)initSubVC{
     
-    HomepageViewController * homeVC = [[HomepageViewController alloc]init];
+    NHomepageViewController * homeVC = [[NHomepageViewController alloc]init];
     [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_nol"];
     
     AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc]init];

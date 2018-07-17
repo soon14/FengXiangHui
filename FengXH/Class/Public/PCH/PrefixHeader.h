@@ -44,6 +44,12 @@
 #define KNetworkError @"网络连接错误"
 #define KRequestError @"访问出错啦，请稍后再试~"
 
+// 日志级别
+#ifdef DEBUG
+#define NSLog(FORMAT, ...) fprintf(stderr, "%s\n", [[NSString stringWithFormat:FORMAT, ## __VA_ARGS__] UTF8String]);
+#else
+#define NSLog(FORMAT, ...)
+#endif
 
 #define KMAINSIZE [UIScreen mainScreen].bounds.size
 #define KScreenRatio [UIScreen mainScreen].bounds.size.width/375
