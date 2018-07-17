@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "LoginViewController.h"
 
 @interface BaseViewController ()
 
@@ -20,6 +21,20 @@
     
 }
 
+#pragma mark - 弹出登录界面
+- (void)presentLoginViewController {
+    LoginViewController *loginVC = [[LoginViewController alloc] init];
+    [self presentViewController:loginVC animated:YES completion:^{
+        
+    }];
+}
+
+#pragma mark - 收回界面
+- (void)dismissCurrenViewController {
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

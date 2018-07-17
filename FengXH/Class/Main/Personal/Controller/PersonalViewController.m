@@ -15,6 +15,7 @@
 #import "PersonalSixthCell.h"
 #import "PersonalSectionCell.h"
 #import "PersonalFooterView.h"
+#import "LoginViewController.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -238,6 +239,7 @@
             break;
         case 1: {
             [DBHUD ShowInView:self.view withTitle:@"设置"];
+            [self presentLoginViewController];
         }
             break;
         case 2: {

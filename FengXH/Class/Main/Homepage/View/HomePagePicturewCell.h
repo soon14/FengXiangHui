@@ -2,7 +2,7 @@
 //  HomePagePicturewCell.h
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/7/16.
+//  Created by sun on 2018/7/16.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 //  店主礼包、京东优选、店主专区等，专门用来存放纯图片的cell

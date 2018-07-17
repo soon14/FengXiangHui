@@ -25,7 +25,7 @@
     self.tabBar.backgroundColor = [UIColor whiteColor];
     [self initSubVC];
     
-    [self setSelectedIndex:0];
+    [self setSelectedIndex:4];
 }
 
 /**

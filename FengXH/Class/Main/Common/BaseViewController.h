@@ -10,4 +10,9 @@
 
 @interface BaseViewController : UIViewController
 
+#pragma mark - 弹出登录界面
+- (void)presentLoginViewController;
+#pragma mark - 收回界面
+- (void)dismissCurrenViewController;
+
 @end
