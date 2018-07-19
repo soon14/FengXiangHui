@@ -172,6 +172,11 @@
     
 }
 
+#pragma mark - 登录
+- (void)loginButtonAction:(UIButton *)sender {
+    NSLog(@"登录");
+}
+
 #pragma mark - 弹出找回密码界面
 - (void)forgetPasswordAction:(UIButton *)sender {
     ForgetPasswordViewController *forgetPasswordVC = [ForgetPasswordViewController alloc];
@@ -238,6 +243,10 @@
         [_phoneTextField setKeyboardType:UIKeyboardTypeNumberPad];
     }
     return _phoneTextField;
+}
+
+- (void)dealloc {
+    NSLog(@"%s",__func__);
 }
 
 - (void)didReceiveMemoryWarning {

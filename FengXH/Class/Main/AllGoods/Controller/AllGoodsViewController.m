@@ -11,24 +11,24 @@
 #import "AllGoodsLeftTableViewCell.h"
 #import "AllGoodsRightCollectionViewCell.h"
 #import "AllGoodsCollectionHeaderView.h"
+#import "AllCategoryDataModel.h"
 
-#define TableViewWidth  [UIScreen mainScreen].bounds.size.width * 0.25
-#define CollectionViewWidth [UIScreen mainScreen].bounds.size.width * 0.75
+#define TableViewWidth  [UIScreen mainScreen].bounds.size.width * 0.28
+#define CollectionViewWidth [UIScreen mainScreen].bounds.size.width * 0.72
 
 @interface AllGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-{
-    NSArray *leftTableArray;
-}
+
 @property(nonatomic , strong)UITableView *leftTableView;
 @property(nonatomic , strong)UICollectionViewFlowLayout *customLayout;
 @property(nonatomic , strong)UICollectionView *classifyCollectionView;
 /** 搜索框 */
 @property(nonatomic , strong)AllGoodsSearchView *searchView;
+/** 一级分类模型 */
+@property(nonatomic , strong)AllCategoryDataModel *categoryDataModel;
+/**  二级分类模型 */
+@property(nonatomic , strong)AllCategoryDataResultModel *categoryDataResultModel;
 
 @end
-
-static NSString *collectionID = @"RightCollectionViewCellID";
-static NSString *collectionHeaderID = @"RightCollectionHeaderID";
 
 @implementation AllGoodsViewController
 
@@ -36,21 +36,41 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"全部商品";
-    
+    //添加搜索框
     [self.view addSubview:self.searchView];
-    
-    
-    leftTableArray = @[@"实时推荐",@"口红精选",@"美容护肤",@"男士护理",@"彩妆香水",@"个人洗护",@"口红精选",@"美白",@"护发素",@"牙齿美白",@"女士护理",@"男士护理",@"青少年",@"中老年",@"口红精选",@"面部护理",@"男士护理",@"身体护理",@"洗漱用品"];
-    
     //添加左边tableView
     [self.view addSubview:self.leftTableView];
-    
     //添加右边 collectionView
     [self.view addSubview:self.classifyCollectionView];
-    
-    //选中 tableView 第一行
-    NSIndexPath *selIndex = [NSIndexPath indexPathForRow:0 inSection:0];
-    [_leftTableView selectRowAtIndexPath:selIndex animated:YES scrollPosition:UITableViewScrollPositionTop];
+    //分类类别数据请求
+    [self goodsCategoryRequest];
+}
+
+#pragma mark - 分类类别数据请求
+- (void)goodsCategoryRequest {
+    NSString * urlString = @"r=apply.shop.category";
+    NSString *path = [HBBaseAPI appendAPIurl:urlString];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:nil WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+        
+            self.categoryDataModel = [AllCategoryDataModel yy_modelWithDictionary:responseDic];
+
+            [self.leftTableView reloadData];
+            //选中 tableView 第一行
+            NSIndexPath *selIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.leftTableView selectRowAtIndexPath:selIndex animated:YES scrollPosition:UITableViewScrollPositionTop];
+            //刷新 collectionView
+            self.categoryDataResultModel = self.categoryDataModel.result[0];
+            [self.classifyCollectionView reloadData];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
 }
 
 #pragma mark - 搜索框
@@ -70,6 +90,7 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
         _leftTableView.delegate = self;
         _leftTableView.showsVerticalScrollIndicator = NO;
         _leftTableView.tableFooterView = [[UIView alloc] init];
+        [_leftTableView registerClass:[AllGoodsLeftTableViewCell class] forCellReuseIdentifier:NSStringFromClass([AllGoodsLeftTableViewCell class])];
     }
     return _leftTableView;
 }
@@ -80,7 +101,7 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return leftTableArray.count;
+    return self.categoryDataModel.result.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -89,17 +110,14 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
 
 #pragma mark - UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    AllGoodsLeftTableViewCell *leftCell = [tableView dequeueReusableCellWithIdentifier:@"leftCellID"];
-    if (!leftCell) {
-        leftCell = [[AllGoodsLeftTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"leftCellID"];
-        
-    }
+    AllGoodsLeftTableViewCell *leftCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AllGoodsLeftTableViewCell class])];
+    leftCell.catetoryModel = self.categoryDataModel.result[indexPath.row];
     return leftCell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    AllGoodsLeftTableViewCell *leftCell = (AllGoodsLeftTableViewCell *)cell;
-    [leftCell.titleLabel setText:leftTableArray[indexPath.row]];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.categoryDataResultModel = self.categoryDataModel.result[indexPath.row];
+    [self.classifyCollectionView reloadData];
 }
 
 #pragma mark - collectionView
@@ -112,8 +130,8 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
         _classifyCollectionView.dataSource = self;
         _classifyCollectionView.showsVerticalScrollIndicator = NO;
         _classifyCollectionView.alwaysBounceVertical = YES;
-        [_classifyCollectionView registerClass:[AllGoodsRightCollectionViewCell class] forCellWithReuseIdentifier:collectionID];
-        [_classifyCollectionView registerClass:[AllGoodsCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:collectionHeaderID];
+        [_classifyCollectionView registerClass:[AllGoodsRightCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([AllGoodsRightCollectionViewCell class])];
+        [_classifyCollectionView registerClass:[AllGoodsCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([AllGoodsCollectionHeaderView class])];
     }
     return _classifyCollectionView;
 }
@@ -124,7 +142,7 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 17;
+    return self.categoryDataResultModel.children.count;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout 每个 item 大小
@@ -148,27 +166,35 @@ static NSString *collectionHeaderID = @"RightCollectionHeaderID";
 
 #pragma mark - sectionHeader 的高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return (CGSize){KMAINSIZE.width, 130};
+    if ([self.categoryDataResultModel.advimg length] > 0) {
+        return (CGSize){KMAINSIZE.width, 130};
+    }
+    return CGSizeZero;
 }
 
 #pragma mark - 指定头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        AllGoodsCollectionHeaderView *RView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:collectionHeaderID forIndexPath:indexPath];
-        return RView;
+        if ([self.categoryDataResultModel.advimg length] > 0) {
+            AllGoodsCollectionHeaderView *RView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([AllGoodsCollectionHeaderView class]) forIndexPath:indexPath];
+            RView.imageURLString = self.categoryDataResultModel.advimg;
+            return RView;
+        } return nil;
     }
     return nil;
 }
 
 #pragma mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    AllGoodsRightCollectionViewCell * collectionCell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionID forIndexPath:indexPath];
-    
+    AllGoodsRightCollectionViewCell * collectionCell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AllGoodsRightCollectionViewCell class]) forIndexPath:indexPath];
+    collectionCell.categoryChildrenModel = self.categoryDataResultModel.children[indexPath.item];
     return collectionCell;
 }
 
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    AllCategoryDataChildrenModel *childrenModel = self.categoryDataResultModel.children[indexPath.item];
+    NSLog(@"%@",childrenModel.name);
+}
 
 
 - (void)didReceiveMemoryWarning {

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AllCategoryDataModel.h"
 
 @interface AllGoodsLeftTableViewCell : UITableViewCell
 
-@property(nonatomic , strong)UILabel *titleLabel;
-@property(nonatomic , strong)UIView *redLineView;
+/** categoryModel */
+@property(nonatomic , strong)AllCategoryDataResultModel *catetoryModel;
 
 @end

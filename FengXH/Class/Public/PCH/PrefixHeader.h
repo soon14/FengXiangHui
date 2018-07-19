@@ -80,6 +80,19 @@
 #define KBottomHeight (KDevice_Is_iPhoneX ? 34 : 0)
 
 
+// 个人中心全部订单类型
+typedef NS_ENUM(NSInteger , PersonalOrderType) {
+    /** 全部订单 */
+    AllOrder = 0 ,
+    /** 待支付订单 */
+    waitingForPayOrder ,
+    /** 待发货订单 */
+    waitingForSendOrder ,
+    /** 待收货订单 */
+    waitingForReceiveOrder ,
+    /** 已完成订单 */
+    completedOrder ,
+};
 
 
 

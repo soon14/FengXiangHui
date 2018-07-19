@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AllCategoryDataModel.h"
 
 @interface AllGoodsRightCollectionViewCell : UICollectionViewCell
 
-@property(nonatomic , strong)UIImageView *goodsImageView;
-@property(nonatomic , strong)UILabel *goodsClassifyLabel;
+/** 数据模型 */
+@property(nonatomic , strong)AllCategoryDataChildrenModel *categoryChildrenModel;
 
 @end

@@ -10,4 +10,7 @@
 
 @interface AllGoodsCollectionHeaderView : UICollectionReusableView
 
+/** imageURL */
+@property(nonatomic , copy)NSString *imageURLString;
+
 @end

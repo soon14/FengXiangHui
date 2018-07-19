@@ -81,6 +81,11 @@
 		3A3DA52B20FDEE8200F4412F /* ForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA52A20FDEE8200F4412F /* ForgetPasswordViewController.m */; };
 		3A3DA52E20FDF2BE00F4412F /* LoginRegisterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA52D20FDF2BE00F4412F /* LoginRegisterButton.m */; };
 		3A3DA53120FDF87C00F4412F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA53020FDF87C00F4412F /* RegisterViewController.m */; };
+		3A3DA5352100265E00F4412F /* AllCategoryDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA5342100265E00F4412F /* AllCategoryDataModel.m */; };
+		3A3DA53821005C6000F4412F /* HomePageSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA53721005C6000F4412F /* HomePageSearchCell.m */; };
+		3A3DA53D21006E8C00F4412F /* MyOrderBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA53C21006E8C00F4412F /* MyOrderBaseViewController.m */; };
+		3A3DA54021007D7500F4412F /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA53F21007D7500F4412F /* MyOrderViewController.m */; };
+		3A3DA54421007E6C00F4412F /* OrderTypeButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3DA54321007E6B00F4412F /* OrderTypeButtonView.m */; };
 		3AED395A20F30AF40095D7C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395920F30AF40095D7C1 /* AppDelegate.m */; };
 		3AED395D20F30AF40095D7C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED395C20F30AF40095D7C1 /* ViewController.m */; };
 		3AED396020F30AF40095D7C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AED395E20F30AF40095D7C1 /* Main.storyboard */; };
@@ -353,6 +358,16 @@
 		3A3DA52D20FDF2BE00F4412F /* LoginRegisterButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginRegisterButton.m; sourceTree = "<group>"; };
 		3A3DA52F20FDF87C00F4412F /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		3A3DA53020FDF87C00F4412F /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		3A3DA5332100265E00F4412F /* AllCategoryDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AllCategoryDataModel.h; sourceTree = "<group>"; };
+		3A3DA5342100265E00F4412F /* AllCategoryDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllCategoryDataModel.m; sourceTree = "<group>"; };
+		3A3DA53621005C6000F4412F /* HomePageSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageSearchCell.h; sourceTree = "<group>"; };
+		3A3DA53721005C6000F4412F /* HomePageSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageSearchCell.m; sourceTree = "<group>"; };
+		3A3DA53B21006E8C00F4412F /* MyOrderBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyOrderBaseViewController.h; sourceTree = "<group>"; };
+		3A3DA53C21006E8C00F4412F /* MyOrderBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyOrderBaseViewController.m; sourceTree = "<group>"; };
+		3A3DA53E21007D7500F4412F /* MyOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyOrderViewController.h; sourceTree = "<group>"; };
+		3A3DA53F21007D7500F4412F /* MyOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyOrderViewController.m; sourceTree = "<group>"; };
+		3A3DA54221007E6B00F4412F /* OrderTypeButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTypeButtonView.h; sourceTree = "<group>"; };
+		3A3DA54321007E6B00F4412F /* OrderTypeButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTypeButtonView.m; sourceTree = "<group>"; };
 		3AED395520F30AF40095D7C1 /* FengXH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FengXH.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AED395820F30AF40095D7C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3AED395920F30AF40095D7C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -882,6 +897,44 @@
 				3A3DA52720FDE2AD00F4412F /* LoginRegisterTextField.m */,
 				3A3DA52C20FDF2BE00F4412F /* LoginRegisterButton.h */,
 				3A3DA52D20FDF2BE00F4412F /* LoginRegisterButton.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3A3DA532210025F400F4412F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3A3DA5332100265E00F4412F /* AllCategoryDataModel.h */,
+				3A3DA5342100265E00F4412F /* AllCategoryDataModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3A3DA53921006E5600F4412F /* PersonalOrder */ = {
+			isa = PBXGroup;
+			children = (
+				3A3DA54121007E3C00F4412F /* View */,
+				3A3DA53A21006E6C00F4412F /* Controller */,
+			);
+			path = PersonalOrder;
+			sourceTree = "<group>";
+		};
+		3A3DA53A21006E6C00F4412F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3A3DA53B21006E8C00F4412F /* MyOrderBaseViewController.h */,
+				3A3DA53C21006E8C00F4412F /* MyOrderBaseViewController.m */,
+				3A3DA53E21007D7500F4412F /* MyOrderViewController.h */,
+				3A3DA53F21007D7500F4412F /* MyOrderViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3A3DA54121007E3C00F4412F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3A3DA54221007E6B00F4412F /* OrderTypeButtonView.h */,
+				3A3DA54321007E6B00F4412F /* OrderTypeButtonView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1485,6 +1538,7 @@
 		3AED3AEC20F32DDE0095D7C1 /* AllGoods */ = {
 			isa = PBXGroup;
 			children = (
+				3A3DA532210025F400F4412F /* Model */,
 				3A2BF2EC20F725FC00480F25 /* View */,
 				3A2BF2EB20F725EE00480F25 /* Controller */,
 			);
@@ -1516,6 +1570,7 @@
 				3A2BF31820F75E6100480F25 /* View */,
 				3A2BF31720F75E5600480F25 /* Controller */,
 				3A3DA51D20FDBD8A00F4412F /* LoginRegister */,
+				3A3DA53921006E5600F4412F /* PersonalOrder */,
 			);
 			path = Personal;
 			sourceTree = "<group>";
@@ -1532,6 +1587,8 @@
 		3AED3B0320F33FA00095D7C1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3A3DA53621005C6000F4412F /* HomePageSearchCell.h */,
+				3A3DA53721005C6000F4412F /* HomePageSearchCell.m */,
 				3A2BF46A20FCA96800480F25 /* HomePageFunctionCell.h */,
 				3A2BF46B20FCA96800480F25 /* HomePageFunctionCell.m */,
 				3A2BF46D20FCA97600480F25 /* HomePageHotSpotCell.h */,
@@ -1738,6 +1795,7 @@
 				3AED3AD520F313840095D7C1 /* NSDate+DateTools.m in Sources */,
 				3A2BF3ED20FCA42D00480F25 /* UIImageView+WebCache.m in Sources */,
 				3AED3AA320F313830095D7C1 /* IQBarButtonItem.m in Sources */,
+				3A3DA53821005C6000F4412F /* HomePageSearchCell.m in Sources */,
 				3AED3A7E20F313830095D7C1 /* MJRefreshConst.m in Sources */,
 				3AED3ADF20F313840095D7C1 /* HBBaseAPI.m in Sources */,
 				3AED3AB220F313830095D7C1 /* UIImageView+AFNetworking.m in Sources */,
@@ -1746,6 +1804,7 @@
 				3A2BF33320F87A0600480F25 /* PersonalCellItem.m in Sources */,
 				3AED3AAA20F313830095D7C1 /* IQUIScrollView+Additions.m in Sources */,
 				3AED3AA420F313830095D7C1 /* IQUIView+IQKeyboardToolbar.m in Sources */,
+				3A3DA53D21006E8C00F4412F /* MyOrderBaseViewController.m in Sources */,
 				3AED3AD620F313840095D7C1 /* DTTimePeriodGroup.m in Sources */,
 				3A2BF3F020FCA42D00480F25 /* SDImageCacheConfig.m in Sources */,
 				3AED395A20F30AF40095D7C1 /* AppDelegate.m in Sources */,
@@ -1763,6 +1822,7 @@
 				3A2BF33620F8A0EB00480F25 /* PersonalFooterView.m in Sources */,
 				3AED3AA720F313830095D7C1 /* IQKeyboardManager.m in Sources */,
 				3AED3AD820F313840095D7C1 /* DTError.m in Sources */,
+				3A3DA54021007D7500F4412F /* MyOrderViewController.m in Sources */,
 				3A2BF3DF20FCA42D00480F25 /* FLAnimatedImageView+WebCache.m in Sources */,
 				3A2BF3E220FCA42D00480F25 /* UIImage+MultiFormat.m in Sources */,
 				3A2BF30120F7384800480F25 /* AllGoodsRightCollectionViewCell.m in Sources */,
@@ -1771,6 +1831,7 @@
 				3AED3AD920F313840095D7C1 /* DTTimePeriodCollection.m in Sources */,
 				3AED3A7D20F313830095D7C1 /* UIScrollView+MJRefresh.m in Sources */,
 				3AED3A8120F313830095D7C1 /* UIView+MJExtension.m in Sources */,
+				3A3DA54421007E6C00F4412F /* OrderTypeButtonView.m in Sources */,
 				3AED3AD020F313840095D7C1 /* UIImage+YYWebImage.m in Sources */,
 				3A2BF3D920FCA42D00480F25 /* MKAnnotationView+WebCache.m in Sources */,
 				3A2BF3DA20FCA42D00480F25 /* SDWebImageManager.m in Sources */,
@@ -1778,6 +1839,7 @@
 				3A2BF32120F7609900480F25 /* PersonalSecondCell.m in Sources */,
 				3AED3A9820F313830095D7C1 /* MASLayoutConstraint.m in Sources */,
 				3A2BF3EC20FCA42D00480F25 /* NSData+ImageContentType.m in Sources */,
+				3A3DA5352100265E00F4412F /* AllCategoryDataModel.m in Sources */,
 				3A2BF3E020FCA42D00480F25 /* SDWebImageDownloader.m in Sources */,
 				3A2BF3DE20FCA42D00480F25 /* SDWebImageCodersManager.m in Sources */,
 				3AED3A7920F313830095D7C1 /* WebViewJavascriptBridgeBase.m in Sources */,
@@ -1960,7 +2022,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = EPKM76DFM8;
 				GCC_PREFIX_HEADER = Class/Public/PCH/PrefixHeader.h;
 				INFOPLIST_FILE = FengXH/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1981,7 +2043,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = EPKM76DFM8;
 				GCC_PREFIX_HEADER = Class/Public/PCH/PrefixHeader.h;
 				INFOPLIST_FILE = FengXH/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

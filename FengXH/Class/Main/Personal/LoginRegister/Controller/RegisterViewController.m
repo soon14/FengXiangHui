@@ -21,12 +21,16 @@
 @property(nonatomic , strong)UIImageView *imageCodeImageView;
 /** 短信验证码输入框 */
 @property(nonatomic , strong)LoginRegisterTextField *smsCodeTextField;
+/** 获取短信验证码按钮 */
+@property(nonatomic , strong)UIButton *getSmsCodeButton;
 /** 登录密码输入框 */
 @property(nonatomic , strong)LoginRegisterTextField *passwordTextField;
 /** 重复登录密码输入框 */
 @property(nonatomic , strong)LoginRegisterTextField *confirmPasswordTextField;
 /** 立即注册按钮 */
 @property(nonatomic , strong)LoginRegisterButton *registerButton;
+/** 立即登录按钮 */
+@property(nonatomic , strong)UIButton *loginButton;
 
 @end
 
@@ -36,11 +40,22 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UISwipeGestureRecognizer *swipDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipDownAction:)];
-    [swipDown setDirection:UISwipeGestureRecognizerDirectionDown];
-    [self.view addGestureRecognizer:swipDown];
-    
     [self initUI];
+}
+
+#pragma mark - 获取验证码
+- (void)getSmsCodeAction:(UIButton *)sender {
+    NSLog(@"获取验证码");
+}
+
+#pragma mark - 立即注册
+- (void)registerButtonAction:(UIButton *)sender {
+    NSLog(@"立即注册");
+}
+
+#pragma mark - 登录
+- (void)loginButtonAction:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - 收回键盘
@@ -48,31 +63,16 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - 向下滑动
-- (void)swipDownAction:(UISwipeGestureRecognizer *)sender {
-    switch (sender.direction) {
-        case UISwipeGestureRecognizerDirectionDown: {
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 #pragma mark - 绘制界面
 - (void)initUI {
     //背景
     UIImageView *backImageView = [[UIImageView alloc] init];
-    [backImageView setImage:[UIImage imageNamed:@"loginBackImage"]];
+    [backImageView setImage:[UIImage imageNamed:@"registerBackImage"]];
     [backImageView setContentMode:UIViewContentModeScaleToFill];
     [self.view addSubview:backImageView];
     [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_offset(0);
-        make.height.mas_equalTo(140*KScreenRatio);
+        make.height.mas_equalTo(95*KScreenRatio);
     }];
     
     //logo
@@ -147,12 +147,180 @@
         make.height.mas_equalTo(31);
     }];
     
+    //短信验证码
+    LoginRegisterLabel *label_3 = [[LoginRegisterLabel alloc] init];
+    [label_3 setText:@"短信验证码"];
+    [self.view addSubview:label_3];
+    [label_3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(line_2.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+    }];
     
+    [self.view addSubview:self.smsCodeTextField];
+    [self.smsCodeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(label_3.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UIView *line_3 = [[UIView alloc] init];
+    [line_3 setBackgroundColor:KLineColor];
+    [self.view addSubview:line_3];
+    [line_3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_smsCodeTextField.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(295);
+        make.height.mas_equalTo(1);
+    }];
+    
+    //获取短信验证码
+    [self.view addSubview:self.getSmsCodeButton];
+    [self.getSmsCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(_smsCodeTextField.mas_bottom);
+        make.right.mas_equalTo(line_3.mas_right);
+        make.height.mas_equalTo(20);
+    }];
+    
+    //登录密码
+    LoginRegisterLabel *label_4 = [[LoginRegisterLabel alloc] init];
+    [label_4 setText:@"登录密码"];
+    [self.view addSubview:label_4];
+    [label_4 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(line_3.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+    }];
+    
+    [self.view addSubview:self.passwordTextField];
+    [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(label_4.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(160);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UIView *line_4 = [[UIView alloc] init];
+    [line_4 setBackgroundColor:KLineColor];
+    [self.view addSubview:line_4];
+    [line_4 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_passwordTextField.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(295);
+        make.height.mas_equalTo(1);
+    }];
+    
+    //重复登录密码
+    LoginRegisterLabel *label_5 = [[LoginRegisterLabel alloc] init];
+    [label_5 setText:@"重复登录密码"];
+    [self.view addSubview:label_5];
+    [label_5 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(line_4.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+    }];
+    
+    [self.view addSubview:self.confirmPasswordTextField];
+    [self.confirmPasswordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(label_5.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(160);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UIView *line_5 = [[UIView alloc] init];
+    [line_5 setBackgroundColor:KLineColor];
+    [self.view addSubview:line_5];
+    [line_5 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_confirmPasswordTextField.mas_bottom).offset(12);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(295);
+        make.height.mas_equalTo(1);
+    }];
+    
+    //立即注册按钮
+    [self.view addSubview:self.registerButton];
+    [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(line_5.mas_bottom).offset(20);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(295);
+        make.height.mas_equalTo(40);
+    }];
+    
+    //已有账号
+    LoginRegisterLabel *label_6 = [[LoginRegisterLabel alloc] init];
+    [label_6 setText:@"已有账号？"];
+    [self.view addSubview:label_6];
+    [label_6 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_registerButton.mas_bottom).offset(20);
+        make.right.mas_equalTo(self.view.mas_centerX);
+    }];
+    
+    [self.view addSubview:self.loginButton];
+    [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(label_6.mas_right);
+        make.centerY.mas_equalTo(label_6.mas_centerY);
+    }];
 }
 
-
-
 #pragma mark - lazy
+- (UIButton *)getSmsCodeButton {
+    if (!_getSmsCodeButton) {
+        _getSmsCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_getSmsCodeButton setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+        [_getSmsCodeButton.titleLabel setFont:KFont(16)];
+        [_getSmsCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [_getSmsCodeButton addTarget:self action:@selector(getSmsCodeAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _getSmsCodeButton;
+}
+
+- (UIButton *)loginButton {
+    if (!_loginButton) {
+        _loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_loginButton setTitleColor:KUIColorFromHex(0xf1a540) forState:UIControlStateNormal];
+        [_loginButton.titleLabel setFont:KFont(16)];
+        [_loginButton setTitle:@"立即登录" forState:UIControlStateNormal];
+        [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _loginButton;
+}
+
+- (LoginRegisterButton *)registerButton {
+    if (!_registerButton) {
+        _registerButton = [LoginRegisterButton buttonWithType:UIButtonTypeCustom];
+        [_registerButton setTitle:@"立即注册" forState:UIControlStateNormal];
+        [_registerButton.layer setMasksToBounds:YES];
+        [_registerButton.layer setCornerRadius:20];
+        [_registerButton addTarget:self action:@selector(registerButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _registerButton;
+}
+
+- (LoginRegisterTextField *)confirmPasswordTextField {
+    if (!_confirmPasswordTextField) {
+        _confirmPasswordTextField = [[LoginRegisterTextField alloc] init];
+        [_confirmPasswordTextField setPlaceholder:@"请重复密码"];
+        [_confirmPasswordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    }
+    return _confirmPasswordTextField;
+}
+
+- (LoginRegisterTextField *)passwordTextField {
+    if (!_passwordTextField) {
+        _passwordTextField = [[LoginRegisterTextField alloc] init];
+        [_passwordTextField setPlaceholder:@"请输入密码"];
+        [_passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    }
+    return _passwordTextField;
+}
+
+- (LoginRegisterTextField *)smsCodeTextField {
+    if (!_smsCodeTextField) {
+        _smsCodeTextField = [[LoginRegisterTextField alloc] init];
+        [_smsCodeTextField setPlaceholder:@"请输入验证码"];
+        [_smsCodeTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    }
+    return _smsCodeTextField;
+}
 
 - (UIImageView *)imageCodeImageView {
     if (!_imageCodeImageView) {

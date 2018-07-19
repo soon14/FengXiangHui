@@ -13,6 +13,7 @@
 //拼接新的接口地址
 +(NSString *)appendAPIurl:(NSString *)u {
     NSString *url = [NSString stringWithFormat:@"%@%@",KBasicURL,u];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
     return url;
 }
 

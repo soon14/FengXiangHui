@@ -16,6 +16,7 @@
 #import "PersonalSectionCell.h"
 #import "PersonalFooterView.h"
 #import "LoginViewController.h"
+#import "MyOrderBaseViewController.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -215,7 +216,9 @@
     } else if (indexPath.section==2) {
         if (indexPath.row==0) {
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            [DBHUD ShowInView:self.view withTitle:@"我的订单"];
+            MyOrderBaseViewController *allOrderVC = [[MyOrderBaseViewController alloc] initWithType:AllOrder];
+            allOrderVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:allOrderVC animated:YES];
         }
     } else if (indexPath.section==3) {
         if (indexPath.row==0) {
@@ -230,7 +233,7 @@
     }
 }
 
-#pragma mark - firstCellAction
+#pragma mark - 个人资料
 - (void)firstCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
@@ -256,7 +259,7 @@
     }
 }
 
-#pragma mark - secondCellAction
+#pragma mark - 通话时长
 - (void)secondCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
@@ -281,19 +284,25 @@
     }
 }
 
-#pragma mark - thirdCellAction
+#pragma mark - 我的订单
 - (void)thirdCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
-            [DBHUD ShowInView:self.view withTitle:@"待付款"];
+            MyOrderBaseViewController *allOrderVC = [[MyOrderBaseViewController alloc] initWithType:waitingForPayOrder];
+            allOrderVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:allOrderVC animated:YES];
         }
             break;
         case 1: {
-            [DBHUD ShowInView:self.view withTitle:@"待发货"];
+            MyOrderBaseViewController *allOrderVC = [[MyOrderBaseViewController alloc] initWithType:waitingForSendOrder];
+            allOrderVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:allOrderVC animated:YES];
         }
             break;
         case 2: {
-            [DBHUD ShowInView:self.view withTitle:@"待收货"];
+            MyOrderBaseViewController *allOrderVC = [[MyOrderBaseViewController alloc] initWithType:waitingForReceiveOrder];
+            allOrderVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:allOrderVC animated:YES];
         }
             break;
         case 3: {
@@ -301,7 +310,7 @@
         }
             break;
         case 4: {
-            [DBHUD ShowInView:self.view withTitle:@"购物车"];
+            [self.tabBarController setSelectedIndex:3];
         }
             break;
             
@@ -310,7 +319,7 @@
     }
 }
 
-#pragma mark - fourthCellAction
+#pragma mark - 我的小店
 - (void)fourthCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
@@ -339,7 +348,7 @@
     }
 }
 
-#pragma mark - fifthCellAction
+#pragma mark - 商学院
 - (void)fifthCellAction:(NSInteger)index {
     switch (index) {
         case 0: {

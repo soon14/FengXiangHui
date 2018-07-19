@@ -8,6 +8,13 @@
 
 #import "AllGoodsLeftTableViewCell.h"
 
+@interface AllGoodsLeftTableViewCell ()
+
+@property(nonatomic , strong)UILabel *titleLabel;
+@property(nonatomic , strong)UIView *redLineView;
+
+@end
+
 @implementation AllGoodsLeftTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -40,11 +47,18 @@
     return self;
 }
 
+
+- (void)setCatetoryModel:(AllCategoryDataResultModel *)catetoryModel {
+    _catetoryModel = catetoryModel;
+    [self.titleLabel setText:_catetoryModel.name];
+}
+
+#pragma mark - lazy
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc]init];
         [_titleLabel setTextColor:KUIColorFromHex(0x333333)];
-        [_titleLabel setFont:KFont(14)];
+        [_titleLabel setFont:KFont(13)];
         [_titleLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _titleLabel;

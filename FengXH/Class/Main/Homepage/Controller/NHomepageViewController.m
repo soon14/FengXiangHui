@@ -9,6 +9,7 @@
 #import "NHomepageViewController.h"
 #import "HomepageDataModel.h" // 所有模型
 #import "SDCycleScrollView.h" // banner，随便找了一个
+#import "HomepageSearchCell.h"//搜索 cell
 #import "HomePageFunctionCell.h" // 功能区Cell
 #import "HomePageHotSpotCell.h" // 热点Cell
 #import "HomePagePicturewCell.h" // 联盟图片
@@ -18,8 +19,10 @@
 
 // 首页板块类型
 typedef NS_ENUM(NSInteger , HomePageStyle) {
+    /// 搜索 cell
+    HomePageStyle_search = 0 ,
     /// banner板块
-    HomePageStyle_banner = 0 ,
+    HomePageStyle_banner ,
     /// 10个按钮板块上面的五个
     HomePageStyle_function1 ,
     /// 10个按钮板块下面的五个
@@ -81,20 +84,21 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.title = @"疯享汇全球优选商城";
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.homeCollectionView];
-    [self homepageDateRequest];
+    [self homepageDataRequest];
 }
 
 #pragma mark - 首页数据请求
-- (void)homepageDateRequest {
+- (void)homepageDataRequest {
     NSString * urlString = @"r=apply";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:nil WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
-        if ([responseDic[@"status"] isEqualToString:@"1"]) {
+        if ([responseDic[@"status"] integerValue] == 1) {
             
             self.dataModel = [HomepageDataModel yy_modelWithDictionary:responseDic[@"result"]];
             //滚动广告图片数组
@@ -122,6 +126,10 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HomePageStyle style = [self.homePlateTypeArray[indexPath.section] integerValue];
     switch (style) {
+        case HomePageStyle_search: {
+            HomePageSearchCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HomePageSearchCell class]) forIndexPath:indexPath];
+            return cell;
+        } break;
         case HomePageStyle_banner: {
             UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([UICollectionViewCell class]) forIndexPath:indexPath];
             self.bannerScrollView.imageURLStringsGroup = self.bannerImageArray;
@@ -196,6 +204,9 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     HomePageStyle style = [self.homePlateTypeArray[indexPath.section] integerValue];
     switch (style) {
+        case HomePageStyle_search: {
+            
+        } break;
         case HomePageStyle_banner: {
             
         } break;
@@ -304,6 +315,9 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     HomePageStyle style = [self.homePlateTypeArray[indexPath.section] integerValue];
     CGFloat collectionViewWidth = collectionView.frame.size.width;
     switch (style) {
+        case HomePageStyle_search: {
+            return CGSizeMake(collectionViewWidth, 45);
+        } break;
         case HomePageStyle_banner: {
             return CGSizeMake(collectionViewWidth, 146 * KScreenRatio);
         } break;
@@ -422,24 +436,15 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     NSLog(@"猜你喜欢商品点击了购物车按钮");
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #pragma mark - 懒加载
 - (UICollectionView *)homeCollectionView {
     if (!_homeCollectionView) {
         UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _homeCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:flowLayout];
+        _homeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KTabbarHeight) collectionViewLayout:flowLayout];
         _homeCollectionView.backgroundColor = KTableBackgroundColor;
+        //注册搜索cell
+        [_homeCollectionView registerClass:[HomePageSearchCell class] forCellWithReuseIdentifier:NSStringFromClass([HomePageSearchCell class])];
         // 注册10个功能cell
         [_homeCollectionView registerClass:[HomePageFunctionCell class] forCellWithReuseIdentifier:NSStringFromClass([HomePageFunctionCell class])];
         // 注册一个通用Cell
@@ -465,7 +470,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 - (NSArray *)homePlateTypeArray {
     if (!_homePlateTypeArray) {
         // 把功能按顺序放在数组里面
-        _homePlateTypeArray = @[@(HomePageStyle_banner),@(HomePageStyle_function1),@(HomePageStyle_function2),
+        _homePlateTypeArray = @[@(HomePageStyle_search),@(HomePageStyle_banner),
+                                @(HomePageStyle_function1),@(HomePageStyle_function2),
                                 @(HomePageStyle_hotSport),@(HomePageStyle_picturew),
                                 @(HomePageStyle_secondKill_time),@(HomePageStyle_secondKill_goods),
                                 @(HomePageStyle_foodie),@(HomePageStyle_foodie_goods),
