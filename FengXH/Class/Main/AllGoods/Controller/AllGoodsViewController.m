@@ -12,11 +12,13 @@
 #import "AllGoodsRightCollectionViewCell.h"
 #import "AllGoodsCollectionHeaderView.h"
 #import "AllCategoryDataModel.h"
-
+#import "GoodsListViewController.h"
+#import "JingdongCategoryViewController.h"
+#import "HomepageBaseGoodsDetailController.h"
 #define TableViewWidth  [UIScreen mainScreen].bounds.size.width * 0.28
 #define CollectionViewWidth [UIScreen mainScreen].bounds.size.width * 0.72
 
-@interface AllGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface AllGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextFieldDelegate>
 
 @property(nonatomic , strong)UITableView *leftTableView;
 @property(nonatomic , strong)UICollectionViewFlowLayout *customLayout;
@@ -44,6 +46,7 @@
     [self.view addSubview:self.classifyCollectionView];
     //分类类别数据请求
     [self goodsCategoryRequest];
+    
 }
 
 #pragma mark - 分类类别数据请求
@@ -73,10 +76,25 @@
     }];
 }
 
+#pragma mark - textFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.view endEditing:YES];
+    if (textField.text.length > 0) {
+        GoodsListViewController *listVC = [[GoodsListViewController alloc] init];
+        listVC.searchKeywords = textField.text;
+        listVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listVC animated:YES];
+    } else {
+        [DBHUD ShowInView:self.view withTitle:@"请输入搜索关键词"];
+    }
+    return YES;
+}
+
 #pragma mark - 搜索框
 - (AllGoodsSearchView *)searchView {
     if (!_searchView) {
         _searchView = [[AllGoodsSearchView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 45)];
+        _searchView.searchTextField.delegate = self;
     }
     return _searchView;
 }
@@ -116,6 +134,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
     self.categoryDataResultModel = self.categoryDataModel.result[indexPath.row];
     [self.classifyCollectionView reloadData];
 }
@@ -178,6 +197,9 @@
         if ([self.categoryDataResultModel.advimg length] > 0) {
             AllGoodsCollectionHeaderView *RView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([AllGoodsCollectionHeaderView class]) forIndexPath:indexPath];
             RView.imageURLString = self.categoryDataResultModel.advimg;
+            RView.clickBlock = ^(NSInteger index) {
+                [self collectionHeaderDidClicked:self.categoryDataResultModel.advurl];
+            };
             return RView;
         } return nil;
     }
@@ -192,9 +214,55 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
     AllCategoryDataChildrenModel *childrenModel = self.categoryDataResultModel.children[indexPath.item];
-    NSLog(@"%@",childrenModel.name);
+//    NSLog(@"%@",childrenModel.name);
+    GoodsListViewController *listVC = [[GoodsListViewController alloc]init];
+    listVC.hidesBottomBarWhenPushed = YES;
+//    listVC.titleStr = childrenModel.name;
+    listVC.categatoryId = childrenModel.categoryChildrenID;
+    listVC.categoryDataModel = self.categoryDataModel;
+    [self.navigationController pushViewController:listVC animated:YES];
 }
+
+#pragma mark - 二级分类头视图被点击
+- (void)collectionHeaderDidClicked:(NSString *)linkURL {
+    //NSLog(@"%@",linkURL);
+    AllGoodsCollectionHeaderJumpType jumpType = [ShareManager getAllGoodsCollectionHeaderJumpTypeWithLinkUrl:linkURL];
+    switch (jumpType) {
+        case AllGoodsCollectionHeaderJumpJingDongOptimization: {
+            //跳转至京东优选
+            NSString *jumpURLString = [@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=153" stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+            
+            JingdongCategoryViewController *vc = [[JingdongCategoryViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.urlStr = jumpURLString;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case AllGoodsCollectionHeaderJumpGoodsDetails: {
+            //跳转至商品详情
+            NSString *jumpURLString = [linkURL stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=" withString:@""];
+            
+            HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
+            vc.goodsId = jumpURLString;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case AllGoodsCollectionHeaderJumpSafari: {
+            //跳转至浏览器
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:linkURL]]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkURL]];
+            }
+        } break;
+        case AllGoodsCollectionHeaderJumpNone: {
+            //未识别类型不做操作了。。。
+            
+        } break;
+            
+        default:
+            break;
+    }
+}
+
 
 
 - (void)didReceiveMemoryWarning {

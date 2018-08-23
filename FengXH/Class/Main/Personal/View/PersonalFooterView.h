@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^PersonalFooterViewBlock)(NSInteger index);
+
 @interface PersonalFooterView : UIView
+
+/** block */
+@property(nonatomic , strong)PersonalFooterViewBlock clickBlock;
 
 @end

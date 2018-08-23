@@ -10,15 +10,12 @@
 #import "LoginRegisterLabel.h"
 #import "LoginRegisterTextField.h"
 #import "LoginRegisterButton.h"
+#import "NSObject+CountDown.h"
 
 @interface ForgetPasswordViewController ()
 
 /** 手机号输入框 */
 @property(nonatomic , strong)LoginRegisterTextField *phoneTextField;
-/** 图形验证码输入框 */
-@property(nonatomic , strong)LoginRegisterTextField *imageCodeTextField;
-/** 图形验证码图片 */
-@property(nonatomic , strong)UIImageView *imageCodeImageView;
 /** 短信验证码输入框 */
 @property(nonatomic , strong)LoginRegisterTextField *smsCodeTextField;
 /** 获取短信验证码按钮 */
@@ -47,12 +44,12 @@
 - (void)initUI {
     //背景
     UIImageView *backImageView = [[UIImageView alloc] init];
-    [backImageView setImage:[UIImage imageNamed:@"registerBackImage"]];
+    [backImageView setImage:[UIImage imageNamed:@"loginBackImage"]];
     [backImageView setContentMode:UIViewContentModeScaleToFill];
     [self.view addSubview:backImageView];
     [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_offset(0);
-        make.height.mas_equalTo(95*KScreenRatio);
+        make.height.mas_equalTo(140*KScreenRatio);
     }];
     
     //logo
@@ -92,47 +89,12 @@
         make.height.mas_equalTo(1);
     }];
     
-    //图形验证码
-    LoginRegisterLabel *label_2 = [[LoginRegisterLabel alloc] init];
-    [label_2 setText:@"图形验证码"];
-    [self.view addSubview:label_2];
-    [label_2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(line_1.mas_bottom).offset(12);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-    }];
-    
-    [self.view addSubview:self.imageCodeTextField];
-    [self.imageCodeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(label_2.mas_bottom).offset(12);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.width.mas_equalTo(160);
-        make.height.mas_equalTo(20);
-    }];
-    
-    UIView *line_2 = [[UIView alloc] init];
-    [line_2 setBackgroundColor:KLineColor];
-    [self.view addSubview:line_2];
-    [line_2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_imageCodeTextField.mas_bottom).offset(12);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.width.mas_equalTo(295);
-        make.height.mas_equalTo(1);
-    }];
-    
-    [self.view addSubview:self.imageCodeImageView];
-    [self.imageCodeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(_imageCodeTextField.mas_bottom);
-        make.right.mas_equalTo(line_2.mas_right);
-        make.width.mas_equalTo(72);
-        make.height.mas_equalTo(31);
-    }];
-    
     //短信验证码
     LoginRegisterLabel *label_3 = [[LoginRegisterLabel alloc] init];
     [label_3 setText:@"短信验证码"];
     [self.view addSubview:label_3];
     [label_3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(line_2.mas_bottom).offset(12);
+        make.top.mas_equalTo(line_1.mas_bottom).offset(12);
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
     
@@ -246,21 +208,107 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - 弹出找回密码界面
+#pragma mark - 获取验证码按钮被点击
 - (void)getSmsCodeAction:(UIButton *)sender {
-    NSLog(@"获取验证码");
+    if ([self.phoneTextField.text length] != 11) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入正确的手机号"];
+        return;
+    }
+    
+    [self getSmsCodeRequest];
 }
 
-#pragma mark - 弹出注册界面
+#pragma mark - 立即找回按钮被点击
 - (void)retrieveButtonAction:(UIButton *)sender {
-    NSLog(@"立即找回");
+    if ([self.phoneTextField.text length] != 11) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入正确的手机号"];
+        return;
+    }
+    if ([self.smsCodeTextField.text length] == 0) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入短信验证码"];
+        return;
+    }
+    if ([self.passwordTextField.text length] == 0) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入密码"];
+        return;
+    }
+    if ([self.passwordTextField.text length] < 6) {
+        [DBHUD ShowInView:self.view withTitle:@"密码至少6位"];
+        return;
+    }
+    if ([self.passwordTextField.text length] > 16) {
+        [DBHUD ShowInView:self.view withTitle:@"密码至多16位"];
+        return;
+    }
+    if (![self.confirmPasswordTextField.text isEqualToString:self.passwordTextField.text]) {
+        [DBHUD ShowInView:self.view withTitle:@"两次密码输入不一致"];
+        return;
+    }
+    
+    [self retrieveRequest];
 }
+
+
+
+#pragma mark - 找回密码请求
+- (void)retrieveRequest {
+    NSString * urlString = @"r=apply.account.forget";
+    NSString *path = [HBBaseAPI appendAPIurl:urlString];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     self.phoneTextField.text,@"mobile",
+                                     self.smsCodeTextField.text,@"verifycode",
+                                     self.passwordTextField.text,@"pwd",nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+            [self performSelector:@selector(loginButtonAction:) withObject:nil afterDelay:0.8f];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
+#pragma mark - 获取短信验证码请求
+- (void)getSmsCodeRequest {
+    NSString * urlString = @"r=apply.account.verifycode2";
+    NSString *path = [HBBaseAPI appendAPIurl:urlString];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     self.phoneTextField.text,@"mobile",
+                                     @"sms_forget",@"temp",nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+            [self.getSmsCodeButton countDownTime:60 countDownBlock:^(NSUInteger timer) {
+                [self.getSmsCodeButton setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+                [self.getSmsCodeButton setTitle:[NSString stringWithFormat:@"%zd (s)后重发", (long)timer] forState:UIControlStateNormal];
+                self.getSmsCodeButton.enabled = NO;
+            } outTimeBlock:^{
+                [self.getSmsCodeButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
+                [self.getSmsCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
+                self.getSmsCodeButton.enabled = YES;
+            }];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
 
 #pragma mark - lazy
 - (UIButton *)getSmsCodeButton {
     if (!_getSmsCodeButton) {
         _getSmsCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_getSmsCodeButton setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+        [_getSmsCodeButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         [_getSmsCodeButton.titleLabel setFont:KFont(16)];
         [_getSmsCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
         [_getSmsCodeButton addTarget:self action:@selector(getSmsCodeAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -315,23 +363,6 @@
         [_smsCodeTextField setKeyboardType:UIKeyboardTypeNumberPad];
     }
     return _smsCodeTextField;
-}
-
-- (UIImageView *)imageCodeImageView {
-    if (!_imageCodeImageView) {
-        _imageCodeImageView = [[UIImageView alloc] init];
-        [_imageCodeImageView setBackgroundColor:KTableBackgroundColor];
-    }
-    return _imageCodeImageView;
-}
-
-- (LoginRegisterTextField *)imageCodeTextField {
-    if (!_imageCodeTextField) {
-        _imageCodeTextField = [[LoginRegisterTextField alloc] init];
-        [_imageCodeTextField setPlaceholder:@"请输入图形验证码"];
-        [_imageCodeTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    }
-    return _imageCodeTextField;
 }
 
 - (LoginRegisterTextField *)phoneTextField {

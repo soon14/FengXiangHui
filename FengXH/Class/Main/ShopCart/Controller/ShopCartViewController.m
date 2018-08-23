@@ -10,14 +10,18 @@
 #import "AccountView.h"
 #import "CartCellHeaderView.h"
 #import "ShoppingCartCell.h"
-#import "ShoppingCartModel.h"
-
+#import "ShoppingCartResultModel.h"
+#import "ConfirmOrderViewController.h"
+#import "HomepageBaseGoodsDetailController.h"
 @interface ShopCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic , strong)UITableView *shopCartTableView;
+/** 底部结算 */
 @property(nonatomic , strong)AccountView *accountView;
+/** 导航栏右编辑按钮 */
 @property(nonatomic , strong)UIButton *editButton;
-@property(nonatomic , strong)ShoppingCartModel *dataModel;
+/** 分组完的购物车商品数组 */
+@property(nonatomic , strong)NSArray *cartGoodsArray;
 
 @end
 
@@ -42,15 +46,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = KTableBackgroundColor;
     self.title = @"购物车";
-    
-    
-    
     //底部结算栏
     [self.view addSubview:self.accountView];
-    
     //
     [self.view addSubview:self.shopCartTableView];
 }
@@ -60,8 +59,8 @@
     if (!_accountView) {
         _accountView = [[AccountView alloc]initWithFrame:CGRectMake(0, KMAINSIZE.height-KNaviHeight-KTabbarHeight-50, KMAINSIZE.width, 50)];
         MJWeakSelf
-        _accountView.accountViewBlock = ^(NSInteger index) {
-            [weakSelf accountViewButtonDidClick:index];
+        _accountView.accountViewBlock = ^(UIButton *sender) {
+            [weakSelf accountViewButtonDidClick:sender];
         };
     }
     return _accountView;
@@ -75,18 +74,27 @@
         _shopCartTableView.showsVerticalScrollIndicator = NO;
         _shopCartTableView.backgroundColor = KTableBackgroundColor;
         _shopCartTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        _shopCartTableView.separatorColor = KUIColorFromHex(0xeeeeee);
+        _shopCartTableView.separatorColor = KLineColor;
+        _shopCartTableView.estimatedRowHeight = 0;
+        _shopCartTableView.estimatedSectionHeaderHeight = 0;
+        _shopCartTableView.estimatedSectionFooterHeight = 0;
+        [_shopCartTableView registerClass:[CartCellHeaderView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([CartCellHeaderView class])];
+        _shopCartTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     }
     return _shopCartTableView;
 }
 
+#pragma mark - 刷新
+- (void)refresh {
+    [self getShoppingCarDataRequest];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.dataModel.info.count;
+    return self.cartGoodsArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    ShoppingCartStoreModel *storeModel = self.dataModel.info[section];
-    return storeModel.goods.count;
+    return [self.cartGoodsArray[section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,11 +106,11 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    CartCellHeaderView *sectionHeaderView = [[CartCellHeaderView alloc]init];
-    sectionHeaderView.clickBlock = ^(ShoppingCartStoreModel *storeModel) {
-        [self sectionHeaderSelectButtonDidClickd:storeModel];
+    CartCellHeaderView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass([CartCellHeaderView class])];
+    sectionHeaderView.clickBlock = ^(NSString *selectIdsString, BOOL selected) {
+        [self shoppingCartGoodsSelectWithIdsString:selectIdsString Selected:selected];
     };
-    sectionHeaderView.storeModel = self.dataModel.info[section];
+    sectionHeaderView.storeArray = self.cartGoodsArray[section];
     return sectionHeaderView;
 }
 
@@ -119,27 +127,41 @@
     if (!cartCell) {
         cartCell = [[ShoppingCartCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ShoppingCartCellID"];
         //选中按钮的 block
-        cartCell.selectClickBlock = ^(ShoppingCartGoodsModel *goodsModel) {
-            [self cartCellSelectButtonDidClickd:goodsModel];
+        cartCell.selectClickBlock = ^(NSString *selectIdsString, BOOL selected) {
+            [self shoppingCartGoodsSelectWithIdsString:selectIdsString Selected:selected];
         };
-        //
-        cartCell.minsBtnClickBlock = ^(ShoppingCartGoodsModel *goodsModel) {
-            [self calculateSelectedGoodsPrice];
+        //商品减少操作
+        cartCell.minsBtnClickBlock = ^(ShoppingCartResultListModel *goodsModel, NSInteger goodsNumber) {
+            [self shoppingCartGoodsUpdateWithListModel:goodsModel GoodsNumber:goodsNumber];
         };
-        //
-        cartCell.plusBtnClickBlock = ^(ShoppingCartGoodsModel *goodsModel) {
-            [self calculateSelectedGoodsPrice];
+        //商品增加操作
+        cartCell.plusBtnClickBlock = ^(ShoppingCartResultListModel *goodsModel, NSInteger goodsNumber) {
+            [self shoppingCartGoodsUpdateWithListModel:goodsModel GoodsNumber:goodsNumber];
+        };
+        //商品数量编辑完成操作
+        cartCell.endEditNumberBlock = ^(ShoppingCartResultListModel *goodsModel, NSInteger goodsNumber) {
+            [self shoppingCartGoodsUpdateWithListModel:goodsModel GoodsNumber:goodsNumber];
+        };
+        //友情提示 block
+        cartCell.alertBlock = ^(NSString *message) {
+            [DBHUD ShowInView:self.view withTitle:message];
         };
     }
-    ShoppingCartStoreModel *storeModel = self.dataModel.info[indexPath.section];
-    cartCell.cartGoodsModel = storeModel.goods[indexPath.row];
+    cartCell.cartGoodsModel = self.cartGoodsArray[indexPath.section][indexPath.row];
     return cartCell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ShoppingCartResultListModel *listModel = self.cartGoodsArray[indexPath.section][indexPath.row];
+    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    vc.goodsId = listModel.goodsid;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - 编辑状态
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.dataModel.info.count>0) {
+    if (self.cartGoodsArray.count>0) {
         return YES;
     } else {
         return NO;
@@ -147,149 +169,82 @@
 }
 
 - (NSArray*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //删除按钮
     UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        [self deleteRowActionDidClicked:indexPath];
+        ShoppingCartResultListModel *listModel = self.cartGoodsArray[indexPath.section][indexPath.row];
+        [self shoppingCartGoodsDeleteWithIdsString:listModel.cart_id];
     }];
+    UITableViewRowAction *focusRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"移到关注" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        ShoppingCartResultListModel *listModel = self.cartGoodsArray[indexPath.section][indexPath.row];
+        [self shoppingCartGoodsFocusWithIdsString:listModel.cart_id];
+    }];
+    [focusRowAction setBackgroundColor:KUIColorFromHex(0x999999)];
     [deleteRowAction setBackgroundColor:KUIColorFromHex(0xff5753)];
-    return @[deleteRowAction];
-}
-
-#pragma mark - 删除按钮被点击
-- (void)deleteRowActionDidClicked:(NSIndexPath *)indexPath {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定要删除?删除后无法恢复!" preferredStyle:1];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        ShoppingCartStoreModel *storeModel = self.dataModel.info[indexPath.section];
-        ShoppingCartGoodsModel *goodsModel = storeModel.goods[indexPath.row];
-        
-        [storeModel.goods removeObject:goodsModel];
-        if (storeModel.goods.count < 1) {
-            [self.dataModel.info removeObject:storeModel];
-        }
-        
-//        [self.shopCartTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
-        [self.shopCartTableView reloadData];
-        
-    }];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:okAction];
-    [alert addAction:cancel];
-    [self presentViewController:alert animated:YES completion:nil];
+    return @[deleteRowAction,focusRowAction];
 }
 
 #pragma mark - 底部按钮被点击
-- (void)accountViewButtonDidClick:(NSInteger )index {
-    switch (index) {
-        case 0:
-        {
-            if (self.accountView.allSelectButton.selected == NO) {
-                for (ShoppingCartStoreModel *storeModel in self.dataModel.info) {
-                    storeModel.storeSelected = YES;
-                    for (ShoppingCartGoodsModel *goodsModel in storeModel.goods) {
-                        goodsModel.goodsSelected = YES;
-                    }
-                }
+- (void)accountViewButtonDidClick:(UIButton *)sender {
+    switch (sender.tag) {
+        case 0: {
+            NSMutableArray *tempArray = [NSMutableArray array];
+            for (NSArray *arr in self.cartGoodsArray) {
+                [tempArray addObjectsFromArray:arr];
+            }
+            NSMutableString *idsString = [NSMutableString string];
+            for (ShoppingCartResultListModel *listModel in tempArray) {
+                [idsString appendString:[NSString stringWithFormat:@",%@",listModel.cart_id]];
+            }
+            if (idsString.length > 0) {
+                [idsString deleteCharactersInRange:NSMakeRange(0, 1)];
+                [self shoppingCartGoodsSelectWithIdsString:idsString Selected:sender.selected];
             } else {
-                for (ShoppingCartStoreModel *storeModel in self.dataModel.info) {
-                    storeModel.storeSelected = NO;
-                    for (ShoppingCartGoodsModel *goodsModel in storeModel.goods) {
-                        goodsModel.goodsSelected = NO;
-                    }
+                [DBHUD ShowInView:self.view withTitle:@"请选择商品"];
+            }
+        } break;
+        case 1: {
+            //结算
+            [self shoppingCartGoodsAccountRequest];
+        } break;
+        case 2: {
+            NSMutableArray *tempArray = [NSMutableArray array];
+            for (NSArray *arr in self.cartGoodsArray) {
+                [tempArray addObjectsFromArray:arr];
+            }
+            NSMutableString *idsString = [NSMutableString string];
+            for (ShoppingCartResultListModel *listModel in tempArray) {
+                if (listModel.selected) {
+                    [idsString appendString:[NSString stringWithFormat:@",%@",listModel.cart_id]];
                 }
             }
-            
-            [self.shopCartTableView reloadData];
-            [self calculateSelectedGoodsPrice];
-        }
-            break;
-        case 1:
-        {
-            [DBHUD ShowInView:self.view withTitle:@"结算"];
-        }
-            break;
-        case 2:
-        {
-            [DBHUD ShowInView:self.view withTitle:@"收藏按钮"];
-        }
-            break;
-        case 3:
-        {
-            [DBHUD ShowInView:self.view withTitle:@"删除按钮"];
-        }
-            break;
-            
+            if (idsString.length > 0) {
+                [idsString deleteCharactersInRange:NSMakeRange(0, 1)];
+                [self shoppingCartGoodsFocusWithIdsString:idsString];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请选择商品"];
+            }
+        } break;
+        case 3: {
+            NSMutableArray *tempArray = [NSMutableArray array];
+            for (NSArray *arr in self.cartGoodsArray) {
+                [tempArray addObjectsFromArray:arr];
+            }
+            NSMutableString *idsString = [NSMutableString string];
+            for (ShoppingCartResultListModel *listModel in tempArray) {
+                if (listModel.selected) {
+                    [idsString appendString:[NSString stringWithFormat:@",%@",listModel.cart_id]];
+                }
+            }
+            if (idsString.length > 0) {
+                [idsString deleteCharactersInRange:NSMakeRange(0, 1)];
+                [self shoppingCartGoodsDeleteWithIdsString:idsString];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请选择商品"];
+            }
+        } break;
+
         default:
             break;
     }
-}
-
-#pragma mark - 结算并生成已选中的商品字典
-- (void)CalculatePriceAndRetureSelectedGoods {
-    
-}
-
-#pragma mark - 结算选中商品的价格及数量
-- (void)calculateSelectedGoodsPrice {
-    //所有商品的总价
-    CGFloat allPrice = 0.0;
-    //结算处的个数
-    NSInteger allNumber = 0;
-    /*遍历所有模型*/
-    for (ShoppingCartStoreModel *storeModel in self.dataModel.info) {
-        for (ShoppingCartGoodsModel *seleModel in storeModel.goods) {
-            if (seleModel.goodsSelected==YES) {
-                allPrice = allPrice + [seleModel.goods_price floatValue]*seleModel.goods_num;
-                allNumber = allNumber + seleModel.goods_num;
-            }
-        }
-    }
-    
-    
-    [self.accountView.totalPriceLabel setText:[NSString stringWithFormat:@"合计：¥%.2f",allPrice]];
-    [self.accountView.accountButton setTitle:[NSString stringWithFormat:@"结算(%ld)",(long)allNumber] forState:UIControlStateNormal];
-}
-
-#pragma mark - cell 上的选中按钮被点击
-- (void)cartCellSelectButtonDidClickd:(ShoppingCartGoodsModel *)goodsModel {
-    NSInteger i = 0;
-    ShoppingCartStoreModel *storeSelectModel;
-    for (ShoppingCartStoreModel *storeModel in self.dataModel.info) {
-        for (ShoppingCartGoodsModel *tmpGoodsModel in storeModel.goods) {
-            if (tmpGoodsModel.goodsSelected==NO) {
-                storeModel.storeSelected = NO;
-            } else {
-                i++;
-            }
-            
-            if (tmpGoodsModel==goodsModel) {
-                storeSelectModel = storeModel;
-            }
-        }
-    }
-    
-    //    NSLog(@"%@",storeSelectModel.store_id);
-    
-    if (i==storeSelectModel.goods.count) {
-        storeSelectModel.storeSelected = YES;
-    }
-    
-    [self calculateSelectedGoodsPrice];
-    [self.shopCartTableView reloadData];
-}
-
-#pragma mark - sectionHeader 上的选中按钮被点击
-- (void)sectionHeaderSelectButtonDidClickd:(ShoppingCartStoreModel *)storeModel {
-    for (ShoppingCartGoodsModel *goodsModel in storeModel.goods) {
-        if (storeModel.storeSelected==NO) {
-            goodsModel.goodsSelected = NO;
-        } else {
-            goodsModel.goodsSelected = YES;
-        }
-    }
-    [self calculateSelectedGoodsPrice];
-    [self.shopCartTableView reloadData];
 }
 
 #pragma mark - 导航栏右编辑按钮被点击
@@ -315,7 +270,7 @@
 - (UIButton *)editButton {
     if (!_editButton) {
         _editButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _editButton.frame = CGRectMake(KMAINSIZE.width-44, 0, 44, 44);
+        _editButton.frame = CGRectMake(KMAINSIZE.width-50, 0, 44, 44);
         [_editButton setTitle:@"编辑" forState:UIControlStateNormal];
         [_editButton setTitle:@"完成" forState:UIControlStateSelected];
         [_editButton setTitleColor:KUIColorFromHex(0x333333) forState:UIControlStateNormal];
@@ -326,81 +281,193 @@
     return _editButton;
 }
 
+
+#pragma mark - 购物车商品结算
+- (void)shoppingCartGoodsAccountRequest {
+    NSString *url = @"r=apply.cart.submit";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token", nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            //确认下单
+            ConfirmOrderViewController *VC = [[ConfirmOrderViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
+#pragma mark - 商品移到关注网络请求
+- (void)shoppingCartGoodsFocusWithIdsString:(NSString *)idsString {
+    NSString *url = @"r=apply.cart.tofavorite";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken] forKey:@"token"];
+    if (idsString) {
+        [paramDic setObject:idsString forKey:@"ids"];
+    }
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            [self getShoppingCarDataRequest];
+            
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
+#pragma mark - 删除商品网络请求
+- (void)shoppingCartGoodsDeleteWithIdsString:(NSString *)idsString {
+    NSString *url = @"r=apply.cart.remove";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken] forKey:@"token"];
+    if (idsString) {
+        [paramDic setObject:idsString forKey:@"ids"];
+    }
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            [self getShoppingCarDataRequest];
+            
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
+#pragma mark - 购物车商品选择请求
+- (void)shoppingCartGoodsSelectWithIdsString:(NSString *)idsString Selected:(BOOL)selected {
+    NSString *url = @"r=apply.cart.select";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
+                              selected ? @"0" : @"1",@"select",
+                              idsString,@"ids", nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            [self getShoppingCarDataRequest];
+            
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
+#pragma mark - 购物车商品数量修改请求
+- (void)shoppingCartGoodsUpdateWithListModel:(ShoppingCartResultListModel *)listModel GoodsNumber:(NSInteger)goodsNumber {
+    NSString *url = @"r=apply.cart.update";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
+                                                                      listModel.cart_id,@"id",
+                                         [NSString stringWithFormat:@"%ld",(long)goodsNumber],@"total",
+                                                         listModel.optionid,@"optionid", nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            [self getShoppingCarDataRequest];
+            
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
 #pragma mark - 获取购物车数据
 - (void)getShoppingCarDataRequest {
-    
-    NSDictionary *dataDic = @{
-                              @"info":@[
-                                      @{
-                                          @"store_name":@"喵咪喵",
-                                          @"goods":@[@{@"goods_name":@"深海胶原套装深层补水保湿滋润控油爽肤水乳",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"100.0"},
-                                                     @{@"goods_name":@"大宝 SOD 蜜深层补水保湿滋润控油爽肤水乳",
-                                                       @"goods_num":@"2",
-                                                       @"goods_price":@"299.0"}],
-                                          @"store_id":@"001"
-                                          },
-                                      @{
-                                          @"store_name":@"汪汪汪",
-                                          @"goods":@[@{@"goods_name":@"欧米茄 女士自动机械表",
-                                                       @"goods_num":@"2",
-                                                       @"goods_price":@"2100.0"}],
-                                          @"store_id":@"002"
-                                          },
-                                      @{
-                                          @"store_name":@"艾夫杰尼",
-                                          @"goods":@[@{@"goods_name":@"复古港风文艺韩国格纹长裤大长腿格子休闲裤直筒裤潮",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"134.0"},
-                                                     @{@"goods_name":@"大宝 SOD 英国进口迪斯科茶棒红茶袋泡茶棒柠檬茶",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"256.0"}],
-                                          @"store_id":@"003"
-                                          },
-                                      @{
-                                          @"store_name":@"葬爱家族",
-                                          @"goods":@[@{@"goods_name":@"新款军事风嘻哈收脚迷彩束脚裤长裤纯色休闲裤潮男布裤",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"125.0"},
-                                                     @{@"goods_name":@"高街纯色打底圆弧下摆加长款短袖半袖中袖暗黑",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"449.0"},
-                                                     @{@"goods_name":@"隐形眼镜月抛近视6片海昌旗舰官方店2盒半年量",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"199.0"}],
-                                          @"store_id":@"004"
-                                          },
-                                      @{
-                                          @"store_name":@"蛋堡宝宝",
-                                          @"goods":@[@{@"goods_name":@"复古潮牌卡通漫画中国有嘻哈恶搞搞笑说唱男女半袖中袖短袖",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"650.0"},
-                                                     @{@"goods_name":@"原创街头嘻哈街舞复古拼色白边运动裤潮男女束脚休闲裤小脚裤",
-                                                       @"goods_num":@"1",
-                                                       @"goods_price":@"239.0"}],
-                                          @"store_id":@"005"
-                                          }
-                                      ]
-                              };
-    
-    //    NSLog(@"购物车商品：%@",dataDic/*[@"info"][1][@"goods"][0][@"goods_price"]*/);
-    self.dataModel = [ShoppingCartModel yy_modelWithDictionary:dataDic];
+    NSString *url = @"r=apply.cart.get_list";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token", nil];
+//    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if (self.shopCartTableView.mj_header.isRefreshing == YES) {
+            [self.shopCartTableView.mj_header endRefreshing];
+        }
+        if ([responseDic[@"status"] integerValue] == 1) {
+            //进行分店铺归类
+            ShoppingCartResultModel *resultModel = [ShoppingCartResultModel yy_modelWithDictionary:responseDic[@"result"]];
+            self.cartGoodsArray = [self getGoodsArrayWithStroeName:resultModel.list];
+            [self.accountView.totalPriceLabel setText:[NSString stringWithFormat:@"合计：¥%.2f",[resultModel.totalprice floatValue]]];
+            [self.accountView.accountButton setTitle:[NSString stringWithFormat:@"结算(%ld)",(long)resultModel.total] forState:UIControlStateNormal];
+            [self.accountView.allSelectButton setSelected:resultModel.ischeckall];
+            
+            [self.shopCartTableView reloadData];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+        if (self.shopCartTableView.mj_header.isRefreshing == YES) {
+            [self.shopCartTableView.mj_header endRefreshing];
+        }
+    }];
 }
+
+#pragma mark - 传入请求得到的数组，重新生成
+- (NSArray *)getGoodsArrayWithStroeName:(NSArray *)goodsList {
+    NSMutableArray *returnGoodsArray = [NSMutableArray array];
+    //取出所有不重复的店名
+    NSMutableSet *storeNameSet = [NSMutableSet set];
+    for (ShoppingCartResultListModel *listModel in goodsList) {
+        [storeNameSet addObject:listModel.merchid];
+    }
+    NSArray *tmpStoreIDArray = [storeNameSet allObjects];
+    NSArray *storeIDArray = [tmpStoreIDArray sortedArrayUsingSelector:@selector(compare:)];
+    //NSLog(@"storeIDArray:%@",storeIDArray);
+    
+    for (NSString *obj in storeIDArray) {
+        NSMutableArray *storeArray = [NSMutableArray array];
+        for (ShoppingCartResultListModel *listModel in goodsList) {
+            if ([obj isEqualToString:listModel.merchid]) {
+                [storeArray addObject:listModel];
+            }
+        }
+        [returnGoodsArray addObject:storeArray];
+    }
+    return returnGoodsArray;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

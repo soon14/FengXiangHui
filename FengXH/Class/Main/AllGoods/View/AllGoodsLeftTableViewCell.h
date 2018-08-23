@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AllCategoryDataModel.h"
+@class AllCategoryDataResultModel;
 
 @interface AllGoodsLeftTableViewCell : UITableViewCell
 

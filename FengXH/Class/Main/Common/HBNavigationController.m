@@ -8,9 +8,7 @@
 
 #import "HBNavigationController.h"
 
-@interface HBNavigationController ()<UINavigationControllerDelegate>
-
-@property (nonatomic , weak) id PopDelegate;
+@interface HBNavigationController ()<UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @end
 
@@ -25,9 +23,9 @@
     [super viewDidLoad];
     self.navigationBar.barTintColor = [UIColor whiteColor];
     [self.navigationBar setTranslucent:NO];
-//    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont fontWithName:@"Arial" size:24]}];
     [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    self.PopDelegate = self.interactivePopGestureRecognizer.delegate;
+
+    self.interactivePopGestureRecognizer.delegate = self;
     self.delegate = self;
     [self.navigationBar setTintColor:[UIColor whiteColor]];
     
@@ -37,26 +35,21 @@
 }
 
 #pragma mark 解决返回手势失效问题
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (viewController == self.viewControllers[0]) {
-        self.interactivePopGestureRecognizer.delegate = self.PopDelegate;
-    }else{
-        self.interactivePopGestureRecognizer.delegate = nil;
-    }
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.viewControllers.count > 1) {
+        return YES;
+    } return NO;
 }
 
 #pragma mark 重写返回按钮
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    BOOL ishide = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideLeftItem"];
-    if (viewController != self.viewControllers[0] && ishide != YES) {
-        UIBarButtonItem * backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(backBarButtonItemAction)];
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if (self.viewControllers.count > 0) {
+        viewController.hidesBottomBarWhenPushed = YES;
+        UIBarButtonItem * backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(backBarButtonItemAction)];
         viewController.navigationItem.leftBarButtonItem = backBarButtonItem;
-        // 去除返回按钮文字
-        [backBarButtonItem setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
         [backBarButtonItem setTintColor:KUIColorFromHex(0x9a9a9a)];
     }
+    [super pushViewController:viewController animated:animated];
 }
 
 - (void)backBarButtonItemAction

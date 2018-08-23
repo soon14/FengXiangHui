@@ -364,6 +364,8 @@
 /** xykj_id */
 @property(nonatomic , copy)NSString *xykj_id;
 
+@property(nonatomic , strong)NSArray *optionid;
+
 @end
 
 

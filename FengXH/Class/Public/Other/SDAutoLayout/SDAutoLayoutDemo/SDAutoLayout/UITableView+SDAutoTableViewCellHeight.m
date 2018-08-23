@@ -230,7 +230,7 @@
         [tempFrameCaches insertObjects:objsToInsert atIndexes:indexSet];
         [tempHeightCaches enumerateObjectsUsingBlock:^(NSNumber *heightCache, NSUInteger idx, BOOL *stop) {
             if (![heightCache isKindOfClass:[NSNull class]]) {
-                NSString *key = [NSString stringWithFormat:@"%zd-%zd", section, idx];
+                NSString *key = [NSString stringWithFormat:@"%zd-%zd", (long)section, (long)idx];
                 [_cacheDictionary setValue:heightCache forKey:key];
                 [_subviewFrameCacheDict setValue:[tempFrameCaches objectAtIndex:idx] forKey:key];
             }

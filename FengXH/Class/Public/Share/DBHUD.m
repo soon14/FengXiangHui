@@ -21,7 +21,7 @@
 +(void)ShowProgressInview:(UIView *)view Withtitle:(NSString *)title
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.label.text =  title;
+    hud.detailsLabel.text =  title;
     //hud.dimBackground = NO;
     [hud showAnimated:YES];
     

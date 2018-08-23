@@ -64,12 +64,6 @@
 
 #pragma mark - 更多按钮点击
 - (void)moreButtonAction:(UIButton *)sender {
-//    if (self.sixthCellBlock) {
-//        self.sixthCellBlock(sender.tag);
-//    }
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(HomePageFunctionCell:didSelectFunctiomItemWith:)]) {
-//        [self.delegate HomePageFunctionCell:self didSelectFunctiomItemWith:menuDateModel];
-//    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(HomePageSecondKillTimeCell:didClickMoreButton:)]) {
         [self.delegate HomePageSecondKillTimeCell:self didClickMoreButton:self.secondKillModel];
     }

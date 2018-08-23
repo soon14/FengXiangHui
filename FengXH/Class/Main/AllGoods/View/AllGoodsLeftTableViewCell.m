@@ -7,6 +7,7 @@
 //
 
 #import "AllGoodsLeftTableViewCell.h"
+#import "AllCategoryDataModel.h"
 
 @interface AllGoodsLeftTableViewCell ()
 

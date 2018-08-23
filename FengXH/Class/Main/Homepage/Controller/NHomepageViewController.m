@@ -16,6 +16,15 @@
 #import "HomePageFoodieGoodsCell.h" // 联盟商品
 #import "HomePageSecondKillTimeCell.h"//秒杀倒计时
 #import "HomePageSecondKillGoodsCell.h"//秒杀商品
+#import "WebJumpViewController.h"
+#import "GoodsListViewController.h"//全部商品
+#import "SecondsKillViewController.h"//今日秒杀
+#import "SpellBarViewController.h"//拼团福利
+#import "HomepageBaseGoodsDetailController.h"//商品详情
+#import "JingDongViewController.h"//京东优选
+#import "FreshViewController.h"//生鲜超市
+#import "ArticleListViewController.h"//赏金文章
+#import "PhoneViewController.h"//云通话
 
 // 首页板块类型
 typedef NS_ENUM(NSInteger , HomePageStyle) {
@@ -65,7 +74,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     HomePageStyle_guesslike_goods
 };
 
-@interface NHomepageViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate,SDCycleScrollViewDelegate,HomePageFunctionDelegate,HomePagePicturewDelegate,HomePageSecondKillTimeDelegate,HomePageSecondKillGoodsDelegate,HomePageFoodieGoodsDelegate,HomePageFoodieGoodsDetailDelegate>
+@interface NHomepageViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate,SDCycleScrollViewDelegate,HomePageFunctionDelegate,HomePagePicturewDelegate,HomePageSecondKillTimeDelegate,HomePageSecondKillGoodsDelegate,HomePageFoodieGoodsDelegate,HomePageFoodieGoodsDetailDelegate,UITextFieldDelegate>
 
 /** 首页Collectionview */
 @property(nonatomic , strong)UICollectionView *homeCollectionView ;
@@ -81,6 +90,9 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 @end
 
 @implementation NHomepageViewController
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBar.hidden = NO;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -98,8 +110,10 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:nil WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
+        if (self.homeCollectionView.mj_header.isRefreshing == YES) {
+            [self.homeCollectionView.mj_header endRefreshing];
+        }
         if ([responseDic[@"status"] integerValue] == 1) {
-            
             self.dataModel = [HomepageDataModel yy_modelWithDictionary:responseDic[@"result"]];
             //滚动广告图片数组
             self.bannerImageArray = [NSMutableArray array];
@@ -115,7 +129,15 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     } WithFailureBlock:^(NSError *error) {
         [DBHUD Hiden:YES fromView:self.view];
         [DBHUD ShowInView:self.view withTitle:KNetworkError];
+        if (self.homeCollectionView.mj_header.isRefreshing == YES) {
+            [self.homeCollectionView.mj_header endRefreshing];
+        }
     }];
+}
+
+#pragma mark - 刷新
+- (void)refresh {
+    [self homepageDataRequest];
 }
 
 #pragma mark - <UICollectionViewDataSource>
@@ -205,7 +227,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     HomePageStyle style = [self.homePlateTypeArray[indexPath.section] integerValue];
     switch (style) {
         case HomePageStyle_search: {
-            
+            HomePageSearchCell *searchCell = (HomePageSearchCell *)cell;
+            searchCell.searchTextField.delegate = self;
         } break;
         case HomePageStyle_banner: {
             
@@ -302,8 +325,12 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         case HomePageStyle_guesslike_goods: {
             // 点击了猜你喜欢某个item
             HomepageDataGuessYouLikeGoodsDataModel * guessLikeModel = self.dataModel.M1530682437506.goods_list[indexPath.item];
+            HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
+            vc.hidesBottomBarWhenPushed=YES;
+            vc.goodsId=guessLikeModel.goodsID;
+            [self.navigationController pushViewController:vc animated:YES];
             // other
-            NSLog(@"猜你喜欢商品点击了整个商品事件%@",guessLikeModel);
+            //NSLog(@"猜你喜欢商品点击了整个商品事件%@",guessLikeModel);
         } break;
         default: {
         } break;
@@ -400,40 +427,208 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     }
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.view endEditing:YES];
+    if (textField.text.length > 0) {
+        GoodsListViewController *listVC = [[GoodsListViewController alloc] init];
+        listVC.searchKeywords = textField.text;
+        listVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listVC animated:YES];
+    } else {
+        [DBHUD ShowInView:self.view withTitle:@"请输入搜索关键词"];
+    }
+    return YES;
+}
+
 #pragma mark all delegate
 // MARK: 10个功能区点击
 - (void)HomePageFunctionCell:(HomePageFunctionCell *)cell didSelectFunctiomItemWith:(HomepageDataMenuDataModel *)functionItemModel {
-    NSLog(@"10个功能区点击");
+    HomePageFunctionJumpType jumpType = [ShareManager getHomePageFunctionJumpTypeWithMenuDataModel:functionItemModel];
+    switch (jumpType) {
+        case FunctionJumpWebView: {
+            /** 跳转至网页 */
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = functionItemModel.linkurl;
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        case FunctionJumpAllGoods: {
+            /** 跳转至全部商品页 */
+            GoodsListViewController *vc = [[GoodsListViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.categatoryId = functionItemModel.linkurl;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case FunctionJumpSecondKill: {
+            /** 跳转今日秒杀 */
+            SecondsKillViewController *vc = [[SecondsKillViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case FunctionJumpSpellGroup: {
+            /** 跳转至拼团福利 */
+            SpellBarViewController *spellGroupVC = [[SpellBarViewController alloc]init];
+            spellGroupVC.hidesBottomBarWhenPushed = YES;
+            self.navigationController.navigationBar.hidden = YES;
+            [self.navigationController pushViewController:spellGroupVC animated:NO];
+            
+        } break;
+        case FunctionJumpCloudPhone: {
+            /** 跳转至云电话 */
+            PhoneViewController *vc = [[PhoneViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case FunctionJumpArticleList: {
+            /** 跳转至赏金文章 */
+            ArticleListViewController *articleVC = [[ArticleListViewController alloc] init];
+            articleVC.jumpURL = functionItemModel.linkurl;
+            articleVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:articleVC animated:YES];
+        } break;
+        case FunctionJumpBusiness: {
+            /**  联盟商户 - 跳转至浏览器 */
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:functionItemModel.linkurl]]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:functionItemModel.linkurl]];
+            }
+        } break;
+        case FunctionJumpSignIn: {
+            /** 签到领奖 */
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = [NSString stringWithFormat:@"%@&footerMenus=1",functionItemModel.linkurl];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        case FunctionJumpShareCircle: {
+            /** 分享圈子 */
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = [NSString stringWithFormat:@"%@&footerMenus=1",functionItemModel.linkurl];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        default:
+            break;
+    }
 }
 
 // MARK: 倒计时更多按钮被点击
 - (void)HomePageSecondKillTimeCell:(HomePageSecondKillTimeCell *)cell didClickMoreButton:(HomepageDataSecondKillModel *)secondKillModel {
-    NSLog(@"倒计时更多按钮被点击");
+    SecondsKillViewController *vc = [[SecondsKillViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 // MARK: 倒计时商品 item 被点击
 - (void)HomePageSecondKillGoodsCell:(HomePageSecondKillGoodsCell *)cell didSelectGoodsItemWith:(HomepageDataSecondKillGoodsModel *)secondKillGoodsModel {
-    NSLog(@" 倒计时商品 item 被点击");
+    
+    SecondsKillViewController *vc = [[SecondsKillViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 // MARK: picturerew 图片点击
 - (void)HomePagePicturewCell:(HomePagePicturewCell *)cell didSelectPicturerwItemWith:(HomepageDataMenuDataModel *)functionItemModel {
-    NSLog(@"picturerew 图片点击");
+    NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@""];
+    if ([jumpURLString isEqualToString:@"35"]) {
+        //店主专区
+        NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+        FreshViewController *vc = [[FreshViewController alloc]init];
+        vc.urlStr = jumpURLString;
+        vc.typeColor = @"red";
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if([jumpURLString isEqualToString:@"139"]){
+        //京东优选
+        NSString *urlStr = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+        JingDongViewController *vc = [[JingDongViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = YES;
+        vc.urlStr = urlStr;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        GoodsListViewController *vc = [[GoodsListViewController alloc]init];
+        vc.categatoryId = functionItemModel.linkurl;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    
 }
 
 // MARK: 吃货联盟商品点击了整个商品事件
 - (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectItemWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel {
-    NSLog(@"吃货联盟商品点击了整个商品事件");
+    
+    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
+    vc.hidesBottomBarWhenPushed=YES;
+    vc.goodsId=goodsDataModel.goodsID;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 // MARK: 吃货联盟点击了购物车事件
 - (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectShoppingCartWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel {
-    NSLog(@"吃货联盟点击了购物车事件");
+    
+    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
+    vc.hidesBottomBarWhenPushed=YES;
+    vc.goodsId = goodsDataModel.goodsID;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 // MARK: 猜你喜欢商品点击了购物车按钮
 - (void)HomePageFoodieGoodsDetailCell:(HomePageFoodieGoodsDetailCell *)cell didSelectShoppingCartButtonWithGuessLickModel:(HomepageDataGuessYouLikeGoodsDataModel *)guessLikeModel {
-    NSLog(@"猜你喜欢商品点击了购物车按钮");
+    
+    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
+    vc.hidesBottomBarWhenPushed=YES;
+    vc.goodsId= guessLikeModel.goodsID;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - 轮播图被点击
+- (void)bannerItemDidClicked:(NSInteger)index {
+    [self.view endEditing:YES];
+    HomepageDataBannerDataModel *bannerModel = self.dataModel.M1471835880921.data[index];
+    HomePageBannerJumpType jumpStyle = [ShareManager getHomePageBannerJumpTypeWithBannerDataModel:bannerModel];
+    switch (jumpStyle) {
+        case BannerJumpWebView: {
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = bannerModel.linkurl;
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        case BannerJumpSpellGroup: {
+            
+            SpellBarViewController *spellGroupVC = [[SpellBarViewController alloc]init];
+            spellGroupVC.hidesBottomBarWhenPushed = YES;
+            self.navigationController.navigationBar.hidden = YES;
+            [self.navigationController pushViewController:spellGroupVC animated:NO];
+            
+        } break;
+        case BannerJumpFreshSupermarket: {
+            NSString *jumpURLString = [bannerModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+            FreshViewController *vc = [[FreshViewController alloc]init];
+            vc.urlStr = jumpURLString;
+            vc.typeColor = @"blue";
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        case BannerJumpJingDongOptimization: {
+            NSString *jumpURLString = [bannerModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+            JingDongViewController *vc = [[JingDongViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.urlStr = jumpURLString;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } break;
+        case BannerJumpGoodsDetails: {
+            NSString *jumpURLString = [bannerModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=" withString:@""];
+            HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
+            vc.hidesBottomBarWhenPushed=YES;
+            vc.goodsId= jumpURLString;
+            [self.navigationController pushViewController:vc animated:YES];
+        } break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - 懒加载
@@ -463,6 +658,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         [_homeCollectionView registerClass:[HomePageFoodieGoodsDetailCell class] forCellWithReuseIdentifier:NSStringFromClass([HomePageFoodieGoodsDetailCell class])];
         _homeCollectionView.dataSource = self;
         _homeCollectionView.delegate = self;
+        _homeCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     }
     return _homeCollectionView;
 }
@@ -490,7 +686,11 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 - (SDCycleScrollView *)bannerScrollView {
     if (!_bannerScrollView) {
         _bannerScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 146*KScreenRatio) delegate:self placeholderImage:nil];
-        _bannerScrollView.backgroundColor = self.homeCollectionView.backgroundColor;;
+        _bannerScrollView.backgroundColor = self.homeCollectionView.backgroundColor;
+        MJWeakSelf
+        [_bannerScrollView setClickItemOperationBlock:^(NSInteger currentIndex) {
+            [weakSelf bannerItemDidClicked:currentIndex];
+        }];
     }
     return _bannerScrollView;
 }
@@ -500,14 +700,5 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

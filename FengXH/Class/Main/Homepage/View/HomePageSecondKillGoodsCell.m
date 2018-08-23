@@ -77,6 +77,7 @@
         
         _secondKillCollection = [[UICollectionView alloc] initWithFrame:self.contentView.frame collectionViewLayout:flowLayout];
         [_secondKillCollection registerClass:[HomePageSecondKillGoodsDetailCell class] forCellWithReuseIdentifier:NSStringFromClass([HomePageSecondKillGoodsDetailCell class])];
+        _secondKillCollection.showsHorizontalScrollIndicator = NO;
         _secondKillCollection.backgroundColor = [UIColor whiteColor];
         _secondKillCollection.delegate = self;
         _secondKillCollection.dataSource = self;

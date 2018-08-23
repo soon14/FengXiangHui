@@ -131,7 +131,7 @@
         
         [self addSubview:self.cartButton];
         [self.cartButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_offset(-10);
+            make.right.mas_offset(-7);
             make.bottom.mas_offset(-5);
             make.width.height.mas_equalTo(36);
         }];
@@ -216,6 +216,7 @@
 - (UIImageView *)goodsImageView {
     if (!_goodsImageView) {
         _goodsImageView = [[UIImageView alloc] init];
+        [_goodsImageView setContentMode:UIViewContentModeScaleAspectFit];
     }
     return _goodsImageView;
 }

@@ -13,6 +13,7 @@
 #import "MyStoreViewController.h"
 #import "ShopCartViewController.h"
 #import "PersonalViewController.h"
+#import "LoginViewController.h"
 
 @interface MyTabBarController ()
 
@@ -24,6 +25,7 @@
     [super viewDidLoad];
     self.tabBar.backgroundColor = [UIColor whiteColor];
     [self initSubVC];
+    self.delegate = self;
     
     [self setSelectedIndex:4];
 }
@@ -35,19 +37,19 @@
 - (void)initSubVC{
     
     NHomepageViewController * homeVC = [[NHomepageViewController alloc]init];
-    [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_nol"];
+    [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_sel"];
     
     AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc]init];
-    [self setupChildVC:allGoodsVC Title:@"全部商品" UnselectedImageName:@"home_icon_all_nol" SelectedImageName:@"home_icon_all_nol"];
+    [self setupChildVC:allGoodsVC Title:@"全部商品" UnselectedImageName:@"home_icon_all_nol" SelectedImageName:@"home_icon_all_sel"];
     
     MyStoreViewController * myStoreVC = [[MyStoreViewController alloc]init];
-    [self setupChildVC:myStoreVC Title:@"我的小店" UnselectedImageName:@"home_icon_store_nol" SelectedImageName:@"home_icon_store_nol"];
+    [self setupChildVC:myStoreVC Title:@"我的小店" UnselectedImageName:@"home_icon_store_nol" SelectedImageName:@"home_icon_store_sel"];
     
     ShopCartViewController * shopCartVC = [[ShopCartViewController alloc]init];
-    [self setupChildVC:shopCartVC Title:@"购物车" UnselectedImageName:@"home_icon_cart_nol" SelectedImageName:@"home_icon_cart_nol"];
+    [self setupChildVC:shopCartVC Title:@"购物车" UnselectedImageName:@"home_icon_cart_nol" SelectedImageName:@"home_icon_cart_sel"];
     
     PersonalViewController * personalVC = [[PersonalViewController alloc]init];
-    [self setupChildVC:personalVC Title:@"会员中心" UnselectedImageName:@"home_icon_mine_nol" SelectedImageName:@"home_icon_mine_nol"];
+    [self setupChildVC:personalVC Title:@"会员中心" UnselectedImageName:@"home_icon_mine_nol" SelectedImageName:@"home_icon_mine_sel"];
 }
 
 /**
@@ -71,12 +73,37 @@
     [self addChildViewController:navi];
 }
 
+
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
     //获得选中的 item
     NSUInteger tabbarIndex = [tabBar.items indexOfObject:item];
     //对应 item 上面的自控制器
     HBNavigationController * HBNavigation = self.childViewControllers[tabbarIndex];
     [(UINavigationController *)HBNavigation popToRootViewControllerAnimated:YES];
+    
+} 
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    UIViewController *willShowViewController = viewController;
+    if ([willShowViewController isKindOfClass:[tabBarController class]]) {
+        UITabBarController *tabbar = (UITabBarController *)willShowViewController;
+        willShowViewController = tabbar.selectedViewController;
+    }
+    if ([willShowViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigation = (UINavigationController *)willShowViewController;
+        willShowViewController = navigation.visibleViewController;
+    }
+    
+    if ([willShowViewController isKindOfClass:[MyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+            LoginViewController *loginVC = [[LoginViewController alloc] init];
+            [self presentViewController:loginVC animated:YES completion:nil];
+            return NO;
+        }
+    }
+    return YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {

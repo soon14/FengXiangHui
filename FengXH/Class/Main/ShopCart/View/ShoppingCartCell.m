@@ -7,16 +7,17 @@
 //
 
 #import "ShoppingCartCell.h"
+#import "ShoppingCartResultModel.h"
 
 @implementation ShoppingCartCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor whiteColor];
+        self.contentView.backgroundColor = [UIColor whiteColor];
         
         
-        [self addSubview:self.selectButton];
+        [self.contentView addSubview:self.selectButton];
         [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
             make.height.mas_equalTo(60);
@@ -25,7 +26,7 @@
         }];
         
         //
-        [self addSubview:self.goodsImageV];
+        [self.contentView addSubview:self.goodsImageV];
         [self.goodsImageV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_selectButton.mas_right).offset(10);
             make.centerY.mas_equalTo(self.mas_centerY);
@@ -33,8 +34,7 @@
         }];
         
         //
-        [self addSubview:self.goodsNameLabel];
-//        [self.goodsNameLabel setBackgroundColor:[UIColor yellowColor]];
+        [self.contentView addSubview:self.goodsNameLabel];
         [self.goodsNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_goodsImageV.mas_right).offset(13);
             make.right.mas_offset(-16);
@@ -42,7 +42,7 @@
         }];
         
         //
-        [self addSubview:self.priceLabel];
+        [self.contentView addSubview:self.priceLabel];
         [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_goodsImageV.mas_right).offset(13);
             make.bottom.mas_equalTo(_goodsImageV.mas_bottom).offset(-10);
@@ -51,7 +51,7 @@
         
         
         //数量编辑框
-        [self addSubview:self.editCountView];
+        [self.contentView addSubview:self.editCountView];
         [self.editCountView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_offset(-16);
             make.bottom.mas_equalTo(_priceLabel.mas_bottom);
@@ -64,52 +64,54 @@
 }
 
 - (void)selectButtonAction:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    self.cartGoodsModel.goodsSelected = sender.selected;
-    [self.selectButton setSelected:self.cartGoodsModel.goodsSelected];
     if (self.selectClickBlock) {
-        self.selectClickBlock(self.cartGoodsModel);
+        self.selectClickBlock(self.cartGoodsModel.cart_id, self.cartGoodsModel.selected);
     }
 }
 
-- (void)setCartGoodsModel:(ShoppingCartGoodsModel *)cartGoodsModel {
+- (void)setCartGoodsModel:(ShoppingCartResultListModel *)cartGoodsModel {
     _cartGoodsModel = cartGoodsModel;
-    [self.goodsNameLabel setText:cartGoodsModel.goods_name];
-    [self.priceLabel setText:cartGoodsModel.goods_price];
-    [self.editCountView.numTextField setText:[NSString stringWithFormat:@"%zd",cartGoodsModel.goods_num]];
+    [self.goodsImageV setYy_imageURL:[NSURL URLWithString:_cartGoodsModel.thumb]];
     
-    [self.selectButton setSelected:cartGoodsModel.goodsSelected];
+    if (_cartGoodsModel.selected && [_cartGoodsModel.discount_s count]>0) {
+        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@  %@",_cartGoodsModel.discount_s[0],_cartGoodsModel.title]];
+        [aString addAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSBackgroundColorAttributeName:KRedColor} range:NSMakeRange(0, [_cartGoodsModel.discount_s[0] length]+2)];
+        [self.goodsNameLabel setAttributedText:aString];
+    } else {
+        [self.goodsNameLabel setText:[NSString stringWithFormat:@"%@",_cartGoodsModel.title]];
+    }
+    
+    [self.priceLabel setText:[NSString stringWithFormat:@"¥%.2f",[_cartGoodsModel.marketprice floatValue]]];
+    
+    [self.editCountView.numTextField setText:[NSString stringWithFormat:@"%zd",(long)_cartGoodsModel.total]];
+    
+    [self.selectButton setSelected:_cartGoodsModel.selected];
 }
 
 #pragma mark - 减号点击
 - (void)EditCountViewMinusClick:(UIButton *)sender {
-    // 至于加减操作。这里就要用
-    if (self.cartGoodsModel.goods_num > 1) {
-        self.cartGoodsModel.goods_num --;
-        self.editCountView.numTextField.text = [NSString stringWithFormat:@"%zd",self.cartGoodsModel.goods_num];
-    } else {
-        // 属性不能少于1，做一个友好提示
-    }
-    
-    if (self.minsBtnClickBlock) {
-        self.minsBtnClickBlock(self.cartGoodsModel);
+    NSInteger goodsNumber = self.cartGoodsModel.total;
+    if (1 < goodsNumber) {
+        if (self.minsBtnClickBlock) {
+            goodsNumber--;
+            self.minsBtnClickBlock(self.cartGoodsModel, goodsNumber);
+        }
     }
 }
 
 #pragma mark - 加号点击
 - (void)EditCountViewPlusBtnClick:(UIButton *)sender{
-    // 至于加减操作。这里就要对 模型 做操作方法
-    self.cartGoodsModel.goods_num ++;
-    self.editCountView.numTextField.text = [NSString stringWithFormat:@"%zd",self.cartGoodsModel.goods_num];
+    NSInteger goodsNumber = self.cartGoodsModel.total;
     if (self.plusBtnClickBlock) {
-        self.plusBtnClickBlock(self.cartGoodsModel);
+        goodsNumber++;
+        self.plusBtnClickBlock(self.cartGoodsModel, goodsNumber);
     }
+    
 }
 
 - (EditCountView *)editCountView {
     if (!_editCountView) {
         _editCountView = [[EditCountView alloc]init];
-        [_editCountView setBackgroundColor:KTableBackgroundColor];
         [_editCountView.numTextField setDelegate:self];
         [_editCountView.minusBtn addTarget:self action:@selector(EditCountViewMinusClick:) forControlEvents:UIControlEventTouchUpInside];
         [_editCountView.plusBtn addTarget:self action:@selector(EditCountViewPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,16 +120,30 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.cartGoodsModel.goods_num = [self.editCountView.numTextField.text integerValue];
+    if ([textField.text isEqualToString:@""]) {
+        [textField setText:[NSString stringWithFormat:@"%zd",(long)_cartGoodsModel.total]];
+    } else if ([textField.text integerValue] == 0) {
+        if (self.endEditNumberBlock) {
+            self.endEditNumberBlock(self.cartGoodsModel, 1);
+        }
+    } else {
+        if (self.endEditNumberBlock) {
+            self.endEditNumberBlock(self.cartGoodsModel, [textField.text integerValue]);
+        }
+    }
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    textField.text = @"";
+}
+
+#pragma mark - lazy
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc]init];
-        [_priceLabel setBackgroundColor:KTableBackgroundColor];
         [_priceLabel setTextColor:KUIColorFromHex(0xff463c)];
         [_priceLabel setFont:KFont(16)];
-        [_priceLabel setText:@"¥5439"];
+        [_priceLabel setText:@" "];
     }
     return _priceLabel;
 }
@@ -138,7 +154,7 @@
         [_goodsNameLabel setTextColor:KUIColorFromHex(0x333333)];
         [_goodsNameLabel setFont:KFont(14)];
         [_goodsNameLabel setNumberOfLines:2];
-        [_goodsNameLabel setText:@"GUCCI 古驰 新款男士银色闪光织物休闲鞋"];
+        [_goodsNameLabel setText:@" "];
     }
     return _goodsNameLabel;
 }
@@ -146,7 +162,7 @@
 - (UIImageView *)goodsImageV {
     if (!_goodsImageV) {
         _goodsImageV = [[UIImageView alloc]init];
-        [_goodsImageV setBackgroundColor:KTableBackgroundColor];
+//        [_goodsImageV setBackgroundColor:KTableBackgroundColor];
     }
     return _goodsImageV;
 }

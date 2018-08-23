@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "EditCountView.h"
-#import "ShoppingCartModel.h"
+@class ShoppingCartResultListModel;
 
-typedef void (^CartCellButtonClickBlock)(ShoppingCartGoodsModel *goodsModel);
+/** 商品数量改变的 block */
+typedef void (^CartCellGoodsNumberBlock)(ShoppingCartResultListModel *goodsModel, NSInteger goodsNumber);
+/** 商品被选择的 block */
+typedef void (^CartCellGoodsSelectBlock)(NSString *selectIdsString, BOOL selected);
+/** 友情提示 block */
+typedef void (^CartCellAlertBlock)(NSString *message);
 
 @interface ShoppingCartCell : UITableViewCell<UITextFieldDelegate>
 
@@ -20,10 +25,18 @@ typedef void (^CartCellButtonClickBlock)(ShoppingCartGoodsModel *goodsModel);
 @property(nonatomic , strong)UILabel *priceLabel;
 @property(nonatomic , strong)EditCountView *editCountView;
 
-@property(nonatomic , strong)ShoppingCartGoodsModel *cartGoodsModel;
+/** indexPath 用于刷新 */
+//@property(nonatomic , strong)NSIndexPath *indexPath;
+@property(nonatomic , strong)ShoppingCartResultListModel *cartGoodsModel;
 
-@property(nonatomic , strong)CartCellButtonClickBlock selectClickBlock;
-@property(nonatomic , strong)CartCellButtonClickBlock minsBtnClickBlock;
-@property(nonatomic , strong)CartCellButtonClickBlock plusBtnClickBlock;
+/** block */
+@property(nonatomic , strong)CartCellGoodsSelectBlock selectClickBlock;
+
+@property(nonatomic , strong)CartCellGoodsNumberBlock minsBtnClickBlock;
+@property(nonatomic , strong)CartCellGoodsNumberBlock plusBtnClickBlock;
+@property(nonatomic , strong)CartCellGoodsNumberBlock endEditNumberBlock;
+
+/** alertBlock */
+@property(nonatomic , strong)CartCellAlertBlock alertBlock;
 
 @end

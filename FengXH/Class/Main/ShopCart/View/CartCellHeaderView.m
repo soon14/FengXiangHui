@@ -7,24 +7,24 @@
 //
 
 #import "CartCellHeaderView.h"
+#import "ShoppingCartResultModel.h"
 
 @implementation CartCellHeaderView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self=[super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor whiteColor];
+- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
         
         
-        [self addSubview:self.selectButton];
+        [self.contentView addSubview:self.selectButton];
         [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.centerY.mas_equalTo(self.mas_centerY);
             make.width.mas_equalTo(20);
             make.top.bottom.mas_offset(0);
         }];
         
         
-        [self addSubview:self.storeNameLabel];
+        [self.contentView addSubview:self.storeNameLabel];
         [self.storeNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_selectButton.mas_right).offset(10);
             make.top.bottom.mas_offset(0);
@@ -33,29 +33,39 @@
         
         UIView *line = [[UIView alloc]init];
         [line setBackgroundColor:KUIColorFromHex(0xeeeeee)];
-        [self addSubview:line];
+        [self.contentView addSubview:line];
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.right.mas_offset(0);
             make.height.mas_equalTo(0.5);
         }];
-        
     }
     return self;
 }
 
+
 - (void)selectButtonAction:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    self.storeModel.storeSelected = sender.selected;
-    [self.selectButton setSelected:self.storeModel.storeSelected];
+    NSMutableString *idsString = [NSMutableString string];
+    for (ShoppingCartResultListModel *listModel in self.storeArray) {
+        [idsString appendString:[NSString stringWithFormat:@",%@",listModel.cart_id]];
+    }
+    [idsString deleteCharactersInRange:NSMakeRange(0, 1)];
     if (self.clickBlock) {
-        self.clickBlock(self.storeModel);
+        self.clickBlock(idsString, sender.selected);
     }
 }
 
-- (void)setStoreModel:(ShoppingCartStoreModel *)storeModel {
-    _storeModel = storeModel;
-    [self.storeNameLabel setText:storeModel.store_name];
-    [self.selectButton setSelected:storeModel.storeSelected];
+- (void)setStoreArray:(NSArray *)storeArray {
+    _storeArray = storeArray;
+    ShoppingCartResultListModel *listModel = [_storeArray firstObject];
+    [self.storeNameLabel setText:listModel.merchname];
+    for (ShoppingCartResultListModel *listModel in _storeArray) {
+        if (!listModel.selected) {
+            [self.selectButton setSelected:NO];
+            break;
+        } else {
+            [self.selectButton setSelected:YES];
+        }
+    }
 }
 
 - (UILabel *)storeNameLabel {
@@ -63,7 +73,7 @@
         _storeNameLabel = [[UILabel alloc]init];
         [_storeNameLabel setTextColor:KUIColorFromHex(0x333333)];
         [_storeNameLabel setFont:KFont(14)];
-        [_storeNameLabel setText:@"少少发货"];
+        [_storeNameLabel setText:@" a"];
     }
     return _storeNameLabel;
 }

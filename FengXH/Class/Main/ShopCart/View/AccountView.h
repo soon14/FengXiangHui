@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^AccountViewBlock)(NSInteger index);
+typedef void (^AccountViewBlock)(UIButton *sender);
 
 @interface AccountView : UIView
 

@@ -17,29 +17,87 @@
 #import "PersonalFooterView.h"
 #import "LoginViewController.h"
 #import "MyOrderBaseViewController.h"
+#import "PersonalDataModel.h"
+#import "ChangePasswordViewController.h"
+#import "AddressListViewController.h"
+#import "MyFocusViewController.h"
+#import "MyFootprintViewController.h"
+#import "PhoneViewController.h"
+#import "PhoneRecordViewController.h"
+#import "PhoneShopViewController.h"
+#import "PhoneLengthViewController.h"
+#import "WebJumpViewController.h"
+#import "RefundChangeViewController.h"
+#import "PaySuccessViewController.h"
+#import "PersonalSettingViewController.h"
+#import "PersonalMessageViewController.h"
+#import "MyTeamBaseViewController.h"
+#import "ShopkeeperCommissionViewController.h"
+#import "PromotionPosterViewController.h"
+#import "PhoneTopUpViewController.h"
+#import "PersonalTopUpViewController.h"
+#import "ArticleListViewController.h"
 
-@interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource,CustomActionSheetDelagate>
 
 /** tableView */
 @property(nonatomic , strong)UITableView *personalTableView;
 /** footerView */
 @property(nonatomic , strong)PersonalFooterView *footerView;
+/** 数据模型 */
+@property(nonatomic , strong)PersonalDataModel *dataModel;
 
 @end
 
 @implementation PersonalViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self requestPersonalViewControllerDada];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"会员中心";
 
     [self.view addSubview:self.personalTableView];
+        
 }
+
+#pragma mark - 个人中心数据请求
+- (void)requestPersonalViewControllerDada {
+    NSString * urlString = @"r=apply.personal";
+    NSString *path = [HBBaseAPI appendAPIurl:urlString];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token", nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+//        NSLog(@"%@",responseDic);
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            self.dataModel = [PersonalDataModel yy_modelWithDictionary:responseDic[@"result"]];
+
+            [self.personalTableView reloadData];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    
+    }];
+    
+}
+
 
 #pragma mark - footerView
 - (PersonalFooterView *)footerView {
     if (!_footerView) {
-        _footerView = [[PersonalFooterView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 50)];
+        _footerView = [[PersonalFooterView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 150)];
+        MJWeakSelf
+        _footerView.clickBlock = ^(NSInteger index) {
+            [weakSelf footerViewAction:index];
+        };
     }
     return _footerView;
 }
@@ -53,6 +111,9 @@
         _personalTableView.showsVerticalScrollIndicator = NO;
         _personalTableView.dataSource = self;
         _personalTableView.delegate = self;
+        _personalTableView.estimatedRowHeight = 0;
+        _personalTableView.estimatedSectionHeaderHeight = 0;
+        _personalTableView.estimatedSectionFooterHeight = 0;
         _personalTableView.tableFooterView = self.footerView;
     }
     return _personalTableView;
@@ -73,6 +134,9 @@
         return 155;
     } else if (indexPath.section==5) {
         return 180;
+    } else if (indexPath.section==4) {
+        //商学院
+        return  CGFLOAT_MIN;
     } else {
         if (indexPath.row==0) {
             return 44;
@@ -81,7 +145,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section==0) {
+    if (section==0 || section==4) {
         return CGFLOAT_MIN;
     } return 10;
 }
@@ -103,11 +167,11 @@
         PersonalFirstCell *firstCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFirstCell class])];
         if (!firstCell) {
             firstCell = [[PersonalFirstCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFirstCell class])];
-            MJWeakSelf
             firstCell.cellClickBlock = ^(NSInteger index) {
-                [weakSelf firstCellAction:index];
+                [self firstCellAction:index];
             };
         }
+        firstCell.personalDataModel = self.dataModel;
         return firstCell;
     } else if (indexPath.section==1) {
         //时长金额
@@ -123,9 +187,8 @@
             PersonalSecondCell *secondCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSecondCell class])];
             if (!secondCell) {
                 secondCell = [[PersonalSecondCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalSecondCell class])];
-                MJWeakSelf
                 secondCell.cellClickBlock = ^(NSInteger index) {
-                    [weakSelf secondCellAction:index];
+                    [self secondCellAction:index];
                 };
             }
             return secondCell;
@@ -145,11 +208,11 @@
             PersonalThirdCell *thirdCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalThirdCell class])];
             if (!thirdCell) {
                 thirdCell = [[PersonalThirdCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalThirdCell class])];
-                MJWeakSelf
                 thirdCell.cellClickBlock = ^(NSInteger index) {
-                    [weakSelf thirdCellAction:index];
+                    [self thirdCellAction:index];
                 };
             }
+            thirdCell.staticsModel = self.dataModel.statics;
             return thirdCell;
         }
     } else if (indexPath.section==3) {
@@ -167,40 +230,46 @@
             PersonalFourthCell *fourthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFourthCell class])];
             if (!fourthCell) {
                 fourthCell = [[PersonalFourthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFourthCell class])];
-                MJWeakSelf
                 fourthCell.cellClickBlock = ^(NSInteger index) {
-                    [weakSelf fourthCellAction:index];
+                    [self fourthCellAction:index];
                 };
             }
             return fourthCell;
         }
     } else if (indexPath.section==4) {
         //商学院
-        if (indexPath.row==0) {
-            PersonalSectionCell *fifthSectionCell = [tableView dequeueReusableCellWithIdentifier:@"fifthSectionCellID"];
-            if (!fifthSectionCell) {
-                fifthSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"fifthSectionCellID"];
-                [fifthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
-                [fifthSectionCell.titleLabel setText:@"商学院（开发中...）"];
-                [fifthSectionCell.moreLabel setText:@"进入学习"];
-            }
-            return fifthSectionCell;
-        } else {
-            PersonalFifthCell *fifthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFifthCell class])];
-            if (!fifthCell) {
-                fifthCell = [[PersonalFifthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFifthCell class])];
-                MJWeakSelf
-                fifthCell.cellClickBlock = ^(NSInteger index) {
-                    [weakSelf fifthCellAction:index];
-                };
-            }
-            return fifthCell;
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
+        return cell;
+//        if (indexPath.row==0) {
+//            PersonalSectionCell *fifthSectionCell = [tableView dequeueReusableCellWithIdentifier:@"fifthSectionCellID"];
+//            if (!fifthSectionCell) {
+//                fifthSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"fifthSectionCellID"];
+//                [fifthSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
+//                [fifthSectionCell.titleLabel setText:@"商学院（开发中...）"];
+//                [fifthSectionCell.moreLabel setText:@"进入学习"];
+//            }
+//            return fifthSectionCell;
+//        } else {
+//            PersonalFifthCell *fifthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalFifthCell class])];
+//            if (!fifthCell) {
+//                fifthCell = [[PersonalFifthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalFifthCell class])];
+//                fifthCell.cellClickBlock = ^(NSInteger index) {
+//                    [self fifthCellAction:index];
+//                };
+//            }
+//            return fifthCell;
+//        }
     } else {
         //素材、海报等
         PersonalSixthCell *sixthCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSixthCell class])];
         if (!sixthCell) {
             sixthCell = [[PersonalSixthCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass([PersonalSixthCell class])];
+            sixthCell.cellClickBlock = ^(NSInteger index) {
+                [self sixthCellAction:index];
+            };
         }
         return sixthCell;
     }
@@ -211,7 +280,9 @@
     if (indexPath.section==1) {
         if (indexPath.row==0) {
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            [DBHUD ShowInView:self.view withTitle:@"时长金额"];
+            PhoneTopUpViewController *vc = [[PhoneTopUpViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
     } else if (indexPath.section==2) {
         if (indexPath.row==0) {
@@ -223,7 +294,7 @@
     } else if (indexPath.section==3) {
         if (indexPath.row==0) {
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            [DBHUD ShowInView:self.view withTitle:@"我的小店"];
+            self.tabBarController.selectedIndex=2;
         }
     } else if (indexPath.section==4) {
         if (indexPath.row==0) {
@@ -235,47 +306,75 @@
 
 #pragma mark - 个人资料
 - (void)firstCellAction:(NSInteger)index {
+    UIViewController *vc;
     switch (index) {
         case 0: {
-            [DBHUD ShowInView:self.view withTitle:@"个人资料"];
+            PersonalMessageViewController *mVC=[[PersonalMessageViewController alloc]init];
+            mVC.headUrlStr=_dataModel.avatar;
+            mVC.nickName=_dataModel.nickname;
+            vc=mVC;
         }
             break;
         case 1: {
-            [DBHUD ShowInView:self.view withTitle:@"设置"];
-            [self presentLoginViewController];
+            
+            vc=[[PersonalSettingViewController alloc]init];
+
         }
             break;
         case 2: {
             [DBHUD ShowInView:self.view withTitle:@"充值"];
+            PersonalTopUpViewController *vc = [[PersonalTopUpViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.str = _dataModel.credit2;
+            [self.navigationController pushViewController:vc animated:YES];
+            
         }
             break;
         case 3: {
-            [DBHUD ShowInView:self.view withTitle:@"兑换"];
+            //积分兑换
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=29";
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+            
         }
             break;
             
         default:
             break;
     }
+    vc.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - 通话时长
 - (void)secondCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
-            [DBHUD ShowInView:self.view withTitle:@"云通话"];
+            
+            PhoneViewController *phoneVC = [[PhoneViewController alloc]init];
+            phoneVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:phoneVC animated:YES];
         }
             break;
         case 1: {
-            [DBHUD ShowInView:self.view withTitle:@"通话记录"];
+            
+            PhoneRecordViewController *vc = [[PhoneRecordViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case 2: {
-            [DBHUD ShowInView:self.view withTitle:@"抵扣商城"];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://shop.xmhualao.com/home/index?id=e1106916-a66c-4e9c-9693-3d9c6aeeb1b0"]];
+            
         }
             break;
         case 3: {
             [DBHUD ShowInView:self.view withTitle:@"时长充值"];
+            PhoneLengthViewController *vc = [[PhoneLengthViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
@@ -306,7 +405,9 @@
         }
             break;
         case 3: {
-            [DBHUD ShowInView:self.view withTitle:@"退换货"];
+            RefundChangeViewController *VC = [[RefundChangeViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
         case 4: {
@@ -321,6 +422,7 @@
 
 #pragma mark - 我的小店
 - (void)fourthCellAction:(NSInteger)index {
+    UIViewController *vc;
     switch (index) {
         case 0: {
             [DBHUD ShowInView:self.view withTitle:@"邀请加入"];
@@ -331,11 +433,11 @@
         }
             break;
         case 2: {
-            [DBHUD ShowInView:self.view withTitle:@"我的团队"];
+            vc=[[MyTeamBaseViewController alloc]init];
         }
             break;
         case 3: {
-            [DBHUD ShowInView:self.view withTitle:@"佣金收益"];
+            vc=[[ShopkeeperCommissionViewController alloc]init];
         }
             break;
         case 4: {
@@ -346,6 +448,8 @@
         default:
             break;
     }
+    vc.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - 商学院
@@ -377,7 +481,92 @@
     }
 }
 
+#pragma mark -  素材、海报、优惠券、活动资讯、收藏、足迹、地址、邀请
+- (void)sixthCellAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            //我的素材
+            /** 跳转至赏金文章 */
+            ArticleListViewController *articleVC = [[ArticleListViewController alloc] init];
+            articleVC.jumpURL = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article.list";
+            articleVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:articleVC animated:YES];
+        }
+            break;
+        case 1: {
+            PromotionPosterViewController *vc=[[PromotionPosterViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 2: {
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=sale.coupon.my";
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
+            break;
+        case 3: {//兑换码
+            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+            webVC.jumpURL = [NSString stringWithFormat:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=exchange&codetype=1&all=1&token=%@",[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
+            break;
+        case 4: {
+            MyFocusViewController *VC = [[MyFocusViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        case 5: {
+            MyFootprintViewController *VC = [[MyFootprintViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        case 6: {
+            AddressListViewController *VC = [[AddressListViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        case 7: {
+            [DBHUD ShowInView:self.view withTitle:@"邀请绑定"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
+#pragma mark - 修改密码、退出登录
+- (void)footerViewAction:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            ChangePasswordViewController *VC = [[ChangePasswordViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        case 1: {
+            CustomActionSheet *sheet = [[CustomActionSheet alloc]initWithTitle:@"是否确定退出登录" otherButtonTitles:@[@"确定"]];
+            sheet.delegate = self;
+            [sheet show];
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - CustomActionSheetDelegate
+- (void)sheet:(CustomActionSheet *)sheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [ShareManager clearUserInfo];
+    [self.tabBarController setSelectedIndex:0];
+}
 
 
 - (void)didReceiveMemoryWarning {

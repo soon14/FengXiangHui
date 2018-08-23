@@ -12,6 +12,7 @@
 #import "ForgetPasswordViewController.h"
 #import "LoginRegisterButton.h"
 #import "RegisterViewController.h"
+#import "UserInfoModel.h"
 
 @interface LoginViewController ()
 
@@ -25,6 +26,8 @@
 @property(nonatomic , strong)LoginRegisterButton *loginButton;
 /** 注册按钮 */
 @property(nonatomic , strong)UIButton *registerButton;
+/** 返回上个界面 */
+@property(nonatomic , strong)UIButton *popButton;
 
 @end
 
@@ -34,11 +37,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UISwipeGestureRecognizer *swipDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipDownAction:)];
-    [swipDown setDirection:UISwipeGestureRecognizerDirectionDown];
-    [self.view addGestureRecognizer:swipDown];
-    
-    
     [self initUI];
 }
 
@@ -47,20 +45,70 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - 向下滑动
-- (void)swipDownAction:(UISwipeGestureRecognizer *)sender {
-    switch (sender.direction) {
-        case UISwipeGestureRecognizerDirectionDown: {
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
-        }
-            break;
-            
-        default:
-            break;
-    }
+#pragma mark - 返回上个界面
+- (void)dismissViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - 登录
+- (void)loginButtonAction:(UIButton *)sender {
+    if ([self.phoneTextField.text length] != 11) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入正确的手机号"];
+        return;
+    }
+    if ([self.passwordTextField.text length] == 0) {
+        [DBHUD ShowInView:self.view withTitle:@"请输入密码"];
+        return;
+    }
+    if ([self.passwordTextField.text length] < 6) {
+        [DBHUD ShowInView:self.view withTitle:@"密码至少6位"];
+        return;
+    }
+    if ([self.passwordTextField.text length] > 16) {
+        [DBHUD ShowInView:self.view withTitle:@"密码至多16位"];
+        return;
+    }
+    [self loginRequest];
+}
+
+#pragma mark - 弹出找回密码界面
+- (void)forgetPasswordAction:(UIButton *)sender {
+    ForgetPasswordViewController *forgetPasswordVC = [ForgetPasswordViewController alloc];
+    [self presentViewController:forgetPasswordVC animated:YES completion:nil];
+}
+
+#pragma mark - 弹出注册界面
+- (void)registerButtonAction:(UIButton *)sender {
+    RegisterViewController *registerVC = [[RegisterViewController alloc] init];
+    [self presentViewController:registerVC animated:YES completion:nil];
+}
+
+#pragma mark - 登录请求
+- (void)loginRequest {
+    NSString * urlString = @"r=apply.account.login";
+    NSString *path = [HBBaseAPI appendAPIurl:urlString];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                     self.phoneTextField.text,@"mobile",
+                                     self.passwordTextField.text,@"pwd",nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            UserInfoModel *infoModel = [UserInfoModel yy_modelWithDictionary:responseDic[@"result"]];
+            [ShareManager saveUserInfo:infoModel];
+            
+            [DBHUD ShowInView:self.view withTitle:@"登录成功"];
+            [self performSelector:@selector(dismissViewController) withObject:nil afterDelay:0.8f];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
+
 
 #pragma mark - 绘制界面
 - (void)initUI {
@@ -72,6 +120,22 @@
     [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_offset(0);
         make.height.mas_equalTo(140*KScreenRatio);
+    }];
+    
+    UIImageView *shutDonw = [[UIImageView alloc] init];
+    [shutDonw setImage:[UIImage imageNamed:@"login_icon_shutdown"]];
+    [self.view addSubview:shutDonw];
+    [shutDonw mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_offset(KDevice_Is_iPhoneX?58:34);
+        make.left.mas_offset(15);
+    }];
+    
+    [self.view addSubview:self.popButton];
+    [self.popButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(shutDonw.mas_left);
+        make.centerY.mas_equalTo(shutDonw.mas_centerY);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(40);
     }];
     
     //logo
@@ -172,28 +236,15 @@
     
 }
 
-#pragma mark - 登录
-- (void)loginButtonAction:(UIButton *)sender {
-    NSLog(@"登录");
-}
-
-#pragma mark - 弹出找回密码界面
-- (void)forgetPasswordAction:(UIButton *)sender {
-    ForgetPasswordViewController *forgetPasswordVC = [ForgetPasswordViewController alloc];
-    [self presentViewController:forgetPasswordVC animated:YES completion:^{
-        
-    }];
-}
-
-#pragma mark - 弹出注册界面
-- (void)registerButtonAction:(UIButton *)sender {
-    RegisterViewController *registerVC = [[RegisterViewController alloc] init];
-    [self presentViewController:registerVC animated:YES completion:^{
-        
-    }];
-}
-
 #pragma mark - lazy
+- (UIButton *)popButton {
+    if (!_popButton) {
+        _popButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_popButton addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _popButton;
+}
+
 - (UIButton *)registerButton {
     if (!_registerButton) {
         _registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -211,6 +262,7 @@
         [_loginButton setTitle:@"立即登录" forState:UIControlStateNormal];
         [_loginButton.layer setMasksToBounds:YES];
         [_loginButton.layer setCornerRadius:20];
+        [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
 }
@@ -218,7 +270,7 @@
 - (UIButton *)forgetPasswordButton {
     if (!_forgetPasswordButton) {
         _forgetPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_forgetPasswordButton setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+        [_forgetPasswordButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         [_forgetPasswordButton.titleLabel setFont:KFont(16)];
         [_forgetPasswordButton setTitle:@"忘记密码" forState:UIControlStateNormal];
         [_forgetPasswordButton addTarget:self action:@selector(forgetPasswordAction:) forControlEvents:UIControlEventTouchUpInside];

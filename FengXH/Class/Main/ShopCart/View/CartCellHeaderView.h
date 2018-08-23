@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ShoppingCartModel.h"
 
-typedef void (^ButtonClickBlock)(ShoppingCartStoreModel *storeModel);
+typedef void (^ButtonClickBlock)(NSString *selectIdsString, BOOL selected);
 
-@interface CartCellHeaderView : UIView
+@interface CartCellHeaderView : UITableViewHeaderFooterView
 
 @property(nonatomic , strong)UIButton *selectButton;
 @property(nonatomic , strong)UILabel *storeNameLabel;
 
-@property(nonatomic , strong)ShoppingCartStoreModel *storeModel;
+/** section */
+@property(nonatomic , assign)NSInteger section;
+@property(nonatomic , strong)NSArray *storeArray;
 
 @property(nonatomic , strong)ButtonClickBlock clickBlock;
 

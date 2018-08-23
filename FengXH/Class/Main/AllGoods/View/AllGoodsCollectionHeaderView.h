@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^AllGoodsHeaderClickBlock)(NSInteger index);
+
 @interface AllGoodsCollectionHeaderView : UICollectionReusableView
 
 /** imageURL */
 @property(nonatomic , copy)NSString *imageURLString;
+/** block */
+@property(nonatomic , strong)AllGoodsHeaderClickBlock clickBlock;
 
 @end

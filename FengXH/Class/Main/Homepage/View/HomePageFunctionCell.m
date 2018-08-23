@@ -18,6 +18,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self.contentView setBackgroundColor:[UIColor whiteColor]];
         [self.contentView addSubview:self.functionCollection];
     }
     return self;

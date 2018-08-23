@@ -7,29 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@class PersonalDataModel;
+
 typedef void (^PersonalFirstCellBlock)(NSInteger index);
 
 @interface PersonalFirstCell : UITableViewCell
 
-/** setting */
-@property(nonatomic , strong)UIButton *settingButton;
-/** userIcon */
-@property(nonatomic , strong)UIImageView *userIcon;
-/** userName */
-@property(nonatomic , strong)UILabel *userNameLabel;
-/** userType */
-@property(nonatomic , strong)UILabel *userTypeLabel;
-/** Invitation code */
-@property(nonatomic , strong)UILabel *invitationCodeLabel;
-/** F 币 */
-@property(nonatomic , strong)UILabel *coinLabel;
-/** 积分 */
-@property(nonatomic , strong)UILabel *integralLabel;
-/** 充值 */
-@property(nonatomic , strong)UIButton *rechargeButton;
-/** 兑换 */
-@property(nonatomic , strong)UIButton *exchangeButton;
 /** block */
 @property(nonatomic , strong)PersonalFirstCellBlock cellClickBlock;
+/** 数据模型 */
+@property(nonatomic , strong)PersonalDataModel *personalDataModel;
 
 @end

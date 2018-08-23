@@ -18,17 +18,7 @@
         [self addSubview:self.allSelectButton];
         [self.allSelectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(13);
-            make.centerY.mas_equalTo(self.mas_centerY);
-        }];
-        
-        //
-        UILabel *allSelectLabel = [[UILabel alloc]init];
-        [allSelectLabel setTextColor:KUIColorFromHex(0x333333)];
-        [allSelectLabel setFont:KFont(16)];
-        [allSelectLabel setText:@"全选"];
-        [self addSubview:allSelectLabel];
-        [allSelectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_allSelectButton.mas_right).offset(9);
+            make.height.mas_equalTo(30);
             make.centerY.mas_equalTo(self.mas_centerY);
         }];
         
@@ -60,7 +50,7 @@
         [self addSubview:self.collectButton];
         [self.collectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.mas_offset(0);
-            make.right.mas_equalTo(_accountButton.mas_left);
+            make.right.mas_equalTo(_accountButton.mas_left).offset(-0.5);
             make.width.mas_equalTo(106);
         }];
         
@@ -88,20 +78,15 @@
 
 - (void)buttonAction:(UIButton *)sender {
     if (self.accountViewBlock) {
-        self.accountViewBlock(sender.tag);
-    }
-    if (sender.tag==0) {
-        sender.selected = !sender.selected;
-        [self.allSelectButton setSelected:sender.selected];
-    }
-    
+        self.accountViewBlock(sender);
+    }    
 }
 
 #pragma mark - lazy
 - (UIButton *)deleteButton {
     if (!_deleteButton) {
         _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_deleteButton setBackgroundColor:KUIColorFromHex(0xff6590)];
+        [_deleteButton setBackgroundColor:KUIColorFromHex(0x999999)];
         [_deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
         [_deleteButton.titleLabel setFont:KFont(16)];
@@ -115,7 +100,7 @@
 - (UIButton *)collectButton {
     if (!_collectButton) {
         _collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_collectButton setBackgroundColor:KUIColorFromHex(0xff6590)];
+        [_collectButton setBackgroundColor:KUIColorFromHex(0x999999)];
         [_collectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_collectButton setTitle:@"移到关注" forState:UIControlStateNormal];
         [_collectButton.titleLabel setFont:KFont(16)];
@@ -151,7 +136,7 @@
 - (UIButton *)accountButton {
     if (!_accountButton) {
         _accountButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_accountButton setBackgroundColor:KUIColorFromHex(0xff5753)];
+        [_accountButton setBackgroundColor:KRedColor];
         [_accountButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_accountButton setTitle:@"结算(0)" forState:UIControlStateNormal];
         [_accountButton.titleLabel setFont:KFont(16)];
@@ -164,6 +149,10 @@
 - (UIButton *)allSelectButton {
     if (!_allSelectButton) {
         _allSelectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_allSelectButton setTitle:@"全选" forState:UIControlStateNormal];
+        [_allSelectButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
+        [_allSelectButton setTitleColor:KUIColorFromHex(0x333333) forState:UIControlStateNormal];
+        [_allSelectButton.titleLabel setFont:KFont(16)];
         [_allSelectButton setImage:[UIImage imageNamed:@"shopCar_btn_check_nor"] forState:UIControlStateNormal];
         [_allSelectButton setImage:[UIImage imageNamed:@"shopCar_btn_check_sel"] forState:UIControlStateSelected];
         [_allSelectButton setTag:0];

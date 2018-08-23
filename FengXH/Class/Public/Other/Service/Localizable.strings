@@ -1,0 +1,142 @@
+/* 
+  Localizable.strings
+  IMSDK-OC
+
+  Created by lishuijiao on 2018/5/11.
+  Copyright © 2018年 HCF. All rights reserved.
+*/
+
+"button.logout" = "退出";
+
+"button.topeople" = "转人工";
+
+"button.chat_img" = "图片";
+
+"button.chat_file" = "文件";
+
+"button.chat_music" = "音乐";
+
+"button.chat_video" = "视频";
+
+"button.chat_other" = "其他";
+
+"button.chat_evaluate" = "评价";
+
+"button.complete" = "完成";
+
+"button.back" = "返回";
+
+"button.cancel" = "取消";
+
+"button.sure" = "确定";
+
+"button.recorder_normal" = "保持会话";
+
+"button.recorder_recording" = "松开发送";
+
+"button.recorder_want_cancel" = "放开取消";
+
+"button.cancelsend" = "放开取消";
+
+"button.copy" = "拷贝";
+
+"button.delete" = "删除";
+
+"button.revoke" = "撤回";
+
+"button.send" = "发送";
+
+"button.sendAgain" = "再次发送";
+
+"button.receiver" = "接收者";
+
+"button.speaker" = "说话者";
+
+"button.leaveMessage" = "留言";
+
+"button.signOut" = "退出";
+
+"button.yeshelp" = "有益";
+
+"buton.nohelp" = "无效";
+
+"title.thanks" = "谢谢你的鼓励，我们会越来越好";
+
+"title.people" = "客户服务";
+
+"title.people_now" = "在线客户服务";
+
+"title.people_isleave" = "客户服务结束";
+
+"title.people_isline" = "离线客户服务";
+
+"title.now_robit" = "机器人服务";
+
+"title.other_writing" = "正在输入...";
+
+"title.line_up" = "当前队列的数量";
+
+"title.connection" = "等待一个连接";
+
+"title.type" = "选择你咨询的类型或业务部门(相应的技能组)";
+
+"title.prompt" = "提示";
+
+"title.savePicture" = "保存图片";
+
+"title.statement" = "这样做将删除此消息，并且无法恢复它。你想删除它吗?";
+
+"title.speakS" = "说的太短";
+
+"title.voiceL" = "说的太长了";
+
+"title.schedule_faile" = "其他座位授权失败";
+
+"title.schedule_notonline" = "专属座位不在线";
+
+"title.sorryconfigurationiswrong" = "无法达到咨询功能";
+
+"title.schedule_type" = "选择您所咨询的日程安排类型";
+
+"title.message prompts" = "客户服务现已离线，请稍后咨询";
+
+"title.iknow" = "我得到它!";
+
+"title.messageBoard" = "留言板";
+
+"title.pleaseLeave" = "请留言~";
+
+"title.leaving" = "留言";
+
+"title.messageSuccess" = "成功的消息";
+
+"title.messageFailure" = "失败的消息";
+
+"title.messageContent" = "请填写留言";
+
+"title.requireItem" = "要求项";
+
+"title.uploaded" = "上传";
+
+"title.uploadFailure" = "上传失败";
+
+"title.uploading" = "上传中";
+
+"title.downloads" = "下载";
+
+"title.notDownloaded" = "不下载";
+
+"title.downloaded" = "已下载";
+
+"title.phoneNumber" = "手机号码";
+
+"title.selection" = "选择";
+
+"title.required" = "要求";
+
+"title.good_7moor" = "很好，有客户服务";
+
+"title.introduction" = "恒定的在线客户及时\ n视频,声音,类型,表达式,照片,文件\ n没问题!";
+
+"title.contact_im" = "让我们去";
+

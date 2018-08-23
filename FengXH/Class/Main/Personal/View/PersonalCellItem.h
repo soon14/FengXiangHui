@@ -14,5 +14,7 @@
 @property(nonatomic , strong)UIImageView *itemImageView;
 /** title */
 @property(nonatomic , strong)UILabel *itemTitleLabel;
+/** Badge */
+@property(nonatomic , strong)UILabel *badgeLabel;
 
 @end

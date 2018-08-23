@@ -12,14 +12,18 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor whiteColor];
         
         CGFloat itemWidth = KMAINSIZE.width/4;
         CGFloat itemHeight = 90;
         
-        NSArray *imageArr = @[@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu",@"Personal_tonghuajilu"];
-        NSArray *titleArr = @[@"我的素材",@"推广海报",@"优惠券",@"兑换码",@"我的收藏",@"我的足迹",@"收货地址",@"邀请绑定"];
-        for (NSInteger i=0; i<8; i++) {
+//        NSArray *imageArr = @[@"material_1",@"material_2",@"material_3",@"material_4",@"material_5",@"material_6",@"material_7",@"material_8"];
+//        NSArray *titleArr = @[@"我的素材",@"推广海报",@"优惠券",@"兑换码",@"我的关注",@"我的足迹",@"收货地址",@"邀请绑定"];
+        NSArray *imageArr = @[@"material_1",@"material_2",@"material_3",@"material_4",@"material_5",@"material_6",@"material_7",@"material_8"];
+        NSArray *titleArr = @[@"我的素材",@"推广海报",@"优惠券",@"兑换码",@"我的关注",@"我的足迹",@"收货地址",@"邀请绑定"];
+        
+        for (NSInteger i=0; i<7; i++) {
             PersonalCellItem *item = [[PersonalCellItem alloc] initWithFrame:CGRectMake((i%4)*itemWidth, (i/4)*itemWidth, itemWidth, itemHeight)];
             [item.itemImageView setImage:[UIImage imageNamed:imageArr[i]]];
             [item.itemTitleLabel setText:titleArr[i]];

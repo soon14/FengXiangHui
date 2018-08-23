@@ -7,6 +7,7 @@
 //
 
 #import "AllGoodsRightCollectionViewCell.h"
+#import "AllCategoryDataModel.h"
 
 @interface AllGoodsRightCollectionViewCell ()
 

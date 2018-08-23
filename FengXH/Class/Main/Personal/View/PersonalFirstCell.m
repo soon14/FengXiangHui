@@ -7,6 +7,30 @@
 //
 
 #import "PersonalFirstCell.h"
+#import "PersonalDataModel.h"
+
+@interface PersonalFirstCell ()
+
+/** setting */
+@property(nonatomic , strong)UIButton *settingButton;
+/** userIcon */
+@property(nonatomic , strong)UIImageView *userIcon;
+/** userName */
+@property(nonatomic , strong)UILabel *userNameLabel;
+/** userType */
+@property(nonatomic , strong)UILabel *userTypeLabel;
+/** Invitation code */
+@property(nonatomic , strong)UILabel *invitationCodeLabel;
+/** F 币 */
+@property(nonatomic , strong)UILabel *coinLabel;
+/** 积分 */
+@property(nonatomic , strong)UILabel *integralLabel;
+/** 充值 */
+@property(nonatomic , strong)UIButton *rechargeButton;
+/** 兑换 */
+@property(nonatomic , strong)UIButton *exchangeButton;
+
+@end
 
 @implementation PersonalFirstCell
 
@@ -71,6 +95,7 @@
         [self.coinLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(label_1.mas_bottom).offset(5);
             make.centerX.mas_equalTo(label_1.mas_centerX);
+            make.height.mas_equalTo(18);
         }];
         
         [self.contentView addSubview:self.rechargeButton];
@@ -97,6 +122,7 @@
         [self.integralLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(label_2.mas_bottom).offset(5);
             make.centerX.mas_equalTo(label_2);
+            make.height.mas_equalTo(18);
         }];
         
         [self.contentView addSubview:self.exchangeButton];
@@ -125,6 +151,17 @@
         self.cellClickBlock(sender.tag);
     }
 }
+
+- (void)setPersonalDataModel:(PersonalDataModel *)personalDataModel {
+    _personalDataModel = personalDataModel;
+    [self.userIcon setYy_imageURL:[NSURL URLWithString:_personalDataModel.avatar]];
+    [self.userNameLabel setText:_personalDataModel.nickname ? _personalDataModel.nickname : @""];
+    [self.userTypeLabel setText:[NSString stringWithFormat:@"[%@]",_personalDataModel.levelname ? _personalDataModel.levelname : @""]];
+    [self.invitationCodeLabel setText:[NSString stringWithFormat:@"邀请码：%@",_personalDataModel.userID ? _personalDataModel.userID : @"  "]];
+    [self.coinLabel setText:_personalDataModel.credit2 ? _personalDataModel.credit2 : @""];
+    [self.integralLabel setText:_personalDataModel.credit1 ? _personalDataModel.credit1 : @""];
+}
+
 
 #pragma mark - lazy
 - (UIButton *)exchangeButton {
@@ -165,7 +202,7 @@
         [_integralLabel setTextColor:KUIColorFromHex(0xfbf456)];
         [_integralLabel setFont:KFont(15)];
         [_integralLabel setTextAlignment:NSTextAlignmentCenter];
-        [_integralLabel setText:@"0"];
+        [_integralLabel setText:@"0.00"];
     }
     return _integralLabel;
 }
@@ -176,7 +213,7 @@
         [_coinLabel setTextColor:KUIColorFromHex(0xfbf456)];
         [_coinLabel setFont:KFont(15)];
         [_coinLabel setTextAlignment:NSTextAlignmentCenter];
-        [_coinLabel setText:@"0"];
+        [_coinLabel setText:@"0.00"];
     }
     return _coinLabel;
 }
@@ -187,7 +224,7 @@
         [_invitationCodeLabel setTextColor:[UIColor whiteColor]];
         [_invitationCodeLabel setFont:KFont(12)];
         [_invitationCodeLabel setTextAlignment:NSTextAlignmentCenter];
-        [_invitationCodeLabel setText:@"邀请码：234443"];
+        [_invitationCodeLabel setText:@" "];
     }
     return _invitationCodeLabel;
 }
@@ -198,7 +235,7 @@
         [_userTypeLabel setTextColor:[UIColor whiteColor]];
         [_userTypeLabel setFont:KFont(12)];
         [_userTypeLabel setTextAlignment:NSTextAlignmentCenter];
-        [_userTypeLabel setText:@"[普通用户]"];
+        [_userTypeLabel setText:@" "];
     }
     return _userTypeLabel;
 }
@@ -209,7 +246,7 @@
         [_userNameLabel setTextColor:[UIColor whiteColor]];
         [_userNameLabel setFont:KFont(15)];
         [_userNameLabel setTextAlignment:NSTextAlignmentCenter];
-        [_userNameLabel setText:@"美美"];
+        [_userNameLabel setText:@" "];
     }
     return _userNameLabel;
 }
@@ -217,7 +254,7 @@
 - (UIImageView *)userIcon {
     if (!_userIcon) {
         _userIcon = [[UIImageView alloc] init];
-        [_userIcon setBackgroundColor:KTableBackgroundColor];
+        [_userIcon setBackgroundColor:[UIColor whiteColor]];
         [_userIcon.layer setMasksToBounds:YES];
         [_userIcon.layer setCornerRadius:28];
         [_userIcon setUserInteractionEnabled:YES];

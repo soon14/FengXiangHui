@@ -47,7 +47,8 @@
 @property(nonatomic , copy)NSString *level;
 /** children */
 @property(nonatomic , strong)NSArray *children;
-
+/** title */
+@property(nonatomic , copy)NSString *title;
 @end
 
 

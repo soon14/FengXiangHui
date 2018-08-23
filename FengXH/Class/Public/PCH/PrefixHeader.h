@@ -27,6 +27,19 @@
 #import "KeyManager.h"
 #import "YYWebImage.h"
 #import "DateTools.h"
+#import "MJExtension.h"
+#import "HBJSONNetWork.h"
+#import "PhotoHelper.h"
+#import "UITextView+Placeholder.h"
+#import "UIImage+GIF.h"
+#import "UIImageView+WebCache.h"
+#import "MLEmojiLabel.h"
+#import "QMDateManager.h"
+
+
+//客服模块的宏定义
+#define kInputViewHeight 50
+#define QM_IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height-812)?NO:YES)
 
 
 //测试
@@ -35,10 +48,10 @@
 
 
 #define KUserToken @"userToken"
-#define KNickName @"nickName"
-#define KSignName @"signName"
-#define KHeadId @"headId"
-#define KIsPush @"isPush"
+#define KUserMobile @"userMobile"
+#define KOpenid @"openid"
+#define KUserId @"userid"
+#define KSalt @"salt"
 #define KNotLoggedInCode @"400"
 #define KPageSize 10
 #define KNetworkError @"网络连接错误"
@@ -53,13 +66,18 @@
 
 #define KMAINSIZE [UIScreen mainScreen].bounds.size
 #define KScreenRatio [UIScreen mainScreen].bounds.size.width/375
+
 #define KUIColorFromHex(s)  [UIColor colorWithRed:(((s &0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s &0xFF))/255.0 alpha:1.0]
 #define KGreenColor KUIColorFromHex(0x45ba3c)
-#define KRedColor KUIColorFromHex(0xdd5b55)
+#define KRedColor KUIColorFromHex(0xfe525e)
 #define KAppDefaultColor KUIColorFromHex(0xff3529)
 #define KLineColor KUIColorFromHex(0xeeeeee)
 #define KTableBackgroundColor KUIColorFromHex(0xf0f3f3)
 #define KFont(s)     [UIFont systemFontOfSize:s]
+
+//提示
+#define KAlert(msg)  [[[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil \
+cancelButtonTitle:@"知道了" otherButtonTitles:nil,nil] show]
 
 
 /**
@@ -78,9 +96,15 @@
  适配 iPhone X 的屏幕底部高度
  */
 #define KBottomHeight (KDevice_Is_iPhoneX ? 34 : 0)
+/**
+ 适配 iPhone X 的屏幕顶部高度
+ */
+#define KTopHeight (KDevice_Is_iPhoneX ? 24 : 0)
 
 
-// 个人中心全部订单类型
+/**
+ 个人中心全部订单类型
+ */
 typedef NS_ENUM(NSInteger , PersonalOrderType) {
     /** 全部订单 */
     AllOrder = 0 ,
@@ -94,7 +118,62 @@ typedef NS_ENUM(NSInteger , PersonalOrderType) {
     completedOrder ,
 };
 
+/**
+ 首页功能区跳转类型
+ */
+typedef NS_ENUM(NSInteger , HomePageFunctionJumpType) {
+    /**  跳转至网页 */
+    FunctionJumpWebView = 0 ,
+    /** 9.9专区 跟  新品上线*/
+    FunctionJumpAllGoods ,
+    /**  今日秒杀 */
+    FunctionJumpSecondKill ,
+    /** 拼团福利 */
+    FunctionJumpSpellGroup ,
+    /** 云电话 */
+    FunctionJumpCloudPhone ,
+    /** 赏金文章 */
+    FunctionJumpArticleList,
+    /** 联盟商户 */
+    FunctionJumpBusiness,
+    /** 签到领奖 */
+    FunctionJumpSignIn,
+    /** 分享圈子 */
+    FunctionJumpShareCircle,
+    
+};
 
+/**
+ 首页滚动广告区跳转类型
+ */
+typedef NS_ENUM(NSInteger , HomePageBannerJumpType) {
+    /**  跳转至网页 */
+    BannerJumpWebView = 0 ,
+    /** 跳转至商品详情 */
+    BannerJumpGoodsDetails ,
+    /** 拼团福利 */
+    BannerJumpSpellGroup ,
+    /** 生鲜超市 */
+    BannerJumpFreshSupermarket ,
+    /** 京东优选 */
+    BannerJumpJingDongOptimization ,
+    /** 跳转至积分商城 */
+    BannerJumpExchangeStore ,
+    
+};
 
+/**
+ 全部商品二级广告区跳转类型
+ */
+typedef NS_ENUM(NSInteger , AllGoodsCollectionHeaderJumpType) {
+    /** 跳转至京东优选 */
+    AllGoodsCollectionHeaderJumpJingDongOptimization = 0 ,
+    /** 跳转至商品详情 */
+    AllGoodsCollectionHeaderJumpGoodsDetails ,
+    /** 跳转至自带浏览器 */
+    AllGoodsCollectionHeaderJumpSafari ,
+    /** 未识别类型不做跳转 */
+    AllGoodsCollectionHeaderJumpNone ,
+};
 
 

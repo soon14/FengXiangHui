@@ -56,7 +56,7 @@
     [self addGestureRecognizer:tap];
     
     // 1表示分割线的高度,48表示每一行的高度，4表示"取消"按钮上面的分割线高度
-    CGFloat mainViewHeight = (48 + 52) + (1 + 48)*self.buttonTitlesCount;
+    CGFloat mainViewHeight = (48 + 52) + (1 + 48)*self.buttonTitlesCount + KBottomHeight;
     UIView * mainView = [[UIView alloc] initWithFrame:CGRectMake(0, self.heightv, self.widthv, mainViewHeight)];
     self.mainView = mainView;
     mainView.backgroundColor = [UIColor whiteColor];

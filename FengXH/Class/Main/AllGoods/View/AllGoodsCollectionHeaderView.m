@@ -30,6 +30,13 @@
     return self;
 }
 
+#pragma mark - 图片被点击
+- (void)tapAction:(UITapGestureRecognizer *)sender {
+    if (self.clickBlock) {
+        self.clickBlock(sender.view.tag);
+    }
+}
+
 - (void)setImageURLString:(NSString *)imageURLString {
     _imageURLString = imageURLString;
     [self.adImageView setYy_imageURL:[NSURL URLWithString:_imageURLString]];
@@ -40,6 +47,9 @@
 - (UIImageView *)adImageView {
     if (!_adImageView) {
         _adImageView = [[UIImageView alloc] init];
+        [_adImageView setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [_adImageView addGestureRecognizer:tap];
     }
     return _adImageView;
 }
