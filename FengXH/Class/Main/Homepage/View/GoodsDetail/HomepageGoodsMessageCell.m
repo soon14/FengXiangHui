@@ -179,11 +179,23 @@
     
     _describeLab.text=goodsMessageModel.subtitle;
     
-    _realPriceLab.text=goodsMessageModel.marketprice;
-    
-    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:goodsMessageModel.productprice==nil?@"":goodsMessageModel.productprice attributes:attribtDic];
-    _originalPriceLab.attributedText=attribtStr;
+    if (![goodsMessageModel.seckillinfo  isEqual:[NSNull null]] && goodsMessageModel.seckillinfo != nil && goodsMessageModel.seckillinfo != NULL ) {
+        //是秒杀的商品
+        _realPriceLab.text=goodsMessageModel.seckillinfo.price;
+        
+        NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+        NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:goodsMessageModel.seckillinfo.oldprice==nil?@"":goodsMessageModel.seckillinfo.oldprice attributes:attribtDic];
+        _originalPriceLab.attributedText=attribtStr;
+    }
+    else
+    {
+        _realPriceLab.text=goodsMessageModel.marketprice;
+        
+        NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+        NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:goodsMessageModel.productprice==nil?@"":goodsMessageModel.productprice attributes:attribtDic];
+        _originalPriceLab.attributedText=attribtStr;
+    }
+
     
     if (goodsMessageModel.issendfree) {
         _expressPriceLab.text=@"包邮";

@@ -10,6 +10,7 @@
 #import "MyFocusCell.h"
 #import "MyFocusBottomView.h"
 #import "MyFocusResultModel.h"
+#import "HomepageBaseGoodsDetailController.h"
 
 @interface MyFocusViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -70,7 +71,7 @@
 #pragma mark - tableView
 - (UITableView *)focusTableView {
     if (!_focusTableView) {
-        _focusTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight) style:UITableViewStylePlain];
+        _focusTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight) style:UITableViewStylePlain];
         _focusTableView.separatorColor = KLineColor;
         _focusTableView.backgroundColor = KTableBackgroundColor;
         _focusTableView.showsVerticalScrollIndicator = NO;
@@ -164,7 +165,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MyFocusResultListModel *listModel = focusListArray[indexPath.row];
-    [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"商品 id：%@",listModel.goodsid]];
+    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
+    vc.goodsId = listModel.goodsid;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -194,7 +197,11 @@
                     [selectedArray addObject:listModel];
                 }
             }
-            [self removeMyFocusGoodsRequest:selectedArray];
+            if (selectedArray.count > 0) {
+                [self removeMyFocusGoodsRequest:selectedArray];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请选择商品"];
+            }
         } break;
             
         default:
@@ -209,10 +216,10 @@
     
     if (!editingStatus) {
         [self.bottomView setHidden:YES];
-        [self.focusTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight)];
+        [self.focusTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight)];
     } else {
         [self.bottomView setHidden:NO];
-        [self.focusTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight-50)];
+        [self.focusTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-(KBottomHeight+50))];
     }
     [self.focusTableView reloadData];
 }

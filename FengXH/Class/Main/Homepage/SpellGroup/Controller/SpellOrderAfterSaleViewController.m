@@ -268,7 +268,7 @@
                 }
                 else
                 {
-                    KAlert(@"最多上传3张照片");
+                    [JHSysAlertUtil presentAlertViewWithTitle:nil message:@"最多上传3张照片" confirmTitle:@"知道了" handler:nil];
                 }
                 
             }

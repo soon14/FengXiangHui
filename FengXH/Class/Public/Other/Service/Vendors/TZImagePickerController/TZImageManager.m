@@ -382,16 +382,16 @@ static dispatch_once_t onceToken;
 - (NSString *)getNewTimeFromDurationSecond:(NSInteger)duration {
     NSString *newTime;
     if (duration < 10) {
-        newTime = [NSString stringWithFormat:@"0:0%zd",duration];
+        newTime = [NSString stringWithFormat:@"0:0%zd",(long)duration];
     } else if (duration < 60) {
-        newTime = [NSString stringWithFormat:@"0:%zd",duration];
+        newTime = [NSString stringWithFormat:@"0:%zd",(long)duration];
     } else {
         NSInteger min = duration / 60;
         NSInteger sec = duration - (min * 60);
         if (sec < 10) {
-            newTime = [NSString stringWithFormat:@"%zd:0%zd",min,sec];
+            newTime = [NSString stringWithFormat:@"%zd:0%zd",(long)min,(long)sec];
         } else {
-            newTime = [NSString stringWithFormat:@"%zd:%zd",min,sec];
+            newTime = [NSString stringWithFormat:@"%zd:%zd",(long)min,(long)sec];
         }
     }
     return newTime;
@@ -436,7 +436,7 @@ static dispatch_once_t onceToken;
     } else if (dataLength >= 1024) {
         bytes = [NSString stringWithFormat:@"%0.0fK",dataLength/1024.0];
     } else {
-        bytes = [NSString stringWithFormat:@"%zdB",dataLength];
+        bytes = [NSString stringWithFormat:@"%zdB",(long)dataLength];
     }
     return bytes;
 }

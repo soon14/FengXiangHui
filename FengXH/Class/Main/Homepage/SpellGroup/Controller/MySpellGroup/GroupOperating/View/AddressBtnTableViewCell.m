@@ -46,7 +46,7 @@
         _title.font = KFont(15);
         [_title appendImage:[UIImage imageNamed:@"global_btn_nember_add"] maxSize:CGSizeMake(20, 20)];
 
-        [_title appendText:@" 添加收获地址"];
+        [_title appendText:@" 添加收货地址"];
     }
     return _title;
 }

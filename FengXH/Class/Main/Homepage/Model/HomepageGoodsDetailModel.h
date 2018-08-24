@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class HomepageShopdetailModel,HomepageGoodsDiscountsModel,HomepageGoodsOptionsModel;
+@class HomepageShopdetailModel,HomepageGoodsDiscountsModel,HomepageGoodsOptionsModel,HomepageGoodsSeckillModel;
 
 @interface HomepageGoodsDetailModel : NSObject
 
@@ -52,6 +52,9 @@
 //店铺详情
 @property(nonatomic,strong)HomepageShopdetailModel *shopdetail;///
 
+//秒杀
+@property(nonatomic,strong)HomepageGoodsSeckillModel *seckillinfo;
+
 // 启用商品规则 0 不启用 1 启用
 @property(nonatomic,assign)BOOL hasoption;///
 //选择商品规格
@@ -67,7 +70,6 @@
 
 //分享链接
 @property(nonatomic,copy)NSString *share_url;///
-
 
 
 
@@ -129,4 +131,24 @@
 
 @end
 
+
+@interface HomepageGoodsSeckillModel : NSObject
+//开始时间
+@property(nonatomic,copy)NSString *starttime;
+//结束时间
+@property(nonatomic,copy)NSString *endtime;
+//现价
+@property(nonatomic,copy)NSString *price;
+//原价
+@property(nonatomic,copy)NSString *oldprice;
+//
+@property(nonatomic,copy)NSString *status;
+//已出售%
+@property(nonatomic,copy)NSString *percent;
+//
+@property(nonatomic,copy)NSString *tag;
+//整点
+@property(nonatomic,copy)NSString *time;
+
+@end
 

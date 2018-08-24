@@ -108,7 +108,7 @@
             }
             else
             {
-                KAlert(@"最多上传9张照片");
+                [JHSysAlertUtil presentAlertViewWithTitle:nil message:@"最多上传9张照片" confirmTitle:@"知道了" handler:nil];
             }
 
         }
@@ -238,7 +238,7 @@
         }
         else
         {
-            KAlert(@"最多上传9张照片");
+            [JHSysAlertUtil presentAlertViewWithTitle:nil message:@"最多上传9张照片" confirmTitle:@"知道了" handler:nil];
         }
     }
     

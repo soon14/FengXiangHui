@@ -59,9 +59,9 @@
         UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         flowLayout.minimumInteritemSpacing = 0;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight) collectionViewLayout:flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight) collectionViewLayout:flowLayout];
         if ([self.typeColor isEqualToString:@"white"]) {
-            _collectionView.backgroundColor = KTableBackgroundColor;
+            _collectionView.backgroundColor = [UIColor whiteColor];
         } else if ([self.typeColor isEqualToString:@"red"]) {
             _collectionView.backgroundColor = KUIColorFromHex(0x550D20);
         } else if ([self.typeColor isEqualToString:@"blue"]) {

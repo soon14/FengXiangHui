@@ -38,25 +38,27 @@
 //长按保存图片
 - (void)longPressAction:(UILongPressGestureRecognizer *)pressGestureRecognizer {
     if (pressGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"title.prompt", nil) message:NSLocalizedString(@"title.savePicture", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"button.cancel", nil) otherButtonTitles:NSLocalizedString(@"button.sure", nil), nil];
-        [alertView show];
-    }
-}
-
-//保存图片代理方法
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        if ([self.picType isEqualToString:@"0"]) {
-            NSString * filePath = [NSString stringWithFormat:@"%@/%@/%@/%@",NSHomeDirectory(),@"Documents",@"SaveFile",self.picName];
-            UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:filePath], nil, nil, nil);
-        }else {
-            NSURL * url = [NSURL URLWithString:self.picName];
-            NSURLRequest * request = [NSURLRequest requestWithURL:url];
-            NSOperationQueue * queue = [[NSOperationQueue alloc] init];
-            [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:data], nil, nil, nil);
-            }];
-        }
+//        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"title.prompt", nil) message:NSLocalizedString(@"title.savePicture", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"button.cancel", nil) otherButtonTitles:NSLocalizedString(@"button.sure", nil), nil];
+//        [alertView show];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"title.prompt", nil) message:NSLocalizedString(@"title.savePicture", nil) preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"button.cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"button.sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if ([self.picType isEqualToString:@"0"]) {
+                NSString * filePath = [NSString stringWithFormat:@"%@/%@/%@/%@",NSHomeDirectory(),@"Documents",@"SaveFile",self.picName];
+                UIImageWriteToSavedPhotosAlbum([UIImage imageWithContentsOfFile:filePath], nil, nil, nil);
+            }else {
+                NSURL * url = [NSURL URLWithString:self.picName];
+                NSURLRequest * request = [NSURLRequest requestWithURL:url];
+                NSURLSession *session = [NSURLSession sharedSession];
+                [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:data], nil, nil, nil);
+                }];
+            }
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:sureAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

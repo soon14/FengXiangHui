@@ -61,7 +61,7 @@
 - (UIButton *)deleteButton {
     if (!_deleteButton) {
         _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_deleteButton setBackgroundColor:KUIColorFromHex(0x999999)];
+        [_deleteButton setBackgroundColor:KRedColor];
         [_deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
         [_deleteButton.titleLabel setFont:KFont(16)];

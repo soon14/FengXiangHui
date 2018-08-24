@@ -24,7 +24,7 @@
 #define orderCompleted @"completedCell"
 #define orderWaitReceive @"waitReceiveCell"
 
-@interface SpellOrderViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
+@interface SpellOrderViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger currentPageInteger;//记录当前页
     NSInteger currentSectionInteger;//记录当前操作的区
@@ -432,9 +432,10 @@
 -(void)deleteOrderWithIndex:(NSInteger)sectionIndex
 {
     currentSectionInteger=sectionIndex;
-    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"确认删除订单吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alertView.tag=100;
-    [alertView show];
+    MJWeakSelf
+    [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"确认删除订单吗" cancelTitle:@"取消" defaultTitle:@"确认" distinct:NO cancel:nil confirm:^{
+        [weakSelf deleteOrderRequest];
+    }];
 }
 -(void)deleteOrderRequest
 {
@@ -466,9 +467,10 @@
 -(void)cancelOrderWithIndex:(NSInteger)sectionIndex
 {
     currentSectionInteger=sectionIndex;
-    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"确认取消订单吗" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alertView.tag=200;
-    [alertView show];
+    MJWeakSelf
+    [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"确认取消订单吗" cancelTitle:@"取消" defaultTitle:@"确定" distinct:NO cancel:nil confirm:^{
+        [weakSelf cancelOrderRequest];
+    }];
 }
 -(void)cancelOrderRequest
 {
@@ -506,7 +508,7 @@
     vc.orderID = model.orderId;
     vc.teamID = model.teamid;
     vc.orderNum = model.orderno;
-    vc.price = [NSString stringWithFormat:@"%ld",[model.price integerValue] + [model.freight integerValue]];
+    vc.price = [NSString stringWithFormat:@"%ld",(long)[model.price integerValue] + [model.freight integerValue]];
     [self.navigationController pushViewController:vc animated:YES];
 
     
@@ -550,21 +552,8 @@
         [DBHUD ShowInView:self.view withTitle:KNetworkError];
     }];
 }
-#pragma mark-----UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==1) {
-        if (alertView.tag==100) {
-            //删除订单
-            [self deleteOrderRequest];
-        }
-        else if (alertView.tag==200)
-        {
-            [self cancelOrderRequest];
-        }
-    }
-    
-}
+
+
 #pragma mark-------懒加载
 -(UITableView *)orderTableView
 {

@@ -45,46 +45,34 @@
 
 - (void)takePhoto {
     
-    UIActionSheet *sheet;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        
-        sheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"图库",nil];
-    } else {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"选择" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图库", nil];
-    }
-    
-    [sheet showInView:[UIApplication sharedApplication].keyWindow];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary;
-
-    // 判断是否支持相机
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        switch (buttonIndex) {
-            case 0:
-                type = UIImagePickerControllerSourceTypeCamera;
-                break;
-            case 1:
-                type = UIImagePickerControllerSourceTypePhotoLibrary;
-                break;
-            default:return;
-        }
+        UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary;
+            type = UIImagePickerControllerSourceTypeCamera;
+            [self showTakePhotoWithController:_controller imagePickerControllerSourceType:type andWithBlock:_block];
+        }];
+        UIAlertAction *photoLibraryAction = [UIAlertAction actionWithTitle:@"图库" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary;
+            type = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self showTakePhotoWithController:_controller imagePickerControllerSourceType:type andWithBlock:_block];
+        }];
+        [alertController addAction:cameraAction];
+        [alertController addAction:photoLibraryAction];
     } else {
-        switch (buttonIndex) {
-            case 0:
-                type = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-                break;
-            default:return;
-        }
+        UIAlertAction *savedPhotosAlbumAction = [UIAlertAction actionWithTitle:@"图库" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary;
+            type = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            [self showTakePhotoWithController:_controller imagePickerControllerSourceType:type andWithBlock:_block];
+        }];
+        [alertController addAction:savedPhotosAlbumAction];
     }
-
-            
-    [self showTakePhotoWithController:_controller imagePickerControllerSourceType:type andWithBlock:_block];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    [_controller presentViewController:alertController animated:YES completion:nil];
+    
 }
-
 
 - (void)showTakePhotoWithController:(UIViewController *)controller
     imagePickerControllerSourceType:(UIImagePickerControllerSourceType )type
@@ -100,6 +88,7 @@
     self.picker.delegate = self;
     self.picker.allowsEditing = NO;
     self.picker.sourceType = type;
+    self.picker.navigationBar.tintColor = KRedColor;
     if (@available(iOS 11, *)) {
         UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     }
@@ -139,7 +128,7 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 
 {
-    NSLog(@"您取消了选择图片");
+    //NSLog(@"您取消了选择图片");
     [picker dismissViewControllerAnimated:YES completion:nil];
     
 }

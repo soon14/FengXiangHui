@@ -57,7 +57,7 @@
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         flowLayout.minimumInteritemSpacing = 0;
 
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight) collectionViewLayout:flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight) collectionViewLayout:flowLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
 //        _collectionView.
         //注册cell

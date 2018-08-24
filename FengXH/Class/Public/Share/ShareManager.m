@@ -149,14 +149,12 @@
         switch (state) {
             case SSDKResponseStateSuccess:
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享成功" message:nil  delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alertView show];
+                [JHSysAlertUtil presentAlertViewWithTitle:@"分享成功" message:nil confirmTitle:@"确定" handler:nil];
                 break;
             }
             case SSDKResponseStateFail:
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败" message:[NSString stringWithFormat:@"%@",error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
+                [JHSysAlertUtil presentAlertViewWithTitle:@"分享失败" message:[NSString stringWithFormat:@"%@",error] confirmTitle:@"OK" handler:nil];
                 break;
             }
             default:

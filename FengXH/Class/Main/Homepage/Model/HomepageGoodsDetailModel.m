@@ -46,5 +46,9 @@
 
 @end
 
+@implementation HomepageGoodsSeckillModel
+
+@end
+
 
 

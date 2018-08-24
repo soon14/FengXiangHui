@@ -37,6 +37,7 @@
 #import "PhoneTopUpViewController.h"
 #import "PersonalTopUpViewController.h"
 #import "ArticleListViewController.h"
+#import "FreshViewController.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource,CustomActionSheetDelagate>
 
@@ -181,7 +182,7 @@
                 secondSectionCell = [[PersonalSectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"secondSectionCellID"];
                 [secondSectionCell.titleImageView setImage:[UIImage imageNamed:@"personal_scje"]];
             }
-            [secondSectionCell.titleLabel setText:@"时长金额：0元"];
+            [secondSectionCell.titleLabel setText:@"时长金额"];
             return secondSectionCell;
         } else {
             PersonalSecondCell *secondCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PersonalSecondCell class])];
@@ -322,7 +323,7 @@
         }
             break;
         case 2: {
-            [DBHUD ShowInView:self.view withTitle:@"充值"];
+            //[DBHUD ShowInView:self.view withTitle:@"充值"];
             PersonalTopUpViewController *vc = [[PersonalTopUpViewController alloc]init];
             vc.hidesBottomBarWhenPushed = YES;
             vc.str = _dataModel.credit2;
@@ -430,6 +431,12 @@
             break;
         case 1: {
             [DBHUD ShowInView:self.view withTitle:@"开店礼包"];
+            NSString *jumpURLString = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id=156";
+            FreshViewController *vc = [[FreshViewController alloc]init];
+            vc.urlStr = jumpURLString;
+            vc.typeColor = @"white";
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case 2: {

@@ -25,6 +25,7 @@
 #import "ConfirmOrderCouponPriceCell.h"
 #import "ConfirmOrderCouponPriceResultModel.h"
 #import "PayOrderViewController.h"
+#import "HomepageBaseGoodsDetailController.h"
 
 static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
 
@@ -308,7 +309,9 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         //点击商品跳转
         ConfirmOrderCreatResultGoodsListModel *storeListModel = self.orderCreatResultModel.goods_list[indexPath.section-1];
         ConfirmOrderCreatResultGoodsListGoodsModel *goodsListModel = storeListModel.goods[indexPath.row];
-        [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"商品名：%@",goodsListModel.title]];
+        HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
+        vc.goodsId = goodsListModel.goodsid;
+        [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
@@ -329,7 +332,11 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
 
 #pragma mark - 立即支付按钮被点击
 - (void)payButtonDidClicked {
-    [self creatOrderSubmitRequest];
+    if (self.addressModel) {
+        [self creatOrderSubmitRequest];
+    } else {
+        [DBHUD ShowInView:self.view withTitle:@"请添加收货地址"];
+    }
 }
 
 

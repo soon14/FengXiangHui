@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"创建订单";
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self myAddressListRequest];
 }
@@ -215,7 +216,11 @@
 }
 #pragma mark -------支付按钮
 - (void)onItemClicks{
-    [self groupsOrderConfirmRequest];
+    if (self.addressModel) {
+        [self groupsOrderConfirmRequest];
+    } else {
+        [DBHUD ShowInView:self.view withTitle:@"请添加收货地址"];
+    }
 }
 
 #pragma mark - 拼团订单提交请求

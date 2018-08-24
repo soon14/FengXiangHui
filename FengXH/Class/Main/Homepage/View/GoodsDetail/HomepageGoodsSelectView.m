@@ -201,7 +201,7 @@
 {
     
     if (_goodsMessageModel.hasoption&&_selectBtn==nil) {
-        KAlert(@"请选择规格");
+        [JHSysAlertUtil presentAlertViewWithTitle:nil message:@"请选择规格" confirmTitle:@"知道了" handler:nil];
         return;
     }
     
@@ -253,7 +253,15 @@
 {
     _goodsMessageModel=goodsMessageModel;
     [_logoImgView setYy_imageURL:[NSURL URLWithString:goodsMessageModel.thumb]];
-    _priceLab.text=goodsMessageModel.marketprice;
+    
+    if (![goodsMessageModel.seckillinfo  isEqual:[NSNull null]] && goodsMessageModel.seckillinfo != nil && goodsMessageModel.seckillinfo != NULL ) {
+        //是秒杀的商品
+        _priceLab.text=goodsMessageModel.seckillinfo.price;
+    }
+    else
+    {
+        _priceLab.text=goodsMessageModel.marketprice;
+    }
     
     if (goodsMessageModel.hasoption) {
         if (!_optionsView) {

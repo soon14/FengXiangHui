@@ -25,7 +25,6 @@
 #define shareAppSecret @"f7abe8c59b142b8e19ee160bd9898020"
 #define shareAppKey @"238f87d536130"
 
-
 //客服
 #import "QMProfileManager.h"
 
@@ -33,6 +32,13 @@
 #import <QMChatSDK/QMChatSDK.h>
 #import <QMChatSDK/QMChatSDK-Swift.h>
 #import "QMManager.h"
+
+//通知
+#import <UserNotifications/UserNotifications.h>
+
+//判断网络状态
+#import "ZYNetworkAccessibity.h"
+
 
 
 @interface AppDelegate ()<WXApiDelegate,UNUserNotificationCenterDelegate>
@@ -50,6 +56,11 @@
     [self.window makeKeyAndVisible];
     MyTabBarController * tabbar = [[MyTabBarController alloc]init];
     [self.window setRootViewController:tabbar];
+    
+    //监听网络状态
+    [ZYNetworkAccessibity start];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:ZYNetworkAccessibityChangedNotification object:nil];
+    [ZYNetworkAccessibity setAlertEnable:YES];
     
     //分享
     [ShareSDK registerActivePlatforms:@[
@@ -103,9 +114,9 @@
     
     [WXApi registerApp:@"wx1a48004c29b09a6d"];
     
-    [WXApi startLogByLevel:WXLogLevelNormal logBlock:^(NSString *log) {
-        NSLog(@"log : %@", log);
-    }];
+//    [WXApi startLogByLevel:WXLogLevelNormal logBlock:^(NSString *log) {
+//        NSLog(@"log : %@", log);
+//    }];
     
     
     
@@ -126,21 +137,30 @@
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([url.host isEqualToString:@"pay"]) {
-        return [WXApi handleOpenURL:url delegate:self];
+//网络状态监听提示
+- (void)networkChanged:(NSNotification *)notification {
+    ZYNetworkAccessibleState state = ZYNetworkAccessibity.currentState;
+    if (state == ZYNetworkRestricted) {
+        NSLog(@"网络权限被关闭");
     }
-    return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    // 在此方法中做如下判断，因为还有可能有其他的支付，如支付宝就是@"safepay"
-    if ([url.host isEqualToString:@"pay"]) {
-        return [WXApi handleOpenURL:url delegate:self];
-    }
-    return YES;
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+//    if ([url.host isEqualToString:@"pay"]) {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
+//    return YES;
+//}
+//
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+//    // 在此方法中做如下判断，因为还有可能有其他的支付，如支付宝就是@"safepay"
+//    if ([url.host isEqualToString:@"pay"]) {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
+//    return YES;
+//}
 
+//iOS 9 以上的回调
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([url.host isEqualToString:@"pay"]) {
         return [WXApi handleOpenURL:url delegate:self];
@@ -204,6 +224,69 @@
     NSLog(@" userinfo ===== %@", userInfo);
 }
 
+//iOS 10 收到通知
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler  API_AVAILABLE(ios(10.0)){
+    NSDictionary * userInfo = notification.request.content.userInfo;
+//    UNNotificationRequest *request = notification.request; // 收到推送的请求
+//    UNNotificationContent *content = request.content; // 收到推送的消息内容
+//    NSNumber *badge = content.badge;  // 推送消息的角标
+//    NSString *body = content.body;    // 推送消息体
+//    UNNotificationSound *sound = content.sound;  // 推送消息的声音
+//    NSString *subtitle = content.subtitle;  // 推送消息的副标题
+//    NSString *title = content.title;  // 推送消息的标题
+    
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //NSLog(@"iOS10 前台收到远程通知:%@", [self logDic:userInfo]);
+        NSString *messageAlert = [[userInfo objectForKey:@"aps"]objectForKey:@"alert"];
+        //弹框通知
+        UIAlertController * stateAlert = [UIAlertController alertControllerWithTitle:@"客服新消息" message:messageAlert preferredStyle:UIAlertControllerStyleAlert];
+        [stateAlert addAction:[UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+        }]];
+        [stateAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+        [self.window.rootViewController presentViewController:stateAlert animated:YES completion:nil];
+    }
+    else {
+        // 判断为本地通知
+//        NSLog(@"iOS10 前台收到本地通知:{\\\\nbody:%@，\\\\ntitle:%@,\\\\nsubtitle:%@,\\\\nbadge：%@，\\\\nsound：%@，\\\\nuserInfo：%@\\\\n}",body,title,subtitle,badge,sound,userInfo);
+        [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+    }
+    [QMManager defaultManager].selectedPush = YES;
+    completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以设置
+}
+
+//iOS 10 通知的点击事件
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler  API_AVAILABLE(ios(10.0)){
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+//    UNNotificationRequest *request = response.notification.request; // 收到推送的请求
+//    UNNotificationContent *content = request.content; // 收到推送的消息内容
+//    NSNumber *badge = content.badge;  // 推送消息的角标
+//    NSString *body = content.body;    // 推送消息体
+//    UNNotificationSound *sound = content.sound;  // 推送消息的声音
+//    NSString *subtitle = content.subtitle;  // 推送消息的副标题
+//    NSString *title = content.title;  // 推送消息的标题
+    
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //NSLog(@"iOS10 前台收到远程通知:%@", [self logDic:userInfo]);
+        NSString *messageAlert = [[userInfo objectForKey:@"aps"]objectForKey:@"alert"];
+        //弹框通知
+        UIAlertController * stateAlert = [UIAlertController alertControllerWithTitle:@"客服新消息" message:messageAlert preferredStyle:UIAlertControllerStyleAlert];
+        [stateAlert addAction:[UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+        }]];
+        [stateAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+        [self.window.rootViewController presentViewController:stateAlert animated:YES completion:nil];
+    }
+    else {
+        // 判断为本地通知
+//        NSLog(@"iOS10 前台收到本地通知:{\\\\nbody:%@，\\\\ntitle:%@,\\\\nsubtitle:%@,\\\\nbadge：%@，\\\\nsound：%@，\\\\nuserInfo：%@\\\\n}",body,title,subtitle,badge,sound,userInfo);
+        [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+    }
+    [QMManager defaultManager].selectedPush = YES;
+    completionHandler();  // 系统要求执行这个方法
+}
+
+// iOS7 < iOS系统< iOS 10通知接收方法
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     
     NSString *messageAlert = [[userInfo objectForKey:@"aps"]objectForKey:@"alert"];

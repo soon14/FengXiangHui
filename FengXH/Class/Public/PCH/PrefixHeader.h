@@ -75,10 +75,6 @@
 #define KTableBackgroundColor KUIColorFromHex(0xf0f3f3)
 #define KFont(s)     [UIFont systemFontOfSize:s]
 
-//提示
-#define KAlert(msg)  [[[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil \
-cancelButtonTitle:@"知道了" otherButtonTitles:nil,nil] show]
-
 
 /**
  iPhone X 机型

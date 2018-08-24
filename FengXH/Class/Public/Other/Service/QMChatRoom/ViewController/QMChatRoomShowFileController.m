@@ -33,7 +33,7 @@
     
     NSString * filePath = [NSString stringWithFormat:@"%@/%@/%@",NSHomeDirectory(),@"Documents",self.filePath];
     // 中文路径要encode
-    NSString * fileUrl = [filePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileUrl = [filePath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:fileUrl]];
     [webView loadRequest:request];

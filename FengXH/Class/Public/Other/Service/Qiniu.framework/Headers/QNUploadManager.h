@@ -109,7 +109,7 @@ typedef void (^QNUpCompletionHandler)(QNResponseInfo *info, NSString *key, NSDic
 /**
  *    上传ALAsset文件
  *
- *    @param alasset           ALAsset文件
+ *    @param asset             ALAsset文件
  *    @param key               上传到云存储的key，为nil时表示是由七牛生成
  *    @param token             上传需要的token, 由服务器生成
  *    @param completionHandler 上传完成后的回调函数
@@ -139,7 +139,7 @@ typedef void (^QNUpCompletionHandler)(QNResponseInfo *info, NSString *key, NSDic
 /**
  *    上传PHAssetResource文件(IOS9.1 andLater)
  *
- *    @param asset             PHAssetResource文件
+ *    @param assetResource     PHAssetResource文件
  *    @param key               上传到云存储的key，为nil时表示是由七牛生成
  *    @param token             上传需要的token, 由服务器生成
  *    @param completionHandler 上传完成后的回调函数

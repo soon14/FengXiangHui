@@ -82,7 +82,7 @@
     
     //京东是否有货
     if (_goodsListModel.jd_saleState) {
-        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"京东商品：%@",_goodsListModel.jd_kpl]];
+        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"京东商品：%@",_goodsListModel.jd_kpl?_goodsListModel.jd_kpl:@""]];
         [aString addAttributes:@{NSForegroundColorAttributeName:KUIColorFromHex(0x333333)} range:NSMakeRange(0, 5)];
         [self.JDGoodsLabel setAttributedText:aString];
     } else {

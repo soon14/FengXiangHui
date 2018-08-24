@@ -91,22 +91,14 @@
 }
 -(void)deleteImg
 {
-    
-    UIAlertView *delete=[[UIAlertView alloc] initWithTitle: nil message:@"删除此张照片" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [delete show];
-}
-#pragma mark-----UIAlertView代理
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex==1) {
-        
-        if (self.deleteBlock) {
-            self.deleteBlock(page);
+    MJWeakSelf
+    [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"删除此张照片？" cancelTitle:@"取消" defaultTitle:@"确定" distinct:NO cancel:nil confirm:^{
+        if (weakSelf.deleteBlock) {
+            weakSelf.deleteBlock(page);
         }
-        
-    }
-    
+    }];
 }
+
 
 #pragma mark------scrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

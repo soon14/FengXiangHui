@@ -146,7 +146,7 @@
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:@{@"token":tokenStr,@"type":@1} WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
-            KAlert(responseDic[@"message"]);
+            [JHSysAlertUtil presentAlertViewWithTitle:nil message:responseDic[@"message"] confirmTitle:@"知道了" handler:nil];
         } else {
             [DBHUD ShowInView:self.view withTitle:KRequestError];
         }

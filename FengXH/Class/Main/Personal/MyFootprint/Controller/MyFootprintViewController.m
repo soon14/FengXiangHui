@@ -10,6 +10,7 @@
 #import "MyFootprintBottomView.h"
 #import "MyFootprintCell.h"
 #import "MyFootprintResultModel.h"
+#import "HomepageBaseGoodsDetailController.h"
 
 @interface MyFootprintViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -71,7 +72,7 @@
 #pragma mark - tableView
 - (UITableView *)footTableView {
     if (!_footTableView) {
-        _footTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight) style:UITableViewStylePlain];
+        _footTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight) style:UITableViewStylePlain];
         _footTableView.separatorColor = KLineColor;
         _footTableView.backgroundColor = KTableBackgroundColor;
         _footTableView.showsVerticalScrollIndicator = NO;
@@ -165,7 +166,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MyFootprintResultListModel *listModel = footprintListArray[indexPath.section];
-    [DBHUD ShowInView:self.view withTitle:[NSString stringWithFormat:@"商品 id：%@",listModel.goodsid]];
+    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
+    vc.goodsId = listModel.goodsid;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -193,7 +196,11 @@
                     [selectedArray addObject:listModel];
                 }
             }
-            [self removeMyFootprintRequest:selectedArray];
+            if (selectedArray.count > 0) {
+                [self removeMyFootprintRequest:selectedArray];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请选择商品"];
+            }
         } break;
             
         default:
@@ -207,10 +214,10 @@
     editingStatus = sender.selected;
     if (!editingStatus) {
         [self.bottomView setHidden:YES];
-        [self.footTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight)];
+        [self.footTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight)];
     } else {
         [self.bottomView setHidden:NO];
-        [self.footTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-KBottomHeight-50)];
+        [self.footTableView setFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight-(KBottomHeight+50))];
     }
     [self.footTableView reloadData];
 }
@@ -252,7 +259,8 @@
     NSString *path = [HBBaseAPI appendAPIurl:url];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
                               [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
-                              [NSString stringWithFormat:@"%ld",(long)page],@"page", nil];
+                              [NSString stringWithFormat:@"%ld",(long)page],@"page",
+                              [NSString stringWithFormat:@"%d",KPageSize],@"pagesize", nil];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
