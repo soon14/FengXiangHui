@@ -240,7 +240,17 @@
             [self selectViewShowWithType:1];
             break;
         case 3:
-            [self selectViewShowWithType:2];
+        {
+            CGFloat nowTimeStmp = [[ShareManager getNowTimeTimestamp] doubleValue];
+            if (![_dataModel.seckillinfo  isEqual:[NSNull null]] && _dataModel.seckillinfo != nil && _dataModel.seckillinfo != NULL && nowTimeStmp <= [_dataModel.seckillinfo.starttime doubleValue]) {
+            
+                [JHSysAlertUtil presentAlertViewWithTitle:nil message:@"秒杀还未开始" confirmTitle:@"知道了" handler:nil];
+            }
+            else
+            {
+                [self selectViewShowWithType:2];
+            }
+        }
             break;
         default:
             break;
@@ -586,6 +596,7 @@
 
 
 - (void)dealloc {
+    NSLog(@"%s",__func__);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_SUCCEED object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_ERROR_USER object:nil];
 }

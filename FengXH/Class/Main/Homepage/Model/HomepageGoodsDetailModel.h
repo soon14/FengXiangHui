@@ -144,7 +144,7 @@
 //
 @property(nonatomic,copy)NSString *status;
 //已出售%
-@property(nonatomic,copy)NSString *percent;
+@property(nonatomic,assign)NSInteger percent;
 //
 @property(nonatomic,copy)NSString *tag;
 //整点

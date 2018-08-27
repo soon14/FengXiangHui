@@ -15,6 +15,11 @@
 
 
 @interface HomepageGoodsDetailController ()<UITableViewDelegate,UITableViewDataSource>
+
+{
+    CGFloat firstSectionRowHeight;
+}
+
 // 类型
 @property(nonatomic , assign)NSInteger goodsDetailType;
 
@@ -85,11 +90,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_goodsDetailType==0) {
         if (indexPath.section==0) {
-            if (![_dataModel.discounts  isEqual:[NSNull null]] && _dataModel.discounts != nil && _dataModel.discounts != NULL && [_dataModel.discounts.discountsDefault intValue]>0) {
-                return 510;
-            }
-                
-            return 480;
+            return firstSectionRowHeight;
         }
         else if (indexPath.section==1) {
             return 40;
@@ -184,6 +185,16 @@
 -(void)reloadData
 {
     if (_goodsDetailType==0) {
+        
+        CGFloat discountsHeight = ![_dataModel.discounts  isEqual:[NSNull null]] && _dataModel.discounts != nil && _dataModel.discounts != NULL && [_dataModel.discounts.discountsDefault intValue]>0 ? 30 : 0;
+        
+        CGFloat seckillHeight=![_dataModel.seckillinfo  isEqual:[NSNull null]] && _dataModel.seckillinfo != nil && _dataModel.seckillinfo != NULL ? 40 : 0;
+        
+        CGFloat subtitleHeight=![_dataModel.subtitle  isEqual:[NSNull null]] && _dataModel.subtitle != nil && _dataModel.subtitle != NULL && ![_dataModel.subtitle isEqualToString:@""] ? 15 : 0;
+        
+        CGFloat qualityHeight=_dataModel.quality ? 40 : 0;
+        
+        firstSectionRowHeight = 415 + discountsHeight + seckillHeight + subtitleHeight + qualityHeight;
     
         [self.view addSubview:self.goodsTableView];
 
