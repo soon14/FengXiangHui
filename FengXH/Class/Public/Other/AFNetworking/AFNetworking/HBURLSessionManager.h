@@ -22,11 +22,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AFURLResponseSerialization.h"
-#import "AFURLRequestSerialization.h"
-#import "AFSecurityPolicy.h"
+#import "HBURLResponseSerialization.h"
+#import "HBURLRequestSerialization.h"
+#import "HBSecurityPolicy.h"
 #if !TARGET_OS_WATCH
-#import "AFNetworkReachabilityManager.h"
+#import "HBNetworkReachabilityManager.h"
 #endif
 
 /**
@@ -87,7 +87,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AFURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSSecureCoding, NSCopying>
+@interface HBURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSSecureCoding, NSCopying>
 
 /**
  The managed session.
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) id <AFURLResponseSerialization> responseSerializer;
+@property (nonatomic, strong) id <HBURLResponseSerialization> responseSerializer;
 
 ///-------------------------------
 /// @name Managing Security Policy
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The security policy used by created session to evaluate server trust for secure connections. `AFURLSessionManager` uses the `defaultPolicy` unless otherwise specified.
  */
-@property (nonatomic, strong) AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) HBSecurityPolicy *securityPolicy;
 
 #if !TARGET_OS_WATCH
 ///--------------------------------------
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The network reachability manager. `AFURLSessionManager` uses the `sharedManager` by default.
  */
-@property (readwrite, nonatomic, strong) AFNetworkReachabilityManager *reachabilityManager;
+@property (readwrite, nonatomic, strong) HBNetworkReachabilityManager *reachabilityManager;
 #endif
 
 ///----------------------------

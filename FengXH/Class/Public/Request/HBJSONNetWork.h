@@ -6,7 +6,7 @@
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
-#import "AFURLSessionManager.h"
+#import "HBURLSessionManager.h"
 
 //请求成功回调 block
 typedef void (^requestSuccessBlock)(NSDictionary *responseDic);
@@ -15,7 +15,7 @@ typedef void (^requestSuccessBlock)(NSDictionary *responseDic);
 typedef void (^requestFailureBlock)(NSError *error);
 
 
-@interface HBJSONNetWork : AFURLSessionManager
+@interface HBJSONNetWork : HBURLSessionManager
 
 + (instancetype)sharedManager;
 

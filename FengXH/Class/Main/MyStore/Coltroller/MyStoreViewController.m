@@ -54,6 +54,7 @@
             [_storeCollectionView.mj_header endRefreshing];
         }
         if ([responseDic[@"status"] integerValue] == 1) {
+            NSLog(@"%@",responseDic);
             self.dataModel = [StoreModel yy_modelWithDictionary:responseDic[@"result"]];
             [self clearUpData];
             if (!_storeCollectionView) {

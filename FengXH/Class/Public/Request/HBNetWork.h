@@ -6,7 +6,7 @@
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
-#import "AFHTTPSessionManager.h"
+#import "HBHTTPSessionManager.h"
 
 //请求成功回调 block
 typedef void (^requestSuccessBlock)(NSDictionary *responseDic);
@@ -23,7 +23,7 @@ typedef enum {
     HEAD
 } HTTPMethod;
 
-@interface HBNetWork : AFHTTPSessionManager
+@interface HBNetWork : HBHTTPSessionManager
 
 + (instancetype)sharedManager;
 

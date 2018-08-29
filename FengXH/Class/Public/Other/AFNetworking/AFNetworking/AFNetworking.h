@@ -27,15 +27,15 @@
 #ifndef _AFNETWORKING_
     #define _AFNETWORKING_
 
-    #import "AFURLRequestSerialization.h"
-    #import "AFURLResponseSerialization.h"
-    #import "AFSecurityPolicy.h"
+    #import "HBURLRequestSerialization.h"
+    #import "HBURLResponseSerialization.h"
+    #import "HBSecurityPolicy.h"
 
 #if !TARGET_OS_WATCH
-    #import "AFNetworkReachabilityManager.h"
+    #import "HBNetworkReachabilityManager.h"
 #endif
 
-    #import "AFURLSessionManager.h"
-    #import "AFHTTPSessionManager.h"
+    #import "HBURLSessionManager.h"
+    #import "HBHTTPSessionManager.h"
 
 #endif /* _AFNETWORKING_ */

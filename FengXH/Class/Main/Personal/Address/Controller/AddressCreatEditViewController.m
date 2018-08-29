@@ -254,8 +254,14 @@
 }
 
 -(void)cancelBtnClick:(NSString *)titleAddress titleID:(NSString *)titleID{
-    [self.areaTextField setText:titleAddress];
-    NSLog( @"%@", [NSString stringWithFormat:@"打印的对应省市县的id=%@",titleID]);
+    if (titleAddress.length > 0) {
+        NSMutableString *addressString = [NSMutableString stringWithString:titleAddress];
+        [addressString deleteCharactersInRange:NSMakeRange(0, 1)];
+        [self.areaTextField setText:addressString];
+        //NSLog(@"%@",addressString);
+    }
+    
+    //NSLog(@"%@", [NSString stringWithFormat:@"打印的对应省市县的id=%@",titleID]);
 }
 
 

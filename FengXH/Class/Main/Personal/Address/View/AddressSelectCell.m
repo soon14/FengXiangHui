@@ -76,11 +76,11 @@
     _addressModel = addressModel;
     [self.namePhoneLabel setText:[NSString stringWithFormat:@"%@\t%@",_addressModel.realname,_addressModel.mobile]];
     if (_addressModel.isdefault == 1) {
-        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@  %@ %@ %@ %@ %@",@"默认",_addressModel.province,_addressModel.city,_addressModel.area,_addressModel.town,_addressModel.address]];
+        NSMutableAttributedString *aString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@  %@ %@ %@ %@ %@",@"默认",_addressModel.province?_addressModel.province:@"",_addressModel.city?_addressModel.city:@"",_addressModel.area?_addressModel.area:@"",_addressModel.town?_addressModel.town:@"",_addressModel.address?_addressModel.address:@""]];
         [aString addAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:KFont(12),NSBackgroundColorAttributeName:KRedColor} range:NSMakeRange(0, 4)];
         [self.addressLabel setAttributedText:aString];
     } else {
-        [self.addressLabel setText:[NSString stringWithFormat:@"%@ %@ %@ %@ %@",_addressModel.province,_addressModel.city,_addressModel.area,_addressModel.town,_addressModel.address]];
+        [self.addressLabel setText:[NSString stringWithFormat:@"%@ %@ %@ %@ %@",_addressModel.province?_addressModel.province:@"",_addressModel.city?_addressModel.city:@"",_addressModel.area?_addressModel.area:@"",_addressModel.town?_addressModel.town:@"",_addressModel.address?_addressModel.address:@""]];
     }
     if (_addressModel.selected) {
         [self.selectedImageView setImage:[UIImage imageNamed:@"personalAddressSelected"]];

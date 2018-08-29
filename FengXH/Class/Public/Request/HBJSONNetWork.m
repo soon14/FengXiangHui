@@ -27,7 +27,7 @@
 }
 
 - (void)requestWithPath:(NSString *)path WithParams:(NSDictionary *)params WithSuccessBlock:(requestSuccessBlock)success WithFailureBlock:(requestFailureBlock)failure {
-    NSMutableURLRequest *request = [[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:path parameters:params error:nil];
+    NSMutableURLRequest *request = [[HBJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:path parameters:params error:nil];
     request.timeoutInterval = 10.f;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];

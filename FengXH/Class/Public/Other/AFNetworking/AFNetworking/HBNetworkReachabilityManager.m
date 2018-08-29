@@ -19,7 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFNetworkReachabilityManager.h"
+#import "HBNetworkReachabilityManager.h"
 #if !TARGET_OS_WATCH
 
 #import <netinet/in.h>
@@ -105,16 +105,16 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
     }
 }
 
-@interface AFNetworkReachabilityManager ()
+@interface HBNetworkReachabilityManager ()
 @property (readonly, nonatomic, assign) SCNetworkReachabilityRef networkReachability;
 @property (readwrite, nonatomic, assign) AFNetworkReachabilityStatus networkReachabilityStatus;
 @property (readwrite, nonatomic, copy) AFNetworkReachabilityStatusBlock networkReachabilityStatusBlock;
 @end
 
-@implementation AFNetworkReachabilityManager
+@implementation HBNetworkReachabilityManager
 
 + (instancetype)sharedManager {
-    static AFNetworkReachabilityManager *_sharedManager = nil;
+    static HBNetworkReachabilityManager *_sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedManager = [self manager];
@@ -126,7 +126,7 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 + (instancetype)managerForDomain:(NSString *)domain {
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [domain UTF8String]);
 
-    AFNetworkReachabilityManager *manager = [[self alloc] initWithReachability:reachability];
+    HBNetworkReachabilityManager *manager = [[self alloc] initWithReachability:reachability];
     
     CFRelease(reachability);
 
@@ -135,7 +135,7 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 
 + (instancetype)managerForAddress:(const void *)address {
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)address);
-    AFNetworkReachabilityManager *manager = [[self alloc] initWithReachability:reachability];
+    HBNetworkReachabilityManager *manager = [[self alloc] initWithReachability:reachability];
 
     CFRelease(reachability);
     

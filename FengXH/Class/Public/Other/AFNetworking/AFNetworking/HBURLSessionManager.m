@@ -19,7 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFURLSessionManager.h"
+#import "HBURLSessionManager.h"
 #import <objc/runtime.h>
 
 #ifndef NSFoundationVersionNumber_iOS_8_0
@@ -113,8 +113,8 @@ typedef void (^AFURLSessionTaskCompletionHandler)(NSURLResponse *response, id re
 
 #pragma mark -
 
-@interface AFURLSessionManagerTaskDelegate : NSObject <NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
-@property (nonatomic, weak) AFURLSessionManager *manager;
+@interface HBURLSessionManagerTaskDelegate : NSObject <NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
+@property (nonatomic, weak) HBURLSessionManager *manager;
 @property (nonatomic, strong) NSMutableData *mutableData;
 @property (nonatomic, strong) NSProgress *uploadProgress;
 @property (nonatomic, strong) NSProgress *downloadProgress;
@@ -125,7 +125,7 @@ typedef void (^AFURLSessionTaskCompletionHandler)(NSURLResponse *response, id re
 @property (nonatomic, copy) AFURLSessionTaskCompletionHandler completionHandler;
 @end
 
-@implementation AFURLSessionManagerTaskDelegate
+@implementation HBURLSessionManagerTaskDelegate
 
 - (instancetype)init {
     self = [super init];
@@ -261,7 +261,7 @@ didCompleteWithError:(NSError *)error
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    __strong AFURLSessionManager *manager = self.manager;
+    __strong HBURLSessionManager *manager = self.manager;
 
     __block id responseObject = nil;
 
@@ -381,11 +381,11 @@ static inline BOOL af_addMethod(Class theClass, SEL selector, Method method) {
 static NSString * const AFNSURLSessionTaskDidResumeNotification  = @"com.alamofire.networking.nsurlsessiontask.resume";
 static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofire.networking.nsurlsessiontask.suspend";
 
-@interface _AFURLSessionTaskSwizzling : NSObject
+@interface _HBURLSessionTaskSwizzling : NSObject
 
 @end
 
-@implementation _AFURLSessionTaskSwizzling
+@implementation _HBURLSessionTaskSwizzling
 
 + (void)load {
     /**
@@ -486,7 +486,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 
 #pragma mark -
 
-@interface AFURLSessionManager ()
+@interface HBURLSessionManager ()
 @property (readwrite, nonatomic, strong) NSURLSessionConfiguration *sessionConfiguration;
 @property (readwrite, nonatomic, strong) NSOperationQueue *operationQueue;
 @property (readwrite, nonatomic, strong) NSURLSession *session;
@@ -510,7 +510,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 @property (readwrite, nonatomic, copy) AFURLSessionDownloadTaskDidResumeBlock downloadTaskDidResume;
 @end
 
-@implementation AFURLSessionManager
+@implementation HBURLSessionManager
 
 - (instancetype)init {
     return [self initWithSessionConfiguration:nil];
@@ -533,12 +533,12 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 
     self.session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:self.operationQueue];
 
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.responseSerializer = [HBJSONResponseSerializer serializer];
 
-    self.securityPolicy = [AFSecurityPolicy defaultPolicy];
+    self.securityPolicy = [HBSecurityPolicy defaultPolicy];
 
 #if !TARGET_OS_WATCH
-    self.reachabilityManager = [AFNetworkReachabilityManager sharedManager];
+    self.reachabilityManager = [HBNetworkReachabilityManager sharedManager];
 #endif
 
     self.mutableTaskDelegatesKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];
@@ -597,10 +597,10 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 
 #pragma mark -
 
-- (AFURLSessionManagerTaskDelegate *)delegateForTask:(NSURLSessionTask *)task {
+- (HBURLSessionManagerTaskDelegate *)delegateForTask:(NSURLSessionTask *)task {
     NSParameterAssert(task);
 
-    AFURLSessionManagerTaskDelegate *delegate = nil;
+    HBURLSessionManagerTaskDelegate *delegate = nil;
     [self.lock lock];
     delegate = self.mutableTaskDelegatesKeyedByTaskIdentifier[@(task.taskIdentifier)];
     [self.lock unlock];
@@ -608,7 +608,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
     return delegate;
 }
 
-- (void)setDelegate:(AFURLSessionManagerTaskDelegate *)delegate
+- (void)setDelegate:(HBURLSessionManagerTaskDelegate *)delegate
             forTask:(NSURLSessionTask *)task
 {
     NSParameterAssert(task);
@@ -626,7 +626,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
               downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock
              completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
 {
-    AFURLSessionManagerTaskDelegate *delegate = [[AFURLSessionManagerTaskDelegate alloc] init];
+    HBURLSessionManagerTaskDelegate *delegate = [[HBURLSessionManagerTaskDelegate alloc] init];
     delegate.manager = self;
     delegate.completionHandler = completionHandler;
 
@@ -641,7 +641,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
                         progress:(void (^)(NSProgress *uploadProgress)) uploadProgressBlock
                completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
 {
-    AFURLSessionManagerTaskDelegate *delegate = [[AFURLSessionManagerTaskDelegate alloc] init];
+    HBURLSessionManagerTaskDelegate *delegate = [[HBURLSessionManagerTaskDelegate alloc] init];
     delegate.manager = self;
     delegate.completionHandler = completionHandler;
 
@@ -657,7 +657,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
                        destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
                  completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
 {
-    AFURLSessionManagerTaskDelegate *delegate = [[AFURLSessionManagerTaskDelegate alloc] init];
+    HBURLSessionManagerTaskDelegate *delegate = [[HBURLSessionManagerTaskDelegate alloc] init];
     delegate.manager = self;
     delegate.completionHandler = completionHandler;
 
@@ -677,7 +677,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 - (void)removeDelegateForTask:(NSURLSessionTask *)task {
     NSParameterAssert(task);
 
-    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
+    HBURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
     [self.lock lock];
     [delegate cleanUpProgressForTask:task];
     [self removeNotificationObserverForTask:task];
@@ -739,7 +739,7 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 
 #pragma mark -
 
-- (void)setResponseSerializer:(id <AFURLResponseSerialization>)responseSerializer {
+- (void)setResponseSerializer:(id <HBURLResponseSerialization>)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     _responseSerializer = responseSerializer;
@@ -1091,7 +1091,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error
 {
-    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
+    HBURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
 
     // delegate may be nil when completing a task in the background
     if (delegate) {
@@ -1127,7 +1127,7 @@ didReceiveResponse:(NSURLResponse *)response
           dataTask:(NSURLSessionDataTask *)dataTask
 didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
 {
-    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
+    HBURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
     if (delegate) {
         [self removeDelegateForTask:dataTask];
         [self setDelegate:delegate forTask:downloadTask];
@@ -1143,7 +1143,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
     didReceiveData:(NSData *)data
 {
 
-    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
+    HBURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
     [delegate URLSession:session dataTask:dataTask didReceiveData:data];
 
     if (self.dataTaskDidReceiveData) {
@@ -1181,7 +1181,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
       downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:downloadTask];
+    HBURLSessionManagerTaskDelegate *delegate = [self delegateForTask:downloadTask];
     if (self.downloadTaskDidFinishDownloading) {
         NSURL *fileURL = self.downloadTaskDidFinishDownloading(session, downloadTask, location);
         if (fileURL) {

@@ -29,7 +29,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class AFHTTPSessionManager;
+@class HBHTTPSessionManager;
 
 /**
  This category adds methods to the UIKit framework's `UIWebView` class. The methods in this category provide increased control over the request cycle, including progress monitoring and success / failure handling.
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The session manager used to download all requests.
  */
-@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
+@property (nonatomic, strong) HBHTTPSessionManager *sessionManager;
 
 /**
  Asynchronously loads the specified request.

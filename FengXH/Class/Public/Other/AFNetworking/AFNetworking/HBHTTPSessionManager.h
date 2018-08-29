@@ -31,7 +31,7 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
-#import "AFURLSessionManager.h"
+#import "HBURLSessionManager.h"
 
 /**
  `AFHTTPSessionManager` is a subclass of `AFURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths.
@@ -73,7 +73,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AFHTTPSessionManager : AFURLSessionManager <NSSecureCoding, NSCopying>
+@interface HBHTTPSessionManager : HBURLSessionManager <NSSecureCoding, NSCopying>
 
 /**
  The URL used to construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.
@@ -85,14 +85,14 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning `requestSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) AFHTTPRequestSerializer <AFURLRequestSerialization> * requestSerializer;
+@property (nonatomic, strong) HBHTTPRequestSerializer <HBURLRequestSerialization> * requestSerializer;
 
 /**
  Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an instance of `AFJSONResponseSerializer`.
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) HBHTTPResponseSerializer <HBURLResponseSerialization> * responseSerializer;
 
 ///---------------------
 /// @name Initialization

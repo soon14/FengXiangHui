@@ -596,7 +596,6 @@
 
 
 - (void)dealloc {
-    NSLog(@"%s",__func__);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_SUCCEED object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_ERROR_USER object:nil];
 }

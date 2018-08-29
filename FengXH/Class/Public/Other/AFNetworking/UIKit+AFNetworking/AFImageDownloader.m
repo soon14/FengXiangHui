@@ -24,7 +24,7 @@
 #if TARGET_OS_IOS || TARGET_OS_TV
 
 #import "AFImageDownloader.h"
-#import "AFHTTPSessionManager.h"
+#import "HBHTTPSessionManager.h"
 
 @interface AFImageDownloaderResponseHandler : NSObject
 @property (nonatomic, strong) NSUUID *uuid;
@@ -133,8 +133,8 @@
 
 - (instancetype)init {
     NSURLSessionConfiguration *defaultConfiguration = [self.class defaultURLSessionConfiguration];
-    AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:defaultConfiguration];
-    sessionManager.responseSerializer = [AFImageResponseSerializer serializer];
+    HBHTTPSessionManager *sessionManager = [[HBHTTPSessionManager alloc] initWithSessionConfiguration:defaultConfiguration];
+    sessionManager.responseSerializer = [HBImageResponseSerializer serializer];
 
     return [self initWithSessionManager:sessionManager
                  downloadPrioritization:AFImageDownloadPrioritizationFIFO
@@ -142,7 +142,7 @@
                              imageCache:[[AFAutoPurgingImageCache alloc] init]];
 }
 
-- (instancetype)initWithSessionManager:(AFHTTPSessionManager *)sessionManager
+- (instancetype)initWithSessionManager:(HBHTTPSessionManager *)sessionManager
                 downloadPrioritization:(AFImageDownloadPrioritization)downloadPrioritization
                 maximumActiveDownloads:(NSInteger)maximumActiveDownloads
                             imageCache:(id <AFImageRequestCache>)imageCache {

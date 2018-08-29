@@ -25,9 +25,9 @@
 
 #if TARGET_OS_IOS
 
-#import "AFHTTPSessionManager.h"
-#import "AFURLResponseSerialization.h"
-#import "AFURLRequestSerialization.h"
+#import "HBHTTPSessionManager.h"
+#import "HBURLResponseSerialization.h"
+#import "HBURLRequestSerialization.h"
 
 @interface UIWebView (_AFNetworking)
 @property (readwrite, nonatomic, strong, setter = af_setURLSessionTask:) NSURLSessionDataTask *af_URLSessionTask;
@@ -49,13 +49,13 @@
 
 @implementation UIWebView (AFNetworking)
 
-- (AFHTTPSessionManager  *)sessionManager {
-    static AFHTTPSessionManager *_af_defaultHTTPSessionManager = nil;
+- (HBHTTPSessionManager  *)sessionManager {
+    static HBHTTPSessionManager *_af_defaultHTTPSessionManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultHTTPSessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        _af_defaultHTTPSessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
-        _af_defaultHTTPSessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        _af_defaultHTTPSessionManager = [[HBHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        _af_defaultHTTPSessionManager.requestSerializer = [HBHTTPRequestSerializer serializer];
+        _af_defaultHTTPSessionManager.responseSerializer = [HBHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -64,15 +64,15 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setSessionManager:(AFHTTPSessionManager *)sessionManager {
+- (void)setSessionManager:(HBHTTPSessionManager *)sessionManager {
     objc_setAssociatedObject(self, @selector(sessionManager), sessionManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializer {
-    static AFHTTPResponseSerializer <AFURLResponseSerialization> *_af_defaultResponseSerializer = nil;
+- (HBHTTPResponseSerializer <HBURLResponseSerialization> *)responseSerializer {
+    static HBHTTPResponseSerializer <HBURLResponseSerialization> *_af_defaultResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultResponseSerializer = [AFHTTPResponseSerializer serializer];
+        _af_defaultResponseSerializer = [HBHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -81,7 +81,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer<AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(HBHTTPResponseSerializer<HBURLResponseSerialization> *)responseSerializer {
     objc_setAssociatedObject(self, @selector(responseSerializer), responseSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
