@@ -368,6 +368,7 @@
 		3A8AB17D21084AA30036DFC5 /* StoreCommissionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB17121084AA30036DFC5 /* StoreCommissionCell.m */; };
 		3A8AB17E21084AA30036DFC5 /* ShopkeeperCommissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB17321084AA30036DFC5 /* ShopkeeperCommissionViewController.m */; };
 		3A8AB17F21084AA30036DFC5 /* MyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB17621084AA30036DFC5 /* MyStoreViewController.m */; };
+		3AAFB3AA2136636D0055E11E /* NMyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAFB3A92136636D0055E11E /* NMyStoreViewController.m */; };
 		3ABEADCE2121810100C13F6F /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABEADCC2121810100C13F6F /* ArticleListViewController.m */; };
 		3ABEADD12122653400C13F6F /* BaseWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABEADD02122653400C13F6F /* BaseWKWebViewController.m */; };
 		3ABEADD821227F1900C13F6F /* OrderDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABEADD721227F1900C13F6F /* OrderDetailsViewController.m */; };
@@ -1277,6 +1278,8 @@
 		3A8AB17421084AA30036DFC5 /* MyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyStoreViewController.h; sourceTree = "<group>"; };
 		3A8AB17521084AA30036DFC5 /* ShopkeeperCommissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopkeeperCommissionViewController.h; sourceTree = "<group>"; };
 		3A8AB17621084AA30036DFC5 /* MyStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyStoreViewController.m; sourceTree = "<group>"; };
+		3AAFB3A82136636D0055E11E /* NMyStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMyStoreViewController.h; sourceTree = "<group>"; };
+		3AAFB3A92136636D0055E11E /* NMyStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NMyStoreViewController.m; sourceTree = "<group>"; };
 		3ABEADCC2121810100C13F6F /* ArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListViewController.m; sourceTree = "<group>"; };
 		3ABEADCD2121810100C13F6F /* ArticleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListViewController.h; sourceTree = "<group>"; };
 		3ABEADCF2122653400C13F6F /* BaseWKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseWKWebViewController.h; sourceTree = "<group>"; };
@@ -3369,6 +3372,8 @@
 		3A8AB17221084AA30036DFC5 /* Coltroller */ = {
 			isa = PBXGroup;
 			children = (
+				3AAFB3A82136636D0055E11E /* NMyStoreViewController.h */,
+				3AAFB3A92136636D0055E11E /* NMyStoreViewController.m */,
 				3A8AB17421084AA30036DFC5 /* MyStoreViewController.h */,
 				3A8AB17621084AA30036DFC5 /* MyStoreViewController.m */,
 				3A8AB17521084AA30036DFC5 /* ShopkeeperCommissionViewController.h */,
@@ -4806,6 +4811,7 @@
 				3A8AB17921084AA30036DFC5 /* CommissionCell.m in Sources */,
 				04420ADF2124327C00780BBA /* PersonalMessageViewController.m in Sources */,
 				0401AD7C2114674300305F27 /* SpellGoodsDetailsTableViewCell.m in Sources */,
+				3AAFB3AA2136636D0055E11E /* NMyStoreViewController.m in Sources */,
 				04904E7C211C1A48007D333B /* SpellOrderWaitReceiveCell.m in Sources */,
 				3AED3A9320F313830095D7C1 /* ZYBannerView.m in Sources */,
 				3AED3ADD20F313840095D7C1 /* UIView+Extension.m in Sources */,
