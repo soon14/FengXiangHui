@@ -315,7 +315,6 @@
 		3A2BF47520FCA99700480F25 /* HomePageFoodieGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF47420FCA99700480F25 /* HomePageFoodieGoodsCell.m */; };
 		3A2BF47C20FCAAFC00480F25 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF47720FCAAFC00480F25 /* FLAnimatedImage.m */; };
 		3A2BF47D20FCAAFC00480F25 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF47820FCAAFC00480F25 /* FLAnimatedImageView.m */; };
-		3A2BF47E20FCAAFC00480F25 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A2BF47B20FCAAFC00480F25 /* Info.plist */; };
 		3A2BF48120FCBAA600480F25 /* HomePageSecondKillTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF48020FCBAA600480F25 /* HomePageSecondKillTimeCell.m */; };
 		3A2BF48420FCBCC000480F25 /* HomePageSecondKillGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF48320FCBCC000480F25 /* HomePageSecondKillGoodsCell.m */; };
 		3A3A19532137968800A25D3C /* MyStoreNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A19522137968800A25D3C /* MyStoreNavigationView.m */; };
@@ -530,6 +529,7 @@
 		3AED3AF820F32F950095D7C1 /* AllGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3AF720F32F950095D7C1 /* AllGoodsViewController.m */; };
 		3AED3AFE20F32FBE0095D7C1 /* ShopCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3AFD20F32FBE0095D7C1 /* ShopCartViewController.m */; };
 		3AED3B0120F32FC70095D7C1 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3B0020F32FC70095D7C1 /* PersonalViewController.m */; };
+		3AFCE5EC2139199C00E5BC6F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AFCE5EB2139199C00E5BC6F /* Info.plist */; };
 		3AFD569521192DF000B36A35 /* MyFootprintBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569421192DF000B36A35 /* MyFootprintBottomView.m */; };
 		3AFD569821192F0700B36A35 /* MyFootprintCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569721192F0700B36A35 /* MyFootprintCell.m */; };
 		3AFD569B2119305F00B36A35 /* MyFocusResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569A2119305F00B36A35 /* MyFocusResultModel.m */; };
@@ -552,7 +552,6 @@
 		3AFD56E1211C1E8300B36A35 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56D3211C1E8300B36A35 /* NSObject+MJClass.m */; };
 		3AFD56E2211C1E8300B36A35 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56D4211C1E8300B36A35 /* NSString+MJExtension.m */; };
 		3AFD56E3211C1E8300B36A35 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56D5211C1E8300B36A35 /* MJPropertyKey.m */; };
-		3AFD56E4211C1E8300B36A35 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AFD56D9211C1E8300B36A35 /* Info.plist */; };
 		3AFD56E5211C1E8300B36A35 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56DA211C1E8300B36A35 /* MJFoundation.m */; };
 		3AFD56EB211C3D2A00B36A35 /* ConfirmOrderDetailPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56EA211C3D2A00B36A35 /* ConfirmOrderDetailPriceCell.m */; };
 		3AFD56EE211D227900B36A35 /* HBJSONNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD56ED211D227900B36A35 /* HBJSONNetWork.m */; };
@@ -1174,7 +1173,6 @@
 		3A2BF47820FCAAFC00480F25 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		3A2BF47920FCAAFC00480F25 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
 		3A2BF47A20FCAAFC00480F25 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
-		3A2BF47B20FCAAFC00480F25 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A2BF47F20FCBAA600480F25 /* HomePageSecondKillTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageSecondKillTimeCell.h; sourceTree = "<group>"; };
 		3A2BF48020FCBAA600480F25 /* HomePageSecondKillTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageSecondKillTimeCell.m; sourceTree = "<group>"; };
 		3A2BF48220FCBCC000480F25 /* HomePageSecondKillGoodsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageSecondKillGoodsCell.h; sourceTree = "<group>"; };
@@ -1608,6 +1606,7 @@
 		3AED3AFD20F32FBE0095D7C1 /* ShopCartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShopCartViewController.m; sourceTree = "<group>"; };
 		3AED3AFF20F32FC70095D7C1 /* PersonalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalViewController.h; sourceTree = "<group>"; };
 		3AED3B0020F32FC70095D7C1 /* PersonalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalViewController.m; sourceTree = "<group>"; };
+		3AFCE5EB2139199C00E5BC6F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AFD569321192DF000B36A35 /* MyFootprintBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyFootprintBottomView.h; sourceTree = "<group>"; };
 		3AFD569421192DF000B36A35 /* MyFootprintBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyFootprintBottomView.m; sourceTree = "<group>"; };
 		3AFD569621192F0700B36A35 /* MyFootprintCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyFootprintCell.h; sourceTree = "<group>"; };
@@ -2972,7 +2971,7 @@
 				3A2BF47820FCAAFC00480F25 /* FLAnimatedImageView.m */,
 				3A2BF47920FCAAFC00480F25 /* FLAnimatedImage.h */,
 				3A2BF47A20FCAAFC00480F25 /* FLAnimatedImageView.h */,
-				3A2BF47B20FCAAFC00480F25 /* Info.plist */,
+				3AFCE5EB2139199C00E5BC6F /* Info.plist */,
 			);
 			path = FLAnimatedImage;
 			sourceTree = "<group>";
@@ -4471,6 +4470,7 @@
 			files = (
 				3AED3A9220F313830095D7C1 /* ZYBannerView.bundle in Resources */,
 				3AED396520F30AF50095D7C1 /* LaunchScreen.storyboard in Resources */,
+				3AFCE5EC2139199C00E5BC6F /* Info.plist in Resources */,
 				041A45CE2119B73F00CE5466 /* ShareSDKUI.bundle in Resources */,
 				3AED3AA620F313830095D7C1 /* IQKeyboardManager.bundle in Resources */,
 				3ABEAE2E21244E4B00C13F6F /* README.txt in Resources */,
@@ -4478,10 +4478,8 @@
 				3AED3AAE20F313830095D7C1 /* LICENSE in Resources */,
 				3AED396220F30AF50095D7C1 /* Assets.xcassets in Resources */,
 				3AED3A7F20F313830095D7C1 /* MJRefresh.bundle in Resources */,
-				3AFD56E4211C1E8300B36A35 /* Info.plist in Resources */,
 				3AED396020F30AF40095D7C1 /* Main.storyboard in Resources */,
 				041A45C72119B73F00CE5466 /* WeiboSDK.bundle in Resources */,
-				3A2BF47E20FCAAFC00480F25 /* Info.plist in Resources */,
 				040E6784212BB8580061F334 /* TZImagePickerController.bundle in Resources */,
 				041A45CD2119B73F00CE5466 /* ShareSDK.bundle in Resources */,
 				04420AD221241F0F00780BBA /* Address.plist in Resources */,
