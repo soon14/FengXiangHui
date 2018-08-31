@@ -35,6 +35,7 @@
 #import "UIImageView+WebCache.h"
 #import "MLEmojiLabel.h"
 #import "QMDateManager.h"
+#import "BaseCornerShadowView.h"
 
 
 //客服模块的宏定义
@@ -71,7 +72,7 @@
 
 #define KUIColorFromHex(s)  [UIColor colorWithRed:(((s &0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s &0xFF))/255.0 alpha:1.0]
 #define KGreenColor KUIColorFromHex(0x45ba3c)
-#define KRedColor KUIColorFromHex(0xfe525e)
+#define KRedColor KUIColorFromHex(0xf85d4a)
 #define KAppDefaultColor KUIColorFromHex(0xff3529)
 #define KLineColor KUIColorFromHex(0xeeeeee)
 #define KTableBackgroundColor KUIColorFromHex(0xf0f3f3)

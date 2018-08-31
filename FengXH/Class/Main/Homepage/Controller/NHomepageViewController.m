@@ -391,6 +391,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         } break;
     }
 }
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     HomePageStyle style = [self.homePlateTypeArray[section] integerValue];
     switch (style) {
