@@ -10,7 +10,7 @@
 #import "HBNavigationController.h"
 #import "NHomepageViewController.h"
 #import "AllGoodsViewController.h"
-#import "MyStoreViewController.h"
+#import "NMyStoreViewController.h"
 #import "ShopCartViewController.h"
 #import "PersonalViewController.h"
 #import "LoginViewController.h"
@@ -27,7 +27,7 @@
     [self initSubVC];
     self.delegate = self;
     
-    [self setSelectedIndex:0];
+    [self setSelectedIndex:2];
 }
 
 /**
@@ -42,7 +42,7 @@
     AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc]init];
     [self setupChildVC:allGoodsVC Title:@"全部商品" UnselectedImageName:@"home_icon_all_nol" SelectedImageName:@"home_icon_all_sel"];
     
-    MyStoreViewController * myStoreVC = [[MyStoreViewController alloc]init];
+    NMyStoreViewController * myStoreVC = [[NMyStoreViewController alloc]init];
     [self setupChildVC:myStoreVC Title:@"我的小店" UnselectedImageName:@"home_icon_store_nol" SelectedImageName:@"home_icon_store_sel"];
     
     ShopCartViewController * shopCartVC = [[ShopCartViewController alloc]init];
@@ -95,7 +95,7 @@
         willShowViewController = navigation.visibleViewController;
     }
     
-    if ([willShowViewController isKindOfClass:[MyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
+    if ([willShowViewController isKindOfClass:[NMyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
             LoginViewController *loginVC = [[LoginViewController alloc] init];
             [self presentViewController:loginVC animated:YES completion:nil];

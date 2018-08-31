@@ -115,6 +115,11 @@
     return AllGoodsCollectionHeaderJumpNone;
 }
 
+#pragma mark - 宽度固定为屏幕宽度，获取图片高度
++ (CGFloat)getImageHeight:(NSString *)imageName {
+    return (KMAINSIZE.width/CGImageGetWidth([UIImage imageNamed:imageName].CGImage))*CGImageGetHeight([UIImage imageNamed:imageName].CGImage);
+}
+
 #pragma mark - 将dic 转成字符串
 + (NSString *)convertToJsonData:(NSDictionary *)dict {
     NSError *error;
@@ -135,8 +140,7 @@
     return mutStr;
 }
 #pragma mark - 分享
-+ (void)shareWithTitle:(NSString *)titleStr andMessage:(NSString *)message andUrl:(NSString *)urlStr andImg:(NSArray *)imgArr
-{
++ (void)shareWithTitle:(NSString *)titleStr andMessage:(NSString *)message andUrl:(NSString *)urlStr andImg:(NSArray *)imgArr {
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     
@@ -164,8 +168,7 @@
 }
 
 #pragma mark - 判断是否为数字（含小数）
-+ (BOOL)isNumber:(NSString *)strValue
-{
++ (BOOL)isNumber:(NSString *)strValue {
     if (strValue == nil || [strValue length] <= 0)
     {
         return NO;

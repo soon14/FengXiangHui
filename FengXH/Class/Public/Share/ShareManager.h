@@ -35,6 +35,9 @@
 #pragma mark - 将dic 转成字符串
 + (NSString *)convertToJsonData:(NSDictionary *)dict;
 
+#pragma mark - 宽度固定为屏幕宽度，获取图片高度
++ (CGFloat)getImageHeight:(NSString *)imageName;
+
 #pragma mark - 分享
 + (void)shareWithTitle:(NSString *)titleStr andMessage:(NSString *)message andUrl:(NSString *)urlStr andImg:(NSArray *)imgArr;
 

@@ -23,7 +23,7 @@
     [super viewDidLoad];
     self.navigationBar.barTintColor = [UIColor whiteColor];
     [self.navigationBar setTranslucent:NO];
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:17]}];
 
     self.interactivePopGestureRecognizer.delegate = self;
     self.delegate = self;
