@@ -27,7 +27,7 @@
     [self initSubVC];
     self.delegate = self;
     
-    [self setSelectedIndex:2];
+    [self setSelectedIndex:0];
 }
 
 /**

@@ -102,15 +102,15 @@
     
     NSMutableAttributedString *attributedString_2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@笔",_resultModel.order]];
     [attributedString_2 addAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:NSMakeRange(0, _resultModel.order.length)];
-    [self.shopCommisionItem.detailLabel setAttributedText:attributedString_2];
+    [self.commisionDetailItem.detailLabel setAttributedText:attributedString_2];
     
     NSMutableAttributedString *attributedString_3 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@笔",_resultModel.log]];
     [attributedString_3 addAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:NSMakeRange(0, _resultModel.log.length)];
-    [self.shopCommisionItem.detailLabel setAttributedText:attributedString_3];
+    [self.withdrawDetailItem.detailLabel setAttributedText:attributedString_3];
     
     NSMutableAttributedString *attributedString_4 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人",_resultModel.down]];
     [attributedString_4 addAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:NSMakeRange(0, _resultModel.down.length)];
-    [self.shopCommisionItem.detailLabel setAttributedText:attributedString_4];
+    [self.myTeamItem.detailLabel setAttributedText:attributedString_4];
 }
 
 #pragma mark - lazy
@@ -122,6 +122,7 @@
         [_dividendItem setTag:6];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemClickAction:)];
         [_dividendItem addGestureRecognizer:tap];
+        [_dividendItem setHidden:YES];
     }
     return _dividendItem;
 }
@@ -134,6 +135,7 @@
         [_cityParterItem setTag:5];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemClickAction:)];
         [_cityParterItem addGestureRecognizer:tap];
+        [_cityParterItem setHidden:YES];
     }
     return _cityParterItem;
 }

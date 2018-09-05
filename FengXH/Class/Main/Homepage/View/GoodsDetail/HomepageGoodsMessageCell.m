@@ -301,7 +301,7 @@
         NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:_goodsMessageModel.seckillinfo.oldprice==nil?@"":_goodsMessageModel.seckillinfo.oldprice attributes:attribtDic];
         _oldPriceLab.attributedText=attribtStr;
         
-        _salePercentLab.text=[NSString stringWithFormat:@"已出售%ld%%",_goodsMessageModel.seckillinfo.percent];
+        _salePercentLab.text=[NSString stringWithFormat:@"已出售%ld%%",(long)_goodsMessageModel.seckillinfo.percent];
         
         CGFloat nowTimeStmp = [[ShareManager getNowTimeTimestamp] doubleValue];
         if (nowTimeStmp <= [_goodsMessageModel.seckillinfo.starttime doubleValue]) {
@@ -493,7 +493,7 @@
     UILabel *lab2=[[UILabel alloc]init];
     lab2.backgroundColor=KUIColorFromHex(0xFCED4F);
     [lab1 addSubview:lab2];
-    CGFloat percentValue=[[NSString stringWithFormat:@"%ld",_goodsMessageModel.seckillinfo.percent] floatValue];
+    CGFloat percentValue=[[NSString stringWithFormat:@"%ld",(long)_goodsMessageModel.seckillinfo.percent] floatValue];
     [lab2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.mas_offset(0);
         make.width.mas_offset(percentValue/100*100);

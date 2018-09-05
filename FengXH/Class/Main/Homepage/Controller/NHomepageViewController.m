@@ -44,9 +44,17 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     HomePageStyle_secondKill_time ,
     /// 整点秒杀商品
     HomePageStyle_secondKill_goods ,
-    /// 吃货联盟
+    /// 爆款推荐
+    HomePageStyle_baokuan ,
+    /// 爆款推荐商品
+    HomePageStyle_baokuan_goods ,
+    /// 热门推荐
+    HomePageStyle_remen ,
+    /// 热门推荐商品
+    HomePageStyle_remen_goods ,
+    /// 美食专区
     HomePageStyle_foodie ,
-    /// 吃货联盟商品
+    /// 美食专区商品
     HomePageStyle_foodie_goods ,
     /// 爱在护肤
     HomePageStyle_skincare ,
@@ -179,6 +187,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             return cell;
         } break;
         case HomePageStyle_picturew:
+        case HomePageStyle_baokuan:
+        case HomePageStyle_remen:
         case HomePageStyle_foodie:
         case HomePageStyle_skincare:
         case HomePageStyle_merryTime:
@@ -190,6 +200,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             cell.delegate = self;
             return cell;
         } break;
+        case HomePageStyle_baokuan_goods:
+        case HomePageStyle_remen_goods:
         case HomePageStyle_foodie_goods:
         case HomePageStyle_skincare_goods:
         case HomePageStyle_merryTime_goods:
@@ -256,6 +268,22 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         case HomePageStyle_secondKill_goods: {
             HomePageSecondKillGoodsCell * secondKillCell = (HomePageSecondKillGoodsCell *)cell;
             secondKillCell.goodsArray = self.dataModel.M1510122188416.data.goods;
+        } break;
+        case HomePageStyle_baokuan:{
+            HomePagePicturewCell * picturCell = (HomePagePicturewCell *)cell;
+            picturCell.pictureArray = self.dataModel.M1531878941134.data;
+        } break;
+        case HomePageStyle_baokuan_goods:{
+            HomePageFoodieGoodsCell * foodieCell = (HomePageFoodieGoodsCell *)cell;
+            foodieCell.foodsArray = self.dataModel.M1531879645629.goods_list;
+        } break;
+        case HomePageStyle_remen:{
+            HomePagePicturewCell * picturCell = (HomePagePicturewCell *)cell;
+            picturCell.pictureArray = self.dataModel.M1531878957675.data;
+        } break;
+        case HomePageStyle_remen_goods:{
+            HomePageFoodieGoodsCell * foodieCell = (HomePageFoodieGoodsCell *)cell;
+            foodieCell.foodsArray = self.dataModel.M1531879773169.goods_list;
         } break;
         case HomePageStyle_foodie:{
             HomePagePicturewCell * picturCell = (HomePagePicturewCell *)cell;
@@ -362,16 +390,20 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             return CGSizeMake(collectionViewWidth, 130);
         } break;
         case HomePageStyle_picturew: {
-            return CGSizeMake(collectionViewWidth, 160*KScreenRatio);
+            return CGSizeMake(collectionViewWidth, 100*KScreenRatio);
         } break;
+        case HomePageStyle_baokuan:
+        case HomePageStyle_remen:
         case HomePageStyle_foodie:
         case HomePageStyle_skincare:
         case HomePageStyle_merryTime:
         case HomePageStyle_settledown:
         case HomePageStyle_burble:
-        case HomePageStyle_bodybuilding:{
+        case HomePageStyle_bodybuilding: {
             return CGSizeMake(collectionViewWidth, 47);
         } break;
+        case HomePageStyle_baokuan_goods:
+        case HomePageStyle_remen_goods:
         case HomePageStyle_foodie_goods:
         case HomePageStyle_skincare_goods:
         case HomePageStyle_merryTime_goods:
@@ -553,8 +585,6 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
-    
 }
 
 // MARK: 吃货联盟商品点击了整个商品事件
@@ -671,6 +701,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
                                 @(HomePageStyle_function1),@(HomePageStyle_function2),
                                 @(HomePageStyle_hotSport),@(HomePageStyle_picturew),
                                 @(HomePageStyle_secondKill_time),@(HomePageStyle_secondKill_goods),
+                                @(HomePageStyle_baokuan),@(HomePageStyle_baokuan_goods),
+                                @(HomePageStyle_remen),@(HomePageStyle_remen_goods),
                                 @(HomePageStyle_foodie),@(HomePageStyle_foodie_goods),
                                 @(HomePageStyle_skincare),@(HomePageStyle_skincare_goods),
                                 @(HomePageStyle_merryTime),@(HomePageStyle_merryTime_goods),

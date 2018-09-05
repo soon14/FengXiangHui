@@ -29,6 +29,13 @@
             make.centerX.mas_equalTo(self.mas_centerX);
         }];
         
+        UIView *line = [[UIView alloc] init];
+        [line setBackgroundColor:KLineColor];
+        [self addSubview:line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.mas_offset(0);
+            make.height.mas_equalTo(0.5);
+        }];
     }
     return self;
 }

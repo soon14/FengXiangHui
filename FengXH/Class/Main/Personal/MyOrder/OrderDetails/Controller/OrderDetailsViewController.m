@@ -55,7 +55,6 @@ typedef NS_ENUM(NSInteger , OrderDetailSectionStyle) {
     
 //    [self orderDetailRequest];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderDetailRequest) name:@"PaySuccess" object:nil];
 }
 
 - (OrderDetailBottomView *)bottomView {
@@ -359,7 +358,9 @@ typedef NS_ENUM(NSInteger , OrderDetailSectionStyle) {
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
                               [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
                               _orderID,@"orderid", nil];
-    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    if (!self.detailResultModel) {
+        [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    }
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {

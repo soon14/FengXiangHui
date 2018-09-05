@@ -26,7 +26,7 @@
 @end
 
 
-@implementation HomepageDataMenuFirstModel
+@implementation HomepageDataMenuModel
 
 + (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
     return @{@"data":[HomepageDataMenuDataModel class]};
@@ -34,13 +34,6 @@
 
 @end
 
-@implementation HomepageDataMenuSecondModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataMenuDataModel class]};
-}
-
-@end
 
 @implementation HomepageDataMenuDataModel
 
@@ -103,101 +96,7 @@
 @end
 
 
-@implementation HomepageDataFirstCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-@implementation HomepageDataSecondCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-@implementation HomepageDataThirdCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-@implementation HomepageDataFourthCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-@implementation HomepageDataFifthCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-@implementation HomepageDataSixthCategoryImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataFirstCategoryGoodsModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataSecondCategoryGoodsModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataThirdCategoryGoodsModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataFourthCategoryGoodsModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataFifthCategoryGoodsModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
-}
-
-@end
-
-
-@implementation HomepageDataSixthCategoryGoodsModel
+@implementation HomepageDataCategoryGoodsModel
 
 + (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
     return @{@"goods_list":[HomepageDataCategoryGoodsDataModel class]};
@@ -212,15 +111,6 @@
     return @{@"goodsID" : @"id",
              @"goods_description":@"description"
              };
-}
-
-@end
-
-
-@implementation HomepageDataGuessYouLikeImageModel
-
-+ (NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass{
-    return @{@"data":[HomepageDataPictureDataModel class]};
 }
 
 @end

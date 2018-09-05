@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-@class HomepageDataBannerModel,HomepageDataMenuFirstModel,HomepageDataMenuSecondModel,HomepageDataNoticeModel,HomepageDataNoticeDataModel,HomepageDataHotPictureModel,HomepageDataSecondKillDataModel,HomepageDataSecondKillModel,HomepageDataCategorySectionImageModel,HomepageDataFirstCategoryImageModel,HomepageDataFirstCategoryGoodsModel,HomepageDataSecondCategoryImageModel,HomepageDataSecondCategoryGoodsModel,HomepageDataThirdCategoryImageModel,HomepageDataThirdCategoryGoodsModel,HomepageDataFourthCategoryImageModel,HomepageDataFourthCategoryGoodsModel,HomepageDataFifthCategoryImageModel,HomepageDataFifthCategoryGoodsModel,HomepageDataSixthCategoryImageModel,HomepageDataSixthCategoryGoodsModel,HomepageDataGuessYouLikeImageModel,HomepageDataGuessYouLikeGoodsModel;
+@class HomepageDataBannerModel,HomepageDataMenuModel,HomepageDataNoticeModel,HomepageDataNoticeDataModel,HomepageDataHotPictureModel,HomepageDataSecondKillDataModel,HomepageDataSecondKillModel,HomepageDataCategorySectionImageModel,HomepageDataCategoryGoodsModel,HomepageDataGuessYouLikeGoodsModel;
 
 @interface HomepageDataModel : NSObject
 
 /** 滚动广告 */
 @property(nonatomic , strong)HomepageDataBannerModel *M1471835880921;
 /** 10个专区-1 */
-@property(nonatomic , strong)HomepageDataMenuFirstModel *M1471835886075;
+@property(nonatomic , strong)HomepageDataMenuModel *M1471835886075;
 /** 10个专区-2 */
-@property(nonatomic , strong)HomepageDataMenuSecondModel *M1529474107640;
+@property(nonatomic , strong)HomepageDataMenuModel *M1529474107640;
 /** 热点 */
 @property(nonatomic , strong)HomepageDataNoticeModel *M1482809676486;
 /** 热点内容 */
@@ -25,32 +25,40 @@
 @property(nonatomic , strong)HomepageDataSecondKillModel *M1510122188416;
 /** 类目精选section图片 */
 @property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455635232;
-/** 吃货联盟大图 */
-@property(nonatomic , strong)HomepageDataFirstCategoryImageModel *M1512455725970;
-/** 吃货联盟商品 */
-@property(nonatomic , strong)HomepageDataFirstCategoryGoodsModel *M1516787844386;
+/** 爆款推荐大图 */
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1531878941134;
+/** 爆款推荐商品 */
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1531879645629;
+/** 热门推荐大图 */
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1531878957675;
+/** 热门推荐商品 */
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1531879773169;
+/** 美食专区大图 */
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455725970;
+/** 美食专区商品 */
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1516787844386;
 /** 爱在护肤大图 */
-@property(nonatomic , strong)HomepageDataSecondCategoryImageModel *M1512455784147;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455784147;
 /** 爱在护肤商品 */
-@property(nonatomic , strong)HomepageDataSecondCategoryGoodsModel *M1512373325297;
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1512373325297;
 /** 美时美刻大图 */
-@property(nonatomic , strong)HomepageDataThirdCategoryImageModel *M1512455826986;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455826986;
 /** 美时美刻商品 */
-@property(nonatomic , strong)HomepageDataThirdCategoryGoodsModel *M1512373372365;
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1512373372365;
 /** 安家落户大图 */
-@property(nonatomic , strong)HomepageDataFourthCategoryImageModel *M1512455857299;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455857299;
 /** 安家落户商品 */
-@property(nonatomic , strong)HomepageDataFourthCategoryGoodsModel *M1487819230395;
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1487819230395;
 /** 咿呀学语大图 */
-@property(nonatomic , strong)HomepageDataFifthCategoryImageModel *M1512455916966;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455916966;
 /** 咿呀学语商品 */
-@property(nonatomic , strong)HomepageDataFifthCategoryGoodsModel *M1487818916357;
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1487818916357;
 /** 强身健体大图 */
-@property(nonatomic , strong)HomepageDataSixthCategoryImageModel *M1512455889850;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1512455889850;
 /** 强身健体商品 */
-@property(nonatomic , strong)HomepageDataSixthCategoryGoodsModel *M1512373413982;
+@property(nonatomic , strong)HomepageDataCategoryGoodsModel *M1512373413982;
 /** 猜你喜欢图片 */
-@property(nonatomic , strong)HomepageDataGuessYouLikeImageModel *M1530682233521;
+@property(nonatomic , strong)HomepageDataCategorySectionImageModel *M1530682233521;
 /** 猜你喜欢商品 */
 @property(nonatomic , strong)HomepageDataGuessYouLikeGoodsModel *M1530682437506;
 
@@ -78,16 +86,8 @@
 @end
 
 
-#pragma mark - 10个专区-1
-@interface HomepageDataMenuFirstModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-#pragma mark - 10个专区-1
-@interface HomepageDataMenuSecondModel : NSObject
+#pragma mark - 10个专区
+@interface HomepageDataMenuModel : NSObject
 
 /** data */
 @property(nonatomic , strong)NSArray *data;
@@ -202,113 +202,8 @@
 @end
 
 
-#pragma mark - 吃货联盟大图
-@interface HomepageDataFirstCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-
-#pragma mark - 爱在护肤大图
-@interface HomepageDataSecondCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-#pragma mark - 美时美刻大图
-@interface HomepageDataThirdCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-#pragma mark - 安家落户大图
-@interface HomepageDataFourthCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-#pragma mark - 咿呀学语大图
-@interface HomepageDataFifthCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-#pragma mark - 强身健体大图
-@interface HomepageDataSixthCategoryImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
-
-#pragma mark - 吃货联盟商品
-@interface HomepageDataFirstCategoryGoodsModel : NSObject
-
-/** cateid */
-@property(nonatomic , copy)NSString *cateid;
-/** data */
-@property(nonatomic , strong)NSArray *goods_list;
-
-@end
-
-
-#pragma mark - 爱在护肤商品
-@interface HomepageDataSecondCategoryGoodsModel : NSObject
-
-/** cateid */
-@property(nonatomic , copy)NSString *cateid;
-/** data */
-@property(nonatomic , strong)NSArray *goods_list;
-
-@end
-
-
-#pragma mark - 美时美刻商品
-@interface HomepageDataThirdCategoryGoodsModel : NSObject
-
-/** cateid */
-@property(nonatomic , copy)NSString *cateid;
-/** data */
-@property(nonatomic , strong)NSArray *goods_list;
-
-@end
-
-
-#pragma mark - 安家落户商品
-@interface HomepageDataFourthCategoryGoodsModel : NSObject
-
-/** cateid */
-@property(nonatomic , copy)NSString *cateid;
-/** data */
-@property(nonatomic , strong)NSArray *goods_list;
-
-@end
-
-
-#pragma mark - 咿呀学语商品
-@interface HomepageDataFifthCategoryGoodsModel : NSObject
-
-/** cateid */
-@property(nonatomic , copy)NSString *cateid;
-/** data */
-@property(nonatomic , strong)NSArray *goods_list;
-
-@end
-
-
-#pragma mark - 强身健体商品
-@interface HomepageDataSixthCategoryGoodsModel : NSObject
+#pragma mark - 类目精选
+@interface HomepageDataCategoryGoodsModel : NSObject
 
 /** cateid */
 @property(nonatomic , copy)NSString *cateid;
@@ -367,16 +262,6 @@
 @property(nonatomic , strong)NSArray *optionid;
 
 @end
-
-
-#pragma mark - 强身健体大图
-@interface HomepageDataGuessYouLikeImageModel : NSObject
-
-/** data */
-@property(nonatomic , strong)NSArray *data;
-
-@end
-
 
 
 #pragma mark - 猜你喜欢

@@ -34,7 +34,7 @@
     [super viewDidLoad];
     self.title = @"支付成功";
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(paySuccessBack)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(paySuccessBackAction)];
     [self.navigationItem.leftBarButtonItem setTintColor:KUIColorFromHex(0x9a9a9a)];
     
     
@@ -44,26 +44,27 @@
 }
 
 #pragma mark - 左边返回键
-- (void)paySuccessBack {
+- (void)paySuccessBackAction {
     if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[ShopCartViewController class]]) {
+        //购物车
         [self.navigationController popToRootViewControllerAnimated:YES];
-        return;
     } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[PersonalViewController class]]) {
-        NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[index-3] animated:YES];
-        return;
+        //个人中心订单页
+        
+        //发送个人中心订单页进来付款成功的通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PersonalOrderPaySuccessNotification" object:nil];
+        //NSInteger index = self.navigationController.viewControllers.count;
+        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
     } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[NHomepageViewController class]]) {
-        NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[index-4] animated:YES];
-        return;
+        //首页进入
+        //NSInteger index = self.navigationController.viewControllers.count;
+        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
     } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[AllGoodsViewController class]]) {
-        NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[index-5] animated:YES];
-        return;
+        //全部商品页进入
+        //NSInteger index = self.navigationController.viewControllers.count;
+        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
     } else {
-        NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[index-4] animated:YES];
-        return;
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
@@ -73,7 +74,7 @@
         _footerView = [[PaySuccessFooterView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 80)];
         MJWeakSelf
         _footerView.backBlock = ^(UIButton *sender) {
-            [weakSelf paySuccessBack];
+            [weakSelf paySuccessBackAction];
         };
     }
     return _footerView;
@@ -179,7 +180,6 @@
             
             self.resultModel = [PaySuccessResultModel yy_modelWithDictionary:responseDic[@"result"]];
             [self.payTableview reloadData];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"PaySuccess" object:nil];
             
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:@"后台繁忙"];

@@ -529,7 +529,6 @@
 		3AED3AF820F32F950095D7C1 /* AllGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3AF720F32F950095D7C1 /* AllGoodsViewController.m */; };
 		3AED3AFE20F32FBE0095D7C1 /* ShopCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3AFD20F32FBE0095D7C1 /* ShopCartViewController.m */; };
 		3AED3B0120F32FC70095D7C1 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AED3B0020F32FC70095D7C1 /* PersonalViewController.m */; };
-		3AFCE5EC2139199C00E5BC6F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AFCE5EB2139199C00E5BC6F /* Info.plist */; };
 		3AFD569521192DF000B36A35 /* MyFootprintBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569421192DF000B36A35 /* MyFootprintBottomView.m */; };
 		3AFD569821192F0700B36A35 /* MyFootprintCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569721192F0700B36A35 /* MyFootprintCell.m */; };
 		3AFD569B2119305F00B36A35 /* MyFocusResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFD569A2119305F00B36A35 /* MyFocusResultModel.m */; };
@@ -4470,7 +4469,6 @@
 			files = (
 				3AED3A9220F313830095D7C1 /* ZYBannerView.bundle in Resources */,
 				3AED396520F30AF50095D7C1 /* LaunchScreen.storyboard in Resources */,
-				3AFCE5EC2139199C00E5BC6F /* Info.plist in Resources */,
 				041A45CE2119B73F00CE5466 /* ShareSDKUI.bundle in Resources */,
 				3AED3AA620F313830095D7C1 /* IQKeyboardManager.bundle in Resources */,
 				3ABEAE2E21244E4B00C13F6F /* README.txt in Resources */,

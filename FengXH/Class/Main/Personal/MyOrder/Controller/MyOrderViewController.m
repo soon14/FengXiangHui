@@ -46,6 +46,8 @@ static NSString *notingCellID = @"notingCellID";
     orderModelArray = [NSMutableArray array];
     requestPage = 1;
     [self myOrderRequest:requestPage];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PersonalOrderPaySuccessNotification" object:nil];
 }
 
 #pragma mark - tableView
@@ -327,6 +329,10 @@ static NSString *notingCellID = @"notingCellID";
         }
     }];
     
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
