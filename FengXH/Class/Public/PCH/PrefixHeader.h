@@ -44,7 +44,7 @@
 
 
 //测试
-#define KBasicURL @"http://vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 
 
@@ -58,7 +58,6 @@
 #define KNetworkError @"网络连接错误"
 #define KRequestError @"访问出错啦，请稍后再试~"
 
-//#define LLog( s, ... ) printf("[ %s:(%d) ] %s :%s\n", [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __PRETTY_FUNCTION__, [[NSString stringWithFormat:(s), ##__VA_ARGS__] UTF8String])
 
 // 日志级别
 #ifdef DEBUG

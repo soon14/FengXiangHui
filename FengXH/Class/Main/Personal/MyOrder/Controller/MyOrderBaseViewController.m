@@ -45,8 +45,7 @@
     CGPoint offset = self.basicScrollView.contentOffset;
     if (self.orderType == AllOrder) {
         [self scrollViewDidEndScrollingAnimation:self.basicScrollView];
-    }
-    else if (self.orderType == waitingForPayOrder){
+    } else if (self.orderType == waitingForPayOrder){
         offset.x = KMAINSIZE.width;
         [self.basicScrollView setContentOffset:offset animated:YES];
     } else if (self.orderType == waitingForSendOrder){
@@ -130,7 +129,7 @@
         CGFloat scale = scrollView.contentOffset.x/5;
         _topButtonView.moveLine.frame = CGRectMake(scale+10, 40, KMAINSIZE.width/5-20, 2);
         if (scale<KMAINSIZE.width/10) {
-            [_topButtonView.allButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.allButton setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.waitPaidButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitSendButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitReceiveButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
@@ -138,7 +137,7 @@
             //NSLog(@"--1--");
         } else if (scale>KMAINSIZE.width/10 && scale<(KMAINSIZE.width/10)*3) {
             [_topButtonView.allButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.waitPaidButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.waitPaidButton setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.waitSendButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitReceiveButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitEvaluateButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
@@ -146,7 +145,7 @@
         } else if (scale>(KMAINSIZE.width/10)*3 && scale<(KMAINSIZE.width/10)*5) {
             [_topButtonView.allButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitPaidButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.waitSendButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.waitSendButton setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.waitReceiveButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitEvaluateButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             //NSLog(@"--3--");
@@ -154,7 +153,7 @@
             [_topButtonView.allButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitPaidButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitSendButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.waitReceiveButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.waitReceiveButton setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.waitEvaluateButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             //NSLog(@"--4--");
         } else if (scale>(KMAINSIZE.width/10)*7 && scale<(KMAINSIZE.width/10)*9) {
@@ -162,7 +161,7 @@
             [_topButtonView.waitPaidButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitSendButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.waitReceiveButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.waitEvaluateButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.waitEvaluateButton setTitleColor:KRedColor forState:UIControlStateNormal];
             //NSLog(@"--5--");
         }
         if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {
@@ -170,12 +169,6 @@
         }
     }
 }
-
-#pragma mark - 导航栏左侧搜索按钮
-- (void)searchButtonDidClicked {
-    [DBHUD ShowInView:self.view withTitle:@"搜索去"];
-}
-
 
 
 - (void)didReceiveMemoryWarning {

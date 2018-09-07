@@ -23,7 +23,7 @@
 #import "HomepageBaseGoodsDetailController.h"//商品详情
 #import "JingDongViewController.h"//京东优选
 #import "FreshViewController.h"//生鲜超市
-#import "ArticleListViewController.h"//赏金文章
+#import "ArticleListBaseViewController.h"//赏金文章
 #import "PhoneViewController.h"//云通话
 
 // 首页板块类型
@@ -259,7 +259,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         } break;
         case HomePageStyle_picturew: {
             HomePagePicturewCell * picturCell = (HomePagePicturewCell *)cell;
-            picturCell.pictureArray = self.dataModel.M1528772177656.data;
+            picturCell.pictureArray = self.dataModel.M1536286629032.data;
         } break;
         case HomePageStyle_secondKill_time: {
             HomePageSecondKillTimeCell * timeCell = (HomePageSecondKillTimeCell *)cell;
@@ -390,7 +390,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             return CGSizeMake(collectionViewWidth, 130);
         } break;
         case HomePageStyle_picturew: {
-            return CGSizeMake(collectionViewWidth, 100*KScreenRatio);
+            return CGSizeMake(collectionViewWidth, 180*KScreenRatio);
         } break;
         case HomePageStyle_baokuan:
         case HomePageStyle_remen:
@@ -515,8 +515,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         } break;
         case FunctionJumpArticleList: {
             /** 跳转至赏金文章 */
-            ArticleListViewController *articleVC = [[ArticleListViewController alloc] init];
-            articleVC.jumpURL = functionItemModel.linkurl;
+            ArticleListBaseViewController *articleVC = [[ArticleListBaseViewController alloc] init];
             articleVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:articleVC animated:YES];
         } break;

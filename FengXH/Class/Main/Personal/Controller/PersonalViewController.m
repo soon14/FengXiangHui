@@ -36,7 +36,7 @@
 #import "PromotionPosterViewController.h"
 #import "PhoneTopUpViewController.h"
 #import "PersonalTopUpViewController.h"
-#import "ArticleListViewController.h"
+#import "ArticleListBaseViewController.h"
 #import "FreshViewController.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource,CustomActionSheetDelagate>
@@ -83,6 +83,7 @@
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }
     } WithFailureBlock:^(NSError *error) {
+        NSLog(@"%@",error);
         [DBHUD Hiden:YES fromView:self.view];
         [DBHUD ShowInView:self.view withTitle:KNetworkError];
     
@@ -494,8 +495,7 @@
         case 0: {
             //我的素材
             /** 跳转至赏金文章 */
-            ArticleListViewController *articleVC = [[ArticleListViewController alloc] init];
-            articleVC.jumpURL = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article.list";
+            ArticleListBaseViewController *articleVC = [[ArticleListBaseViewController alloc] init];
             articleVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:articleVC animated:YES];
         }

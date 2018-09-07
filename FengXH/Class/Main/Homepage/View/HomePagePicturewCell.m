@@ -8,8 +8,9 @@
 
 #import "HomePagePicturewCell.h"
 #import "HomepageDataModel.h"
+#import "ZLCollectionViewFlowLayout.h"
 
-@interface HomePagePicturewCell ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface HomePagePicturewCell ()<UICollectionViewDelegate,UICollectionViewDataSource,ZLCollectionViewFlowLayoutDelegate>
 /** CollectionView */
 @property(nonatomic , strong)UICollectionView * pictureCollection ;
 @end
@@ -42,7 +43,37 @@
 }
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
+- (ZLLayoutType)collectionView:(UICollectionView *)collectionView layout:(ZLCollectionViewFlowLayout *)collectionViewLayout typeOfLayout:(NSInteger)section {
+    return FillLayout;
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.pictureArray.count == 3) {
+        switch (indexPath.item) {
+            case 0: {
+                return CGSizeMake(collectionView.frame.size.width/2, collectionView.frame.size.height);
+            } break;
+            default: {
+                return CGSizeMake(collectionView.frame.size.width/2, collectionView.frame.size.height/2);
+            } break;
+        }
+    } else if (self.pictureArray.count == 4) {
+        switch (indexPath.item) {
+            case 0: {
+                return CGSizeMake(collectionView.frame.size.width/2, collectionView.frame.size.height);
+            } break;
+            case 1: {
+                return CGSizeMake((collectionView.frame.size.width/2)-10, (collectionView.frame.size.height/2)-5);
+            } break;
+            case 2:
+            case 3: {
+                return CGSizeMake((collectionView.frame.size.width/4)-10, (collectionView.frame.size.height/2)-10);
+            } break;
+            default: {
+                return CGSizeZero;
+            } break;
+        }
+    }
     return CGSizeMake(collectionView.frame.size.width / self.pictureArray.count, collectionView.frame.size.height);
 }
 
@@ -68,13 +99,16 @@
 #pragma mark 懒加载
 - (UICollectionView *)pictureCollection{
     if (!_pictureCollection) {
-        UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        flowLayout.minimumLineSpacing = 0;
-        flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.sectionInset = UIEdgeInsetsZero;
+        ZLCollectionViewFlowLayout * flowLayout = [[ZLCollectionViewFlowLayout alloc] init];
+        flowLayout.delegate = self;
+//        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//        flowLayout.minimumLineSpacing = 0;
+//        flowLayout.minimumInteritemSpacing = 0;
+//        flowLayout.sectionInset = UIEdgeInsetsZero;
         
         _pictureCollection = [[UICollectionView alloc] initWithFrame:self.contentView.frame collectionViewLayout:flowLayout];
+        [_pictureCollection setShowsHorizontalScrollIndicator:NO];
+        [_pictureCollection setShowsVerticalScrollIndicator:NO];
         [_pictureCollection registerClass:[HomePagePicturewImageCell class] forCellWithReuseIdentifier:NSStringFromClass([HomePagePicturewImageCell class])];
         _pictureCollection.backgroundColor = [UIColor whiteColor];
         _pictureCollection.delegate = self;

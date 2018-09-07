@@ -14,43 +14,45 @@
     if (self=[super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
         
+        CGFloat buttonWidth = (KMAINSIZE.width/5);
+        
         [self addSubview:self.allButton];
         [self.allButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_offset(15);
+            make.left.mas_offset(0);
             make.top.bottom.mas_offset(0);
-            make.width.mas_equalTo(45);
+            make.width.mas_equalTo(buttonWidth);
         }];
         
         
         [self addSubview:self.waitPaidButton];
         [self.waitPaidButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_allButton.mas_right).offset(30);
+            make.left.mas_equalTo(_allButton.mas_right);
             make.top.bottom.mas_offset(0);
-            make.width.mas_equalTo(45);
+            make.width.mas_equalTo(buttonWidth);
         }];
         
         
         [self addSubview:self.waitSendButton];
         [self.waitSendButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_waitPaidButton.mas_right).offset(30);
+            make.left.mas_equalTo(_waitPaidButton.mas_right);
             make.top.bottom.mas_offset(0);
-            make.width.mas_equalTo(45);
+            make.width.mas_equalTo(buttonWidth);
         }];
         
         
         [self addSubview:self.waitReceiveButton];
         [self.waitReceiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_waitSendButton.mas_right).offset(30);
+            make.left.mas_equalTo(_waitSendButton.mas_right);
             make.top.bottom.mas_offset(0);
-            make.width.mas_equalTo(45);
+            make.width.mas_equalTo(buttonWidth);
         }];
         
         
         [self addSubview:self.waitEvaluateButton];
         [self.waitEvaluateButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_waitReceiveButton.mas_right).offset(30);
+            make.left.mas_equalTo(_waitReceiveButton.mas_right);
             make.top.bottom.mas_offset(0);
-            make.width.mas_equalTo(45);
+            make.width.mas_equalTo(buttonWidth);
         }];
         
         //小黑线
@@ -80,7 +82,7 @@
 - (UIView *)moveLine {
     if (!_moveLine) {
         _moveLine = [[UIView alloc]initWithFrame:CGRectMake(10, 40, KMAINSIZE.width/5-20, 2)];
-        [_moveLine setBackgroundColor:KUIColorFromHex(0xff5753)];
+        [_moveLine setBackgroundColor:KRedColor];
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_moveLine.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(20, 8)];
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
         maskLayer.frame = _moveLine.bounds;
@@ -94,7 +96,7 @@
     if (!_waitEvaluateButton) {
         _waitEvaluateButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_waitEvaluateButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-        [_waitEvaluateButton.titleLabel setFont:KFont(14)];
+        [_waitEvaluateButton.titleLabel setFont:KFont(15)];
         [_waitEvaluateButton setTitle:@"已完成" forState:UIControlStateNormal];
         [_waitEvaluateButton setTag:9005];
         [_waitEvaluateButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -106,7 +108,7 @@
     if (!_waitReceiveButton) {
         _waitReceiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_waitReceiveButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-        [_waitReceiveButton.titleLabel setFont:KFont(14)];
+        [_waitReceiveButton.titleLabel setFont:KFont(15)];
         [_waitReceiveButton setTitle:@"待收货" forState:UIControlStateNormal];
         [_waitReceiveButton setTag:9004];
         [_waitReceiveButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,7 +120,7 @@
     if (!_waitSendButton) {
         _waitSendButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_waitSendButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-        [_waitSendButton.titleLabel setFont:KFont(14)];
+        [_waitSendButton.titleLabel setFont:KFont(15)];
         [_waitSendButton setTitle:@"待发货" forState:UIControlStateNormal];
         [_waitSendButton setTag:9003];
         [_waitSendButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -130,7 +132,7 @@
     if (!_waitPaidButton) {
         _waitPaidButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_waitPaidButton setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-        [_waitPaidButton.titleLabel setFont:KFont(14)];
+        [_waitPaidButton.titleLabel setFont:KFont(15)];
         [_waitPaidButton setTitle:@"待付款" forState:UIControlStateNormal];
         [_waitPaidButton setTag:9002];
         [_waitPaidButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -142,7 +144,7 @@
     if (!_allButton) {
         _allButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_allButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
-        [_allButton.titleLabel setFont:KFont(14)];
+        [_allButton.titleLabel setFont:KFont(15)];
         [_allButton setTitle:@"全部" forState:UIControlStateNormal];
         [_allButton setTag:9001];
         [_allButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];

@@ -20,7 +20,7 @@
 /** 热点 */
 @property(nonatomic , strong)HomepageDataNoticeModel *M1482809676486;
 /** 热点内容 */
-@property(nonatomic , strong)HomepageDataHotPictureModel *M1528772177656;
+@property(nonatomic , strong)HomepageDataHotPictureModel *M1536286629032;
 /** 秒杀倒计时 */
 @property(nonatomic , strong)HomepageDataSecondKillModel *M1510122188416;
 /** 类目精选section图片 */

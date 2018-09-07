@@ -6,10 +6,11 @@
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
-#import "ArticleListViewController.h"
+#import "ArticleContentViewController.h"
 #import "WKWebViewJavascriptBridge.h"
+#import "ArticelListResultModel.h"
 
-@interface ArticleListViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
+@interface ArticleContentViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 
 /** navigation */
 @property(nonatomic , strong)UIView *navigationView;
@@ -17,12 +18,10 @@
 @property(nonatomic , strong)UIProgressView *progressView;
 /** 导航栏右编辑按钮 */
 @property(nonatomic , strong)UIButton *shareButton;
-/** 用于分享请求的 ID */
-@property(nonatomic , copy)NSString *articleID;
 
 @end
 
-@implementation ArticleListViewController
+@implementation ArticleContentViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -47,39 +46,31 @@
     [self.view addSubview:self.progressView];
     [self.view insertSubview:self.webView belowSubview:self.progressView];
     
-    NSString *jumpUrl = [NSString stringWithFormat:@"%@&token=%@",_jumpURL,[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]];
+    NSString *jumpUrl = [NSString stringWithFormat:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article&aid=%@&token=%@",_articleModel.articleID,[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:jumpUrl] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
     [self.webView loadRequest:request];
     
 }
 
-
-
-
-
-
-
-
-
 #pragma mark - 分享网络请求
 - (void)shareButtonDidClicked:(UIButton *)sender {
-    if (_articleID == nil) {
+    if (_articleModel == nil) {
         [DBHUD ShowInView:self.view withTitle:@"请分享指定文章"];
         return;
     }
     //用于分享出去的文章 url
-    NSString *articleURL = [NSString stringWithFormat:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article&aid=%@",_articleID];
+    NSString *articleURL = [NSString stringWithFormat:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article&aid=%@",_articleModel.articleID];
     NSLog(@"articleURL:%@",articleURL);
     NSString *url = @"r=apply.article";
     NSString *path = [HBBaseAPI appendAPIurl:url];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
                               [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
-                              _articleID,@"aid", nil];
+                              _articleModel.articleID,@"aid", nil];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
-            NSLog(@"%@",responseDic);
+            //NSLog(@"%@",responseDic);
         
             [ShareManager shareWithTitle:responseDic[@"result"][@"article_title"] andMessage:responseDic[@"result"][@"resp_desc"] andUrl:articleURL andImg:@[responseDic[@"result"][@"resp_img"]]];
             
@@ -94,14 +85,14 @@
 
 #pragma mark - 监听 web 按钮点击
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    NSDictionary *bodyDic = [NSDictionary dictionary];
-    if ([message.name isEqualToString:@"ShowMessageFromWKWebView"]) {
-        bodyDic = message.body;
-        //NSLog(@"bodyDic:%@",bodyDic);
-        if (bodyDic[@"message"][@"code"]) {
-            _articleID = bodyDic[@"message"][@"code"];
-        }
-    }
+//    NSDictionary *bodyDic = [NSDictionary dictionary];
+//    if ([message.name isEqualToString:@"ShowMessageFromWKWebView"]) {
+//        bodyDic = message.body;
+//        //NSLog(@"bodyDic:%@",bodyDic);
+//        if (bodyDic[@"message"][@"code"]) {
+//            _articleID = bodyDic[@"message"][@"code"];
+//        }
+//    }
 }
 
 #pragma mark - 返回操作

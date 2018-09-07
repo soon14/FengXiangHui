@@ -7,6 +7,7 @@
 //
 
 #import "HBJSONNetWork.h"
+#import "MoboNewsSecurityPolice.h"
 
 @implementation HBJSONNetWork
 
@@ -21,7 +22,8 @@
 
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration {
     if (self = [super initWithSessionConfiguration:configuration]) {
-        self.securityPolicy.allowInvalidCertificates = YES;
+        MoboNewsSecurityPolice *securityPolicy = [MoboNewsSecurityPolice defaultPolicy];
+        self.securityPolicy = securityPolicy;
     }
     return self;
 }

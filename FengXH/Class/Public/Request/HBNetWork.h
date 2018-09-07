@@ -33,7 +33,9 @@ typedef enum {
          WithSuccessBlock:(requestSuccessBlock)success
          WithFailureBlock:(requestFailureBlock)failure;
 
-//上传图片接口(单张)
+/**
+ 上传图片接口(单张)
+*/
 - (void)requestWithPath:(NSString *)path
              WithParams:(id)params
           WithImageName:(NSString *)imageName

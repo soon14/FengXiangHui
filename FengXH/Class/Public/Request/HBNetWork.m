@@ -7,6 +7,7 @@
 //
 
 #import "HBNetWork.h"
+#import "MoboNewsSecurityPolice.h"
 
 @implementation HBNetWork
 
@@ -27,8 +28,9 @@
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/plain",@"text/javascript",@"text/json",@"text/html",@"text/xml", nil];
-        self.securityPolicy.allowInvalidCertificates = YES;
-
+//        self.securityPolicy.allowInvalidCertificates = YES;
+        MoboNewsSecurityPolice *securityPolicy = [MoboNewsSecurityPolice defaultPolicy];
+        self.securityPolicy = securityPolicy;
     }
     return self;
 }
@@ -60,6 +62,7 @@
             break;
     }
 }
+
 //图片上传接口
 - (void)requestWithPath:(NSString *)path WithParams:(id)params WithImageName:(NSString *)imageName WithImage:(UIImage *)image WithSuccessBlock:(requestSuccessBlock)success WithFailureBlock:(requestFailureBlock)failure
 {
