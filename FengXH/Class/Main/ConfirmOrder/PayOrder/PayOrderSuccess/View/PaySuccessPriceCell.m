@@ -26,9 +26,10 @@
         UILabel *label = [[UILabel alloc] init];
         [label setTextColor:KUIColorFromHex(0x666666)];
         [label setFont:KFont(15)];
+        [label setText:@"实付金额"];
         [self.contentView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_offset(12);
+            make.left.mas_offset(16);
             make.centerY.mas_equalTo(self.contentView.mas_centerY);
         }];
         
@@ -46,8 +47,6 @@
     _successDataModel = successDataModel;
     if (_successDataModel.price) {
         [self.priceLabel setText:[NSString stringWithFormat:@"¥ %.2f",[_successDataModel.price floatValue]]];
-    } else {
-        [self.priceLabel setText:@"请到我的订单查看"];
     }
     
 }
@@ -59,6 +58,7 @@
         [_priceLabel setTextColor:KRedColor];
         [_priceLabel setFont:KFont(15)];
         [_priceLabel setTextAlignment:NSTextAlignmentRight];
+        [_priceLabel setText:@"¥ 700"];
     }
     return _priceLabel;
 }

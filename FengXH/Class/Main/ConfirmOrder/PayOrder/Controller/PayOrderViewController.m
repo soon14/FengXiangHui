@@ -48,20 +48,15 @@
     NSInteger infoCode = [notification.object[@"info"] integerValue];
     switch (infoCode) {
         case 0: {
+           
+            PaySuccessViewController *VC = [[PaySuccessViewController alloc] init];
+            VC.payType = @"wechat";
+            VC.orderID = _orderID;
             if (_teamID) {
-                //拼团商品支付成功
-                PaySuccessViewController *VC = [[PaySuccessViewController alloc] init];
-                VC.payType = @"wechat";
-                VC.orderID = _orderID;
                 VC.teamID = _teamID;
-                [self.navigationController pushViewController:VC animated:YES];
-            } else {
-                //普通商品支付成功
-                PaySuccessViewController *VC = [[PaySuccessViewController alloc] init];
-                VC.payType = @"wechat";
-                VC.orderID = _orderID;
-                [self.navigationController pushViewController:VC animated:YES];
             }
+            [self.navigationController pushViewController:VC animated:YES];
+            
         } break;
         default: {//失败
             [DBHUD ShowInView:self.view withTitle:@"支付失败"];

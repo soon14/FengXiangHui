@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+@class SpellOrderListDataModel;
 
 @interface SpellOrderDetailViewController : BaseViewController
 
@@ -14,10 +15,9 @@
 
 @property(nonatomic,assign)NSInteger controllerType;//上个页面的controller
 
-@property(nonatomic,copy)NSString *orderId;//订单id
+/** model */
+@property(nonatomic , strong)SpellOrderListDataModel *listDataModel;
 
-@property(nonatomic,copy)NSString *teamId;//拼团id
-
--(instancetype)initWithType:(NSInteger)type;//0待付款 1待发货 2待收货 3已完成 -1已取消
+- (instancetype)initWithType:(NSInteger)type;//0待付款 1待发货 2待收货 3已完成 -1已取消
 
 @end

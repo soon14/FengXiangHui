@@ -250,7 +250,6 @@
 		3A00571A212A5CEF0002D97E /* TownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A005712212A5CEE0002D97E /* TownModel.m */; };
 		3A00571B212A5CEF0002D97E /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A005714212A5CEF0002D97E /* CityModel.m */; };
 		3A005720212BE7010002D97E /* IntegralCreatOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A00571F212BE7010002D97E /* IntegralCreatOrderViewController.m */; };
-		3A005723212BF5780002D97E /* PaySuccessFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A005722212BF5780002D97E /* PaySuccessFooterView.m */; };
 		3A2BF2E620F5925E00480F25 /* HomepageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2E520F5925E00480F25 /* HomepageDataModel.m */; };
 		3A2BF2EA20F599BB00480F25 /* WebJumpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2E920F599BB00480F25 /* WebJumpViewController.m */; };
 		3A2BF2EF20F7264400480F25 /* AllGoodsSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2BF2EE20F7264400480F25 /* AllGoodsSearchView.m */; };
@@ -375,6 +374,8 @@
 		3A7B5CDB214288DF0024C201 /* ZLCellFakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CD3214288DF0024C201 /* ZLCellFakeView.m */; };
 		3A7B5CDC214288DF0024C201 /* ZLCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CD4214288DF0024C201 /* ZLCollectionViewLayoutAttributes.m */; };
 		3A7B5CDD214288DF0024C201 /* ZLCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CD5214288DF0024C201 /* ZLCollectionReusableView.m */; };
+		3A7B5CE121467A990024C201 /* PushAnimationTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CDF21467A980024C201 /* PushAnimationTools.m */; };
+		3A7B5CE42147572F0024C201 /* PaySuccessFooterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CE32147572F0024C201 /* PaySuccessFooterCell.m */; };
 		3A8AB12F2105743B0036DFC5 /* NSObject+CountDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB12D2105743B0036DFC5 /* NSObject+CountDown.m */; };
 		3A8AB1322105AED40036DFC5 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB1312105AED40036DFC5 /* UserInfoModel.m */; };
 		3A8AB17821084AA30036DFC5 /* ShopkeeperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB16421084AA30036DFC5 /* ShopkeeperModel.m */; };
@@ -1054,8 +1055,6 @@
 		3A005714212A5CEF0002D97E /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
 		3A00571E212BE7010002D97E /* IntegralCreatOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegralCreatOrderViewController.h; sourceTree = "<group>"; };
 		3A00571F212BE7010002D97E /* IntegralCreatOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegralCreatOrderViewController.m; sourceTree = "<group>"; };
-		3A005721212BF5780002D97E /* PaySuccessFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaySuccessFooterView.h; sourceTree = "<group>"; };
-		3A005722212BF5780002D97E /* PaySuccessFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaySuccessFooterView.m; sourceTree = "<group>"; };
 		3A2BF2E420F5925E00480F25 /* HomepageDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomepageDataModel.h; sourceTree = "<group>"; };
 		3A2BF2E520F5925E00480F25 /* HomepageDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepageDataModel.m; sourceTree = "<group>"; };
 		3A2BF2E820F599BB00480F25 /* WebJumpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebJumpViewController.h; sourceTree = "<group>"; };
@@ -1305,6 +1304,10 @@
 		3A7B5CD7214288DF0024C201 /* ZLCellFakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLCellFakeView.h; sourceTree = "<group>"; };
 		3A7B5CD8214288DF0024C201 /* ZLCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		3A7B5CD9214288DF0024C201 /* ZLCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLCollectionReusableView.h; sourceTree = "<group>"; };
+		3A7B5CDF21467A980024C201 /* PushAnimationTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushAnimationTools.m; sourceTree = "<group>"; };
+		3A7B5CE021467A980024C201 /* PushAnimationTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushAnimationTools.h; sourceTree = "<group>"; };
+		3A7B5CE22147572F0024C201 /* PaySuccessFooterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaySuccessFooterCell.h; sourceTree = "<group>"; };
+		3A7B5CE32147572F0024C201 /* PaySuccessFooterCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaySuccessFooterCell.m; sourceTree = "<group>"; };
 		3A8AB12D2105743B0036DFC5 /* NSObject+CountDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CountDown.m"; sourceTree = "<group>"; };
 		3A8AB12E2105743B0036DFC5 /* NSObject+CountDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CountDown.h"; sourceTree = "<group>"; };
 		3A8AB1302105AED40036DFC5 /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
@@ -3381,6 +3384,15 @@
 			path = ZLCollectionViewFlowLayout;
 			sourceTree = "<group>";
 		};
+		3A7B5CDE21467A980024C201 /* PushAnimationTools */ = {
+			isa = PBXGroup;
+			children = (
+				3A7B5CDF21467A980024C201 /* PushAnimationTools.m */,
+				3A7B5CE021467A980024C201 /* PushAnimationTools.h */,
+			);
+			path = PushAnimationTools;
+			sourceTree = "<group>";
+		};
 		3A8AB12C2105743B0036DFC5 /* CountDownTime */ = {
 			isa = PBXGroup;
 			children = (
@@ -3640,8 +3652,8 @@
 				3ABEAE5421255D6700C13F6F /* PaySuccessAddressCell.m */,
 				3ABEAE5621255F0500C13F6F /* PaySuccessPriceCell.h */,
 				3ABEAE5721255F0500C13F6F /* PaySuccessPriceCell.m */,
-				3A005721212BF5780002D97E /* PaySuccessFooterView.h */,
-				3A005722212BF5780002D97E /* PaySuccessFooterView.m */,
+				3A7B5CE22147572F0024C201 /* PaySuccessFooterCell.h */,
+				3A7B5CE32147572F0024C201 /* PaySuccessFooterCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3756,6 +3768,7 @@
 		3AED397220F313830095D7C1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3A7B5CDE21467A980024C201 /* PushAnimationTools */,
 				3A7B5CD1214288DF0024C201 /* ZLCollectionViewFlowLayout */,
 				3A5FAB65212E96CE001FF22D /* ZYNetworkAccessibity */,
 				040E669B212BB7120061F334 /* Service */,
@@ -4959,6 +4972,7 @@
 				04420ABC2123D87900780BBA /* PersonalSettingUserHeaderCell.m in Sources */,
 				04399D44211D42A20044D1B2 /* SpellOrderDetailModel.m in Sources */,
 				3AFD570D2121189400B36A35 /* OrderSectionFooterView.m in Sources */,
+				3A7B5CE121467A990024C201 /* PushAnimationTools.m in Sources */,
 				3AFD569521192DF000B36A35 /* MyFootprintBottomView.m in Sources */,
 				04AA1A73210EEC6D0048C947 /* HomepageGoodsDetailModel.m in Sources */,
 				04420ADC21241F5600780BBA /* YJLocationPicker.m in Sources */,
@@ -5070,6 +5084,7 @@
 				3AED3ABC20F313830095D7C1 /* HBNetworkReachabilityManager.m in Sources */,
 				3AED3ACC20F313840095D7C1 /* _YYWebImageSetter.m in Sources */,
 				040E6788212BB8580061F334 /* TZPhotoPreviewCell.m in Sources */,
+				3A7B5CE42147572F0024C201 /* PaySuccessFooterCell.m in Sources */,
 				04368124211AF73B00ED6B34 /* StoreSettingFirstTableViewCell.m in Sources */,
 				040E6783212BB8580061F334 /* TZPhotoPreviewController.m in Sources */,
 				3A2BF3EA20FCA42D00480F25 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -5077,7 +5092,6 @@
 				04313AD02109DFFB008D4AEA /* M80AttributedLabelURL.m in Sources */,
 				3A2BF2EF20F7264400480F25 /* AllGoodsSearchView.m in Sources */,
 				04153FEC211A90DB008673DF /* FreshCollectionViewCell.m in Sources */,
-				3A005723212BF5780002D97E /* PaySuccessFooterView.m in Sources */,
 				04368118211AF71700ED6B34 /* MyStoreSettingViewController.m in Sources */,
 				3AED3ABE20F313830095D7C1 /* UIView+SDAutoLayout.m in Sources */,
 				3AED3A8020F313830095D7C1 /* UIScrollView+MJExtension.m in Sources */,

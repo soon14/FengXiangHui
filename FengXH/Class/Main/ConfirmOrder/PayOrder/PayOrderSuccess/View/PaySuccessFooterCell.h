@@ -1,16 +1,16 @@
 //
-//  PaySuccessFooterView.h
+//  PaySuccessFooterCell.h
 //  FengXH
 //
-//  Created by sun on 2018/8/21.
+//  Created by 孙湖滨 on 2018/9/11.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void (^PaySuccessFooterBlock)(UIButton *sender);
+typedef void (^PaySuccessFooterBlock)(NSInteger index);
 
-@interface PaySuccessFooterView : UIView
+@interface PaySuccessFooterCell : UITableViewCell
 
 /** block */
 @property(nonatomic , strong)PaySuccessFooterBlock backBlock;

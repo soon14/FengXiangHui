@@ -18,4 +18,5 @@
 @property(nonatomic , copy)NSString *orderNum;
 /** 金额*/
 @property(nonatomic , copy)NSString *price;
+
 @end

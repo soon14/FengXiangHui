@@ -11,8 +11,10 @@
 
 @interface PaySuccessAddressCell ()
 
-/** 收货人电话 */
-@property(nonatomic , strong)UILabel *namePhoneLabel;
+/** 收货人姓名 */
+@property(nonatomic , strong)UILabel *nameLabel;
+/** 联系人电话 */
+@property(nonatomic , strong)UILabel *phoneLabel;
 /** 地址 */
 @property(nonatomic , strong)UILabel *addressLabel;
 
@@ -35,18 +37,25 @@
             make.height.width.mas_equalTo(20);
         }];
         
-        [self.contentView addSubview:self.namePhoneLabel];
-        [self.namePhoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.contentView addSubview:self.phoneLabel];
+        [self.phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(adImageView.mas_right).offset(16);
+            make.centerY.mas_equalTo(self.contentView.mas_centerY);
             make.right.mas_offset(-5);
-            make.bottom.mas_equalTo(self.contentView.mas_centerY).offset(-5);
+        }];
+        
+        [self.contentView addSubview:self.nameLabel];
+        [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_phoneLabel.mas_left);
+            make.right.mas_equalTo(_phoneLabel.mas_right);
+            make.bottom.mas_equalTo(_phoneLabel.mas_top).offset(-5);
         }];
         
         [self.contentView addSubview:self.addressLabel];
         [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_namePhoneLabel.mas_left);
-            make.right.mas_equalTo(_namePhoneLabel.mas_right);
-            make.top.mas_equalTo(self.contentView.mas_centerY).offset(0);
+            make.left.mas_equalTo(_phoneLabel.mas_left);
+            make.right.mas_equalTo(_phoneLabel.mas_right);
+            make.top.mas_equalTo(_phoneLabel.mas_bottom).offset(5);
         }];
         
         
@@ -56,8 +65,9 @@
 
 - (void)setSuccessAddressModel:(PaySuccessResultDataAddressModel *)successAddressModel {
     _successAddressModel = successAddressModel;
-    [self.namePhoneLabel setText:[NSString stringWithFormat:@"联系人：%@",_successAddressModel.name?_successAddressModel.name:@""]];
-    [self.addressLabel setText:[NSString stringWithFormat:@"联系电话：%@",_successAddressModel.mobile?_successAddressModel.mobile:@""]];
+    [self.nameLabel setText:[NSString stringWithFormat:@"联系人：%@",_successAddressModel.name?_successAddressModel.name:@""]];
+    [self.phoneLabel setText:[NSString stringWithFormat:@"联系电话：%@",_successAddressModel.mobile?_successAddressModel.mobile:@""]];
+    [self.addressLabel setText:[NSString stringWithFormat:@"%@",_successAddressModel.address?_successAddressModel.address:@""]];
 }
 
 
@@ -67,19 +77,31 @@
     if (!_addressLabel) {
         _addressLabel = [[UILabel alloc] init];
         [_addressLabel setTextColor:KUIColorFromHex(0x333333)];
-        [_addressLabel setFont:KFont(15)];
-        [_addressLabel setNumberOfLines:2];
+        [_addressLabel setFont:KFont(14)];
+        [_addressLabel setAdjustsFontSizeToFitWidth:YES];
+        [_addressLabel setText:@"福建省厦门市个股与与口语交际霍建华进货价孤鸿寡鹄"];
     }
     return _addressLabel;
 }
 
-- (UILabel *)namePhoneLabel {
-    if (!_namePhoneLabel) {
-        _namePhoneLabel = [[UILabel alloc] init];
-        [_namePhoneLabel setTextColor:KUIColorFromHex(0x333333)];
-        [_namePhoneLabel setFont:KFont(15)];
+- (UILabel *)phoneLabel {
+    if (!_phoneLabel) {
+        _phoneLabel = [[UILabel alloc] init];
+        [_phoneLabel setTextColor:KUIColorFromHex(0x333333)];
+        [_phoneLabel setFont:KFont(15)];
+        [_phoneLabel setText:@"联系电话："];
     }
-    return _namePhoneLabel;
+    return _phoneLabel;
+}
+
+- (UILabel *)nameLabel {
+    if (!_nameLabel) {
+        _nameLabel = [[UILabel alloc] init];
+        [_nameLabel setTextColor:KUIColorFromHex(0x333333)];
+        [_nameLabel setFont:KFont(15)];
+        [_nameLabel setText:@"联系人"];
+    }
+    return _nameLabel;
 }
 
 

@@ -11,6 +11,7 @@
 #import "SpellHomeModel.h"
 #import "LoginViewController.h"
 #import "SpellGroupDetailsViewController.h"
+
 @interface SpellHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic ,strong) NSMutableArray *dataArr;
@@ -19,12 +20,10 @@
 @end
 
 @implementation SpellHomeViewController
-{
-    NSInteger requestPage;
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self spellHomeDataRequest];
+    
     [self tableView];
     [self setHeaderView];
     _dataArr = [NSMutableArray array];
@@ -33,7 +32,7 @@
     UIBarButtonItem * backBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(backBarButtonItemAction)];
     self.navigationItem.leftBarButtonItem = backBarButtonItem;
     [backBarButtonItem setTintColor:KUIColorFromHex(0x9a9a9a)];
-    requestPage = 1;
+    [self spellHomeDataRequest];
 }
 - (void)backBarButtonItemAction{
     [self.tabBarController.navigationController popViewControllerAnimated:YES];
@@ -54,27 +53,30 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.showsVerticalScrollIndicator = NO;
-        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadmore)];
-        _tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadmore)];
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
         [_tableView registerClass:[SpellHomeTableViewCell class] forCellReuseIdentifier:NSStringFromClass([SpellHomeTableViewCell class])];
         [self.view addSubview:_tableView];
     }
     return _tableView;
 }
-#pragma mark - 上拉加载更多
-- (void)loadmore {
-    requestPage++;
-    [self spellHomeDataRequest];
+
+#pragma mark - 下拉刷新
+- (void)refresh {
+    if (!_tableView.mj_footer.isRefreshing) {
+        [self spellHomeDataRequest];
+    }
 }
+
 - (void)spellHomeDataRequest {
     NSString * urlString = @"r=apply.groups";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
-    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:@{@"page":[NSString stringWithFormat:@"%ld",(long)requestPage]} WithSuccessBlock:^(NSDictionary *responseDic) {
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:nil WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
-        if (requestPage == 1) {
+        if (self.tableView.mj_header.isRefreshing) {
             [_dataArr removeAllObjects];
         }
+        
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
         
@@ -82,10 +84,6 @@
             NSArray *arr = [[responseDic objectForKey:@"result"] objectForKey:@"list"];
             
             [_dataArr addObjectsFromArray:arr];
-            
-            if ([arr count] < 10) {
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
-            }
             
             [self.tableView reloadData];
         }

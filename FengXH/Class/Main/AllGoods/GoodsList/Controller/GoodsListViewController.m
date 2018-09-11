@@ -299,7 +299,7 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
     //第几页
     [paramDic setObject:[NSString stringWithFormat:@"%ld",(long)requestPage] forKey:@"page"];
     // 分页
-    [paramDic setObject:@"10" forKey:@"pagesize"];
+    [paramDic setObject:[NSString stringWithFormat:@"%ld",(long)KPageSize] forKey:@"pagesize"];
     // 分类 ID
     if (_categatoryId.length > 0) {
         [paramDic setObject:_categatoryId forKey:@"cate"];
@@ -361,7 +361,7 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
             GoodsListModel *goodsListModel = [GoodsListModel yy_modelWithDictionary:responseDic[@"result"]];
             [_goodsListModelArray addObjectsFromArray:goodsListModel.list];
             
-            if ([goodsListModel.list count] < 10) {
+            if ([goodsListModel.list count] < KPageSize) {
                 [self.listCollectionView.mj_footer endRefreshingWithNoMoreData];
             }
             

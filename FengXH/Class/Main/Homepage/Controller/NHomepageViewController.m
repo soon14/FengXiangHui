@@ -616,6 +616,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 #pragma mark - 轮播图被点击
 - (void)bannerItemDidClicked:(NSInteger)index {
     [self.view endEditing:YES];
+    
     HomepageDataBannerDataModel *bannerModel = self.dataModel.M1471835880921.data[index];
     HomePageBannerJumpType jumpStyle = [ShareManager getHomePageBannerJumpTypeWithBannerDataModel:bannerModel];
     switch (jumpStyle) {

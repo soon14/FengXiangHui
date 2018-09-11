@@ -42,9 +42,11 @@
 #define kInputViewHeight 50
 #define QM_IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height-812)?NO:YES)
 
+//正式
+//#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 //测试
-#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+#define KBasicURL @"http://dev.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 
 

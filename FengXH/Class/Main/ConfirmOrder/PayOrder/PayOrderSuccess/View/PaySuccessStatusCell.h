@@ -7,11 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PaySuccessResultDataModel;
 
 @interface PaySuccessStatusCell : UITableViewCell
-
-/** pay */
-@property(nonatomic , strong)PaySuccessResultDataModel *successDataModel;
 
 @end

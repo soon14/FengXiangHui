@@ -18,6 +18,7 @@
 #import "PayOrderViewController.h"
 #import "OrderAfterSaleViewController.h"
 #import "CheckAfterSaleViewController.h"
+#import "PaySuccessViewController.h"
 
 // 板块类型
 typedef NS_ENUM(NSInteger , OrderDetailSectionStyle) {
@@ -44,6 +45,24 @@ typedef NS_ENUM(NSInteger , OrderDetailSectionStyle) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self orderDetailRequest];
+}
+
+#pragma mark - 在这个方法里将中间的控制器销毁掉
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([self.navigationController.viewControllers count] >= 3) {
+        NSMutableArray *VCArray = self.navigationController.viewControllers.mutableCopy;
+        NSMutableArray *arrRemove = [NSMutableArray array];
+        for (UIViewController *VC in VCArray) {
+            if ([VC isKindOfClass:[PaySuccessViewController class]]) {
+                [arrRemove addObject:VC];
+            }
+        }
+        if (arrRemove.count) {
+            [VCArray removeObjectsInArray:arrRemove];
+            [self.navigationController setViewControllers:VCArray animated:YES];
+        }
+    }
 }
 
 - (void)viewDidLoad {

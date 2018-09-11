@@ -38,6 +38,8 @@
 @property(nonatomic , copy)NSString *name;
 /** mobile */
 @property(nonatomic , copy)NSString *mobile;
+/** address */
+@property(nonatomic , copy)NSString *address;
 
 @end
 

@@ -15,7 +15,19 @@
 #import "PersonalViewController.h"
 #import "NHomepageViewController.h"
 #import "AllGoodsViewController.h"
-#import "PaySuccessFooterView.h"
+#import "PaySuccessFooterCell.h"
+#import "SpellHomeViewController.h"
+#import "SpellGroupDetailsViewController.h"
+#import "GroupOperatingViewController.h"
+#import "CreateGroupOrderViewController.h"
+#import "PayOrderViewController.h"
+#import "SpellActivityViewController.h"
+#import "SpellOrderBaseViewController.h"
+#import "SpellOrderDetailViewController.h"
+#import "HomepageBaseGoodsDetailController.h"
+#import "ConfirmOrderViewController.h"
+#import "SpellOrderListModel.h"
+#import "OrderDetailsViewController.h"
 
 @interface PaySuccessViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -23,61 +35,61 @@
 @property(nonatomic , strong)UITableView *payTableview;
 /** model */
 @property(nonatomic , strong)PaySuccessResultModel *resultModel;
-/** footerView */
-@property(nonatomic , strong)PaySuccessFooterView *footerView;
 
 @end
 
 @implementation PaySuccessViewController
 
+#pragma mark - 在这个方法里将中间的控制器销毁掉
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([self.navigationController.viewControllers count] >= 3) {
+        NSMutableArray *VCArray = self.navigationController.viewControllers.mutableCopy;
+        NSMutableArray *arrRemove = [NSMutableArray array];
+        for (UIViewController *VC in VCArray) {
+            if ([VC isKindOfClass:[SpellGroupDetailsViewController class]] || [VC isKindOfClass:[GroupOperatingViewController class]] || [VC isKindOfClass:[CreateGroupOrderViewController class]] || [VC isKindOfClass:[PayOrderViewController class]] || [VC isKindOfClass:[HomepageBaseGoodsDetailController class]] || [VC isKindOfClass:[ConfirmOrderViewController class]]) {
+                [arrRemove addObject:VC];
+            }
+        }
+        if (arrRemove.count) {
+            [VCArray removeObjectsInArray:arrRemove];
+            [self.navigationController setViewControllers:VCArray animated:YES];
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"支付成功";
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"erji_fanhui"] style:UIBarButtonItemStylePlain target:self action:@selector(paySuccessBackAction)];
-    [self.navigationItem.leftBarButtonItem setTintColor:KUIColorFromHex(0x9a9a9a)];
-    
-    
     [self.view addSubview:self.payTableview];
     [self paySuccessRequest];
-    
 }
 
-#pragma mark - 左边返回键
-- (void)paySuccessBackAction {
-    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[ShopCartViewController class]]) {
-        //购物车
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[PersonalViewController class]]) {
-        //个人中心订单页
-        
-        //发送个人中心订单页进来付款成功的通知
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PersonalOrderPaySuccessNotification" object:nil];
-        //NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
-    } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[NHomepageViewController class]]) {
-        //首页进入
-        //NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
-    } else if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[AllGoodsViewController class]]) {
-        //全部商品页进入
-        //NSInteger index = self.navigationController.viewControllers.count;
-        [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
-    } else {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+#pragma mark - 订单详情、返回按钮
+- (void)paySuccessFooterAction:(NSInteger)index {
+    switch (index) {
+        case 0: {//跳转至订单详情
+            if (_teamID) {//跳转至拼团订单详情
+                SpellOrderListDataModel *dataModel = [[SpellOrderListDataModel alloc] init];
+                dataModel.orderId = _orderID;
+                dataModel.teamid = _teamID;
+                SpellOrderDetailViewController *VC = [[SpellOrderDetailViewController alloc] initWithType:0];
+                VC.controllerType = 0;
+                VC.listDataModel = dataModel;
+                [self.navigationController pushViewController:VC animated:YES];
+            } else {//跳转普通商品订单详情
+                OrderDetailsViewController *VC = [[OrderDetailsViewController alloc] init];
+                VC.orderID = _orderID;
+                [self.navigationController pushViewController:VC animated:YES];
+            }
+        } break;
+        case 1: {//pop
+            [self.navigationController popViewControllerAnimated:YES];
+        } break;
+        default:
+            break;
     }
-}
-
-#pragma mark - footerView
-- (PaySuccessFooterView *)footerView {
-    if (!_footerView) {
-        _footerView = [[PaySuccessFooterView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, 80)];
-        MJWeakSelf
-        _footerView.backBlock = ^(UIButton *sender) {
-            [weakSelf paySuccessBackAction];
-        };
-    }
-    return _footerView;
 }
 
 #pragma mark - tableView
@@ -92,10 +104,10 @@
         _payTableview.estimatedRowHeight = 0;
         _payTableview.estimatedSectionHeaderHeight = 0;
         _payTableview.estimatedSectionFooterHeight = 0;
-        _payTableview.tableFooterView = self.footerView;
         [_payTableview registerClass:[PaySuccessStatusCell class] forCellReuseIdentifier:NSStringFromClass([PaySuccessStatusCell class])];
         [_payTableview registerClass:[PaySuccessAddressCell class] forCellReuseIdentifier:NSStringFromClass([PaySuccessAddressCell class])];
         [_payTableview registerClass:[PaySuccessPriceCell class] forCellReuseIdentifier:NSStringFromClass([PaySuccessPriceCell class])];
+        [_payTableview registerClass:[PaySuccessFooterCell class] forCellReuseIdentifier:NSStringFromClass([PaySuccessFooterCell class])];
         [_payTableview registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
     }
     return _payTableview;
@@ -103,7 +115,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (self.resultModel) {
-        return 3;
+        return 4;
     } return 0;
 }
 
@@ -116,6 +128,7 @@
         case 0: return 70; break;
         case 1: return 90; break;
         case 2: return 40; break;
+        case 3: return 90; break;
         default: return CGFLOAT_MIN; break;
     }
 }
@@ -141,7 +154,6 @@
         switch (indexPath.section) {
             case 0: {
                 PaySuccessStatusCell *statusCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PaySuccessStatusCell class])];
-                statusCell.successDataModel = self.resultModel.data;
                 return statusCell;
             } break;
             case 1: {
@@ -153,6 +165,14 @@
                 PaySuccessPriceCell *priceCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PaySuccessPriceCell class])];
                 priceCell.successDataModel = self.resultModel.data;
                 return priceCell;
+            } break;
+            case 3: {
+                PaySuccessFooterCell *footerCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([PaySuccessFooterCell class])];
+                MJWeakSelf
+                footerCell.backBlock = ^(NSInteger index) {
+                    [weakSelf paySuccessFooterAction:index];
+                };
+                return footerCell;
             } break;
             default: {
                 UITableViewCell *notingCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];

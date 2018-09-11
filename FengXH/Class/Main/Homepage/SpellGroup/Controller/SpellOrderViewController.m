@@ -51,7 +51,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData:) name:@"updateData" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData:) name:@"SpellOrderUpdateData" object:nil];
     
     _dataArr=[[NSMutableArray alloc]initWithCapacity:0];
     
@@ -103,11 +103,11 @@
     NSDictionary *paramsDic;
     
     if (!statusNum) {
-        paramsDic=@{@"token":tokenStr,@"page":[NSNumber numberWithInteger:currentPageInteger]};
+        paramsDic=@{@"token":tokenStr,@"page":[NSNumber numberWithInteger:currentPageInteger],@"pagesize":[NSString stringWithFormat:@"%ld",(long)KPageSize]};
     }
     else
     {
-        paramsDic=@{@"token":tokenStr,@"page":[NSNumber numberWithInteger:currentPageInteger],@"status":statusNum};
+        paramsDic=@{@"token":tokenStr,@"page":[NSNumber numberWithInteger:currentPageInteger],@"status":statusNum,@"pagesize":[NSString stringWithFormat:@"%ld",(long)KPageSize]};
     }
     
     NSString * urlString = @"r=apply.groups.orders";
@@ -408,8 +408,7 @@
     }
     SpellOrderDetailViewController *vc=[[SpellOrderDetailViewController alloc]initWithType:type];
     vc.selectSectionIndex=indexPath.section;
-    vc.orderId=model.orderId;
-    vc.teamId=model.teamid;
+    vc.listDataModel = model;
     vc.controllerType=_orderType;
     vc.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:vc animated:YES];
@@ -500,10 +499,8 @@
 #pragma mark------去付款(需完善)
 -(void)goToPayWithIndex:(NSInteger)sectionIndex
 {
-    NSLog(@"去付款");
+//    NSLog(@"去付款");
     SpellOrderListDataModel *model=_dataArr[sectionIndex];
-//    model.orderId  订单id
-//    model.teamid    参团id
     PayOrderViewController *vc = [[PayOrderViewController alloc]init];
     vc.orderID = model.orderId;
     vc.teamID = model.teamid;

@@ -16,6 +16,9 @@
 #import "SpellOrderDetailMessageCell.h"
 #import "SpellOrderCommentViewController.h"
 #import "SpellOrderAfterSaleViewController.h"
+#import "PayOrderViewController.h"
+#import "SpellOrderListModel.h"
+#import "PaySuccessViewController.h"
 
 
 #define orderTopCell @"topCell"
@@ -43,12 +46,30 @@
 
 @implementation SpellOrderDetailViewController
 
--(instancetype)initWithType:(NSInteger)type
+- (instancetype)initWithType:(NSInteger)type
 {
     if (self = [super init]) {
         _orderDetailType = type;
     }
     return self;
+}
+
+#pragma mark - 在这个方法里将中间的控制器销毁掉
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([self.navigationController.viewControllers count] >= 3) {
+        NSMutableArray *VCArray = self.navigationController.viewControllers.mutableCopy;
+        NSMutableArray *arrRemove = [NSMutableArray array];
+        for (UIViewController *VC in VCArray) {
+            if ([VC isKindOfClass:[PaySuccessViewController class]]) {
+                [arrRemove addObject:VC];
+            }
+        }
+        if (arrRemove.count) {
+            [VCArray removeObjectsInArray:arrRemove];
+            [self.navigationController setViewControllers:VCArray animated:YES];
+        }
+    }
 }
 
 - (void)viewDidLoad {
@@ -70,12 +91,11 @@
     
     [self orderDetailRequest];
 }
--(void)orderDetailRequest
-{
+-(void)orderDetailRequest {
     
     NSString *tokenStr=[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     
-    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_orderId,@"teamid":_teamId};
+    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_listDataModel.orderId,@"teamid":_listDataModel.teamid};
     
     NSString * urlString = @"r=apply.groups.orders.detail";
     
@@ -434,7 +454,7 @@
 {
     NSString *tokenStr=[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     
-    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_orderId};
+    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_listDataModel.orderId};
     NSString * urlString = @"r=apply.groups.orders.cancel";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
@@ -442,7 +462,7 @@
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
             [DBHUD ShowInView:self.view withTitle:@"取消成功"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SpellOrderUpdateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
             [self.navigationController popViewControllerAnimated:YES];
             
         } else {
@@ -458,7 +478,7 @@
 {
     NSString *tokenStr=[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     
-    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_orderId};
+    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_listDataModel.orderId};
     NSString * urlString = @"r=apply.groups.orders.finish";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
@@ -466,7 +486,7 @@
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
             [DBHUD ShowInView:self.view withTitle:@"确认收货成功"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SpellOrderUpdateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             [DBHUD ShowInView:self.view withTitle:KRequestError];
@@ -480,8 +500,8 @@
 -(void)applyAfterSaleWithTitle:(NSString *)titleStr
 {
     SpellOrderAfterSaleViewController *vc=[[SpellOrderAfterSaleViewController alloc]initWithType:0];
-    vc.orderId=_orderId;
-    vc.teamId=_teamId;
+    vc.orderId=_listDataModel.orderId;
+    vc.teamId=_listDataModel.teamid;
     vc.title=titleStr;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -490,7 +510,7 @@
 {
     NSString *tokenStr=[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     
-    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_orderId};
+    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_listDataModel.orderId};
     NSString * urlString = @"r=apply.groups.refund.cancel";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
@@ -513,25 +533,27 @@
 -(void)checkAfterSaleScheduleWithTitle:(NSString *)titleStr
 {
     SpellOrderAfterSaleViewController *vc=[[SpellOrderAfterSaleViewController alloc]initWithType:1];
-    vc.orderId=_orderId;
-    vc.teamId=_teamId;
+    vc.orderId=_listDataModel.orderId;
+    vc.teamId=_listDataModel.teamid;
     vc.title=titleStr;
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark----支付订单(需完善)
--(void)goToPay
-{
-    NSLog(@"支付订单");
-//    _orderId   订单id
-//    _teamId     参团id
-    
+-(void)goToPay {
+ 
+    PayOrderViewController *vc = [[PayOrderViewController alloc]init];
+    vc.orderID = _listDataModel.orderId;
+    vc.teamID = _listDataModel.teamid;
+    vc.orderNum = _listDataModel.orderno;
+    vc.price = [NSString stringWithFormat:@"%ld",(long)[_listDataModel.price integerValue] + [_listDataModel.freight integerValue]];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 #pragma mark----评价
 -(void)commentOrder
 {
     SpellOrderCommentViewController *vc=[[SpellOrderCommentViewController alloc]init];
-    vc.orderId=_orderId;
+    vc.orderId=_listDataModel.orderId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark----删除订单
@@ -539,7 +561,7 @@
 {
     NSString *tokenStr=[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     
-    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_orderId};
+    NSDictionary *paramsDic=@{@"token":tokenStr,@"orderid":_listDataModel.orderId};
     NSString * urlString = @"r=apply.groups.orders.delete";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
@@ -547,7 +569,7 @@
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
             [DBHUD ShowInView:self.view withTitle:@"删除成功"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"updateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SpellOrderUpdateData" object:nil userInfo:@{@"index":[NSNumber numberWithInteger:_selectSectionIndex],@"type":[NSNumber numberWithInteger:_controllerType]}];
             [self.navigationController popViewControllerAnimated:YES];
             
         } else {

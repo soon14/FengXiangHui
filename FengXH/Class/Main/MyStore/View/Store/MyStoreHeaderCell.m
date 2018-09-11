@@ -44,7 +44,7 @@
         [self addSubview:self.backImageView];
         [self.backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_offset(0);
-            make.height.mas_equalTo([ShareManager getImageHeight:@"shopcenterbg"]);
+            make.height.mas_equalTo([ShareManager getImageHeight:@"MyToreHeader"]);
         }];
         
         [self addSubview:self.infoBackView];
@@ -288,7 +288,7 @@
 - (UIImageView *)backImageView {
     if (!_backImageView) {
         _backImageView = [[UIImageView alloc] init];
-        [_backImageView setImage:[UIImage imageNamed:@"shopcenterbg"]];
+        [_backImageView setImage:[UIImage imageNamed:@"MyToreHeader"]];
         [_backImageView setContentMode:UIViewContentModeScaleAspectFill];
     }
     return _backImageView;

@@ -7,7 +7,6 @@
 //
 
 #import "PaySuccessStatusCell.h"
-#import "PaySuccessResultModel.h"
 
 @interface PaySuccessStatusCell ()
 
@@ -41,19 +40,11 @@
     return self;
 }
 
-- (void)setSuccessDataModel:(PaySuccessResultDataModel *)successDataModel {
-    _successDataModel = successDataModel;
-    [self.statusLabel setText:@"订单支付成功"];
-    if (_successDataModel.price) {
-        [self.priceLabel setText:[NSString stringWithFormat:@"订单金额：%@",_successDataModel.price]];
-    }
-}
-
-
 #pragma mark - lazy
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc] init];
+        [_priceLabel setText:@"您的包裹整装待发"];
         [_priceLabel setTextColor:[UIColor whiteColor]];
         [_priceLabel setFont:KFont(14)];
         [_priceLabel setTextAlignment:NSTextAlignmentCenter];
@@ -64,6 +55,7 @@
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
         _statusLabel = [[UILabel alloc] init];
+        [_statusLabel setText:@"订单支付成功"];
         [_statusLabel setTextColor:[UIColor whiteColor]];
         [_statusLabel setFont:KFont(17)];
         [_statusLabel setTextAlignment:NSTextAlignmentCenter];

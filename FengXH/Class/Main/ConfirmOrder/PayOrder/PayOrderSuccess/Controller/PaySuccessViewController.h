@@ -14,7 +14,7 @@
 @property(nonatomic , copy)NSString *payType;
 /** 订单号 */
 @property(nonatomic , copy)NSString *orderID;
-/** 组团订单号 */
+/** 拼团 ID */
 @property(nonatomic , copy)NSString *teamID;
 
 @end
