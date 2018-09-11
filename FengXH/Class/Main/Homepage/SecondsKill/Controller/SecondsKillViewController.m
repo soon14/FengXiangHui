@@ -32,11 +32,9 @@
 
     
     _countDownView = [[ZQCountDownView alloc]initWithFrame:CGRectMake(280*KScreenRatio, 65, 85, 20)];
-    _countDownView.themeColor = [UIColor orangeColor];
-    
     _countDownView.themeColor = [UIColor blackColor];
     _countDownView.textColor = [UIColor whiteColor];
-    
+    _countDownView.textFont = KFont(12);
 
     [self tableView];
     
@@ -73,8 +71,6 @@
             self.tableView.tableHeaderView = self.killheaderView;
             [self.tableView reloadData];
         }
-            
-            
         
     } WithFailureBlock:^(NSError *error) {
         [DBHUD Hiden:YES fromView:self.view];
@@ -87,11 +83,9 @@
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height-KNaviHeight) style:UITableViewStylePlain];
         _tableView.backgroundColor = KTableBackgroundColor;
-        
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        _tableView.hidden = NO;
         _tableView.showsVerticalScrollIndicator = NO;
         [_tableView registerClass:[KillTableViewCell class] forCellReuseIdentifier:NSStringFromClass([KillTableViewCell class])];
         [self.view addSubview:_tableView];
@@ -100,36 +94,48 @@
 }
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return _dataDic.count;
 }
     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    
-    
-    return _dataDic.count;
+    return 1;
 }
     
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 130;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] init];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
+}
+
 #pragma mark - UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KillTableViewCell *tabViewCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([KillTableViewCell class])];
-    tabViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    tabViewCell.secondsKillModel = [SecondsKillModel yy_modelWithDictionary:_dataDic[indexPath.row]];
-    
+    tabViewCell.secondsKillModel = [SecondsKillModel yy_modelWithDictionary:_dataDic[indexPath.section]];
     return tabViewCell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.secondsKillModel = [SecondsKillModel yy_modelWithDictionary:self.dataDic[indexPath.row]];
-    NSLog(@"id = %@|goodsid = %@",_secondsKillModel.categoryID,_secondsKillModel.goodsid);
+    self.secondsKillModel = [SecondsKillModel yy_modelWithDictionary:self.dataDic[indexPath.section]];
+    //NSLog(@"id = %@|goodsid = %@",_secondsKillModel.categoryID,_secondsKillModel.goodsid);
     HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
     vc.goodsId = _secondsKillModel.goodsid;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -260,26 +260,28 @@
         if ([responseDic[@"status"] integerValue] == 1) {
             
             [DBHUD ShowInView:self.view withTitle:@"电话接通中..."];
-            NSDate * date = [NSDate date];
-            NSTimeInterval sec = [date timeIntervalSinceNow];
-            NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
             
-            //设置时间输出格式：
-            NSDateFormatter * df = [[NSDateFormatter alloc] init ];
-            [df setDateFormat:@"MM月dd日 HH:mm"];
-            NSString * na = [df stringFromDate:currentDate];
-            //NSLog(@"%@",[responseDic objectForKey:@"message"]);
-            
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PhoneData"] == nil) {
-                NSMutableArray *arr = [[NSMutableArray alloc]init];
-                [arr addObject:@{@"phoneNum":self.textLabel.text,@"time":na}];
-                [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"PhoneData"];
-            } else {
-                NSMutableArray *arr = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"PhoneData"]];
-                [arr addObject:@{@"phoneNum":self.textLabel.text,@"time":na}];
-                [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"PhoneData"];
+            if (self.textLabel.text.length == 11) {
+                NSDate * date = [NSDate date];
+                NSTimeInterval sec = [date timeIntervalSinceNow];
+                NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+                
+                //设置时间输出格式：
+                NSDateFormatter * df = [[NSDateFormatter alloc] init ];
+                [df setDateFormat:@"MM月dd日 HH:mm"];
+                NSString * na = [df stringFromDate:currentDate];
+                //NSLog(@"%@",[responseDic objectForKey:@"message"]);
+                
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PhoneData"] == nil) {
+                    NSMutableArray *arr = [[NSMutableArray alloc]init];
+                    [arr addObject:@{@"phoneNum":self.textLabel.text,@"time":na}];
+                    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"PhoneData"];
+                } else {
+                    NSMutableArray *arr = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"PhoneData"]];
+                    [arr addObject:@{@"phoneNum":self.textLabel.text,@"time":na}];
+                    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"PhoneData"];
+                }
             }
-            
         } else {
             [DBHUD ShowInView:self.view withTitle:[responseDic objectForKey:@"message"]];
         }
