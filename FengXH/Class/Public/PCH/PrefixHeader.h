@@ -82,7 +82,7 @@
 /**
  iPhone X 机型
  */
-#define KDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#define KDevice_Is_iPhoneX ([[UIApplication sharedApplication] statusBarFrame].size.height > 20 ? YES : NO)
 /**
   导航栏高度
  */
@@ -95,10 +95,7 @@
  适配 iPhone X 的屏幕底部高度
  */
 #define KBottomHeight (KDevice_Is_iPhoneX ? 34 : 0)
-/**
- 适配 iPhone X 的屏幕顶部高度
- */
-#define KTopHeight (KDevice_Is_iPhoneX ? 24 : 0)
+
 
 
 /**

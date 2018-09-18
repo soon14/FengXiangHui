@@ -30,7 +30,7 @@
             make.left.mas_offset(20);
             make.right.mas_offset(-20);
             make.height.mas_offset(500);
-            make.top.mas_offset(20+KTopHeight);
+            make.top.mas_offset(20+(KDevice_Is_iPhoneX ? 24 : 0));
         }];
         
         UIButton *closeBtn=[[UIButton alloc]init];
