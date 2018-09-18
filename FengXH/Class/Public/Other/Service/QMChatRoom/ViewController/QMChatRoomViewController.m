@@ -278,12 +278,12 @@
     [self.view addSubview:self.chatInputView];
     
     // 表情面板
-    self.faceView = [[TCMessageManagerFaceView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, KMAINSIZE.width, QM_IS_IPHONEX ? 250 : 216)];
+    self.faceView = [[TCMessageManagerFaceView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, KMAINSIZE.width, KDevice_Is_iPhoneX ? 250 : 216)];
     self.faceView.delegate = self;
     [self.faceView.sendButton addTarget:self action:@selector(sendBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     
     // 扩展面板
-    self.addView = [[QMChatRoomMoreView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, KMAINSIZE.width, QM_IS_IPHONEX ? 144 : 110)];
+    self.addView = [[QMChatRoomMoreView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, KMAINSIZE.width, KDevice_Is_iPhoneX ? 144 : 110)];
     [self.addView.takePicBtn addTarget:self action:@selector(takePicBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.addView.evaluateBtn addTarget:self action:@selector(evaluateBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.addView.takeFileBtn addTarget:self action:@selector(takeFileBtnAction) forControlEvents:UIControlEventTouchUpInside];

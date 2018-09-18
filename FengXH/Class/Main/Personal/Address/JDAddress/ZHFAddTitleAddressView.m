@@ -7,10 +7,7 @@
 //
 
 #import "ZHFAddTitleAddressView.h"
-#import "ProvinceModel.h"
-#import "CityModel.h"
-#import "CountyModel.h"
-#import "TownModel.h"
+#import "JDAdressModel.h"
 
 @interface ZHFAddTitleAddressView ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UIScrollView *titleScrollView;
@@ -144,10 +141,10 @@
         for (int i = 0; i< count ; i++) {
             [titleAddress appendString:[[NSString alloc]initWithFormat:@" %@",self.titleMarr[i]]];
             if (i == count - 1) {
-                [titleID appendString:[[NSString alloc]initWithFormat:@" %@",self.titleIDMarr[i]]];
+                [titleID appendString:[[NSString alloc]initWithFormat:@"%@",self.titleIDMarr[i]]];
             }
             else{
-                [titleID appendString:[[NSString alloc]initWithFormat:@"%@ =",self.titleIDMarr[i]]];
+                [titleID appendString:[[NSString alloc]initWithFormat:@"%@--",self.titleIDMarr[i]]];
             }
         }
         [self.delegate1 cancelBtnClick:titleAddress titleID:titleID];
@@ -272,19 +269,19 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AddressAdministerCellIdentifier];
     }
     if (tableView.tag == 0) {
-        ProvinceModel * provinceModel = self.provinceMarr[indexPath.row];
+        JDAdressModel * provinceModel = self.provinceMarr[indexPath.row];
         cell.textLabel.text = provinceModel.name;
     }
     else if (tableView.tag == 1) {
-        CityModel *cityModel = self.cityMarr[indexPath.row];
+        JDAdressModel *cityModel = self.cityMarr[indexPath.row];
         cell.textLabel.text= cityModel.name;
     }
     else if (tableView.tag == 2){
-        CountyModel * countyModel  = self.countyMarr[indexPath.row];
+        JDAdressModel * countyModel  = self.countyMarr[indexPath.row];
         cell.textLabel.text = countyModel.name;
     }
     else if (tableView.tag == 3){
-        TownModel * townModel  = self.townMarr[indexPath.row];
+        JDAdressModel * townModel  = self.townMarr[indexPath.row];
         cell.textLabel.text = townModel.name;
     }
     cell.textLabel.font = [UIFont systemFontOfSize:13];
@@ -295,8 +292,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 0 || tableView.tag == 1 || tableView.tag == 2){
         if (tableView.tag == 0){
-            ProvinceModel *provinceModel = self.provinceMarr[indexPath.row];
-            NSString * provinceID = [NSString stringWithFormat:@"%ld",(long)provinceModel.id];
+            JDAdressModel *provinceModel = self.provinceMarr[indexPath.row];
+            NSString * provinceID = [NSString stringWithFormat:@"%ld",(long)provinceModel.addressID];
             //1. 修改选中ID
             if (self.titleIDMarr.count > 0){
                 [self.titleIDMarr replaceObjectAtIndex:tableView.tag withObject:provinceID];
@@ -310,8 +307,8 @@
             [self getAddressMessageDataAddressID:2 provinceIdOrCityId:provinceID];
         }
         else if (tableView.tag == 1){
-            CityModel * cityModel = self.cityMarr[indexPath.row];
-            NSString * cityID = [NSString stringWithFormat:@"%ld",(long)cityModel.id];
+            JDAdressModel * cityModel = self.cityMarr[indexPath.row];
+            NSString * cityID = [NSString stringWithFormat:@"%ld",(long)cityModel.addressID];
              [self.titleMarr replaceObjectAtIndex:tableView.tag withObject:cityModel.name];
             //1. 修改选中ID
             if (self.titleIDMarr.count > 1){
@@ -324,8 +321,8 @@
             [self getAddressMessageDataAddressID:3 provinceIdOrCityId:cityID];
         }
         else if (tableView.tag == 2) {
-            CountyModel * countyModel = self.countyMarr[indexPath.row];
-            NSString * countyID = [NSString stringWithFormat:@"%ld",(long)countyModel.id];
+            JDAdressModel * countyModel = self.countyMarr[indexPath.row];
+            NSString * countyID = [NSString stringWithFormat:@"%ld",(long)countyModel.addressID];
             [self.titleMarr replaceObjectAtIndex:tableView.tag withObject:countyModel.name];
             //1. 修改选中ID
             if (self.titleIDMarr.count > 2){
@@ -341,8 +338,8 @@
         }
     }
     else if (tableView.tag == 3) {
-        TownModel * townModel = self.townMarr[indexPath.row];
-        NSString * townID = [NSString stringWithFormat:@"%ld",(long)townModel.id];
+        JDAdressModel * townModel = self.townMarr[indexPath.row];
+        NSString * townID = [NSString stringWithFormat:@"%ld",(long)townModel.addressID];
         [self.titleMarr replaceObjectAtIndex:tableView.tag withObject:townModel.name];
         //1. 修改选中ID
         if (self.titleIDMarr.count > 3){
@@ -461,7 +458,7 @@
         [self.provinceMarr removeAllObjects];
         for (int i = 0; i < provinceArr.count; i++) {
             NSDictionary *dic1 = provinceArr[i];
-            ProvinceModel *provinceModel =  [ProvinceModel yy_modelWithDictionary:dic1];
+            JDAdressModel *provinceModel =  [JDAdressModel yy_modelWithDictionary:dic1];
             [self.provinceMarr addObject:provinceModel];
         }
     }else{
@@ -473,7 +470,7 @@
         [self.cityMarr removeAllObjects];
         for (int i = 0; i < cityArr.count; i++) {
             NSDictionary *dic1 = cityArr[i];
-            CityModel *cityModel = [CityModel yy_modelWithDictionary:dic1];
+            JDAdressModel *cityModel = [JDAdressModel yy_modelWithDictionary:dic1];
             [self.cityMarr addObject:cityModel];
         }
         if (self.tableViewMarr.count >= 2){
@@ -495,7 +492,7 @@
         [self.countyMarr removeAllObjects];
         for (int i = 0; i < countyArr.count; i++) {
             NSDictionary *dic1 = countyArr[i];
-            CountyModel *countyModel = [CountyModel yy_modelWithDictionary:dic1];
+            JDAdressModel *countyModel = [JDAdressModel yy_modelWithDictionary:dic1];
             [self.countyMarr addObject:countyModel];
         }
         if (self.tableViewMarr.count >= 3){
@@ -517,7 +514,7 @@
         [self.townMarr removeAllObjects];
         for (int i = 0; i < townArr.count; i++) {
             NSDictionary *dic1 = townArr[i];
-            TownModel *townModel = [TownModel yy_modelWithDictionary:dic1];
+            JDAdressModel *townModel = [JDAdressModel yy_modelWithDictionary:dic1];
             [self.townMarr addObject:townModel];
         }
         if (self.tableViewMarr.count >= 4){

@@ -108,11 +108,11 @@
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     NSDictionary *paramDic;
     if (tokenStr.length>0) {
-        paramDic=@{@"id":self.goodsId,@"token":tokenStr};
+        paramDic=@{@"id":self.goodsId?self.goodsId:@"",@"token":tokenStr};
     }
     else
     {
-        paramDic=@{@"id":self.goodsId};
+        paramDic=@{@"id":self.goodsId?self.goodsId:@""};
     }
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];

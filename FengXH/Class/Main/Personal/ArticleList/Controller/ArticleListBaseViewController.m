@@ -106,7 +106,7 @@
         _titleCollectionView.backgroundColor = [UIColor whiteColor];
         _titleCollectionView.dataSource = self;
         _titleCollectionView.delegate = self;
-        _titleCollectionView.alwaysBounceVertical = YES;
+//        _titleCollectionView.alwaysBounceVertical = YES;
         [_titleCollectionView registerClass:[ArticleListTitleCell class] forCellWithReuseIdentifier:NSStringFromClass([ArticleListTitleCell class])];
     }
     return _titleCollectionView;

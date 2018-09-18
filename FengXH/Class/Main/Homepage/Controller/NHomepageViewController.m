@@ -25,6 +25,7 @@
 #import "FreshViewController.h"//生鲜超市
 #import "ArticleListBaseViewController.h"//赏金文章
 #import "PhoneViewController.h"//云通话
+#import "GoodsDetailViewController.h"
 
 // 首页板块类型
 typedef NS_ENUM(NSInteger , HomePageStyle) {
@@ -109,6 +110,22 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.homeCollectionView];
     [self homepageDataRequest];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:@"详情" forState:UIControlStateNormal];
+    [btn setFrame:CGRectMake(KMAINSIZE.width-50, 0, 44, 44)];
+    [btn setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+    [btn.titleLabel setFont:KFont(14)];
+    [self.navigationController.navigationBar addSubview:btn];
+    [btn addTarget:self action:@selector(newGoodsDetailVC) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - 测试
+- (void)newGoodsDetailVC {
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+    VC.goodsID = @"37962";
+    VC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 首页数据请求

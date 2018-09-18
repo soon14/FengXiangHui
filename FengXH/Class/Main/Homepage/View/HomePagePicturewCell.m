@@ -47,7 +47,7 @@
     return FillLayout;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(ZLCollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.pictureArray.count == 3) {
         switch (indexPath.item) {
             case 0: {
@@ -63,11 +63,11 @@
                 return CGSizeMake(collectionView.frame.size.width/2, collectionView.frame.size.height);
             } break;
             case 1: {
-                return CGSizeMake((collectionView.frame.size.width/2)-10, (collectionView.frame.size.height/2)-5);
+                return CGSizeMake((collectionView.frame.size.width/2)-0, (collectionView.frame.size.height/2)-0);
             } break;
             case 2:
             case 3: {
-                return CGSizeMake((collectionView.frame.size.width/4)-10, (collectionView.frame.size.height/2)-10);
+                return CGSizeMake((collectionView.frame.size.width/4)-0, (collectionView.frame.size.height/2)-0);
             } break;
             default: {
                 return CGSizeZero;
@@ -75,6 +75,16 @@
         }
     }
     return CGSizeMake(collectionView.frame.size.width / self.pictureArray.count, collectionView.frame.size.height);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(ZLCollectionViewFlowLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsZero;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(ZLCollectionViewFlowLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return CGFLOAT_MIN;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(ZLCollectionViewFlowLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return CGFLOAT_MIN;
 }
 
 #pragma mark - <UICollectionViewDataSource>
@@ -101,11 +111,6 @@
     if (!_pictureCollection) {
         ZLCollectionViewFlowLayout * flowLayout = [[ZLCollectionViewFlowLayout alloc] init];
         flowLayout.delegate = self;
-//        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//        flowLayout.minimumLineSpacing = 0;
-//        flowLayout.minimumInteritemSpacing = 0;
-//        flowLayout.sectionInset = UIEdgeInsetsZero;
-        
         _pictureCollection = [[UICollectionView alloc] initWithFrame:self.contentView.frame collectionViewLayout:flowLayout];
         [_pictureCollection setShowsHorizontalScrollIndicator:NO];
         [_pictureCollection setShowsVerticalScrollIndicator:NO];
@@ -145,7 +150,7 @@
 - (UIImageView *)pictureImageView {
     if (!_pictureImageView) {
         _pictureImageView = [[UIImageView alloc] init];
-        [_pictureImageView setContentMode:UIViewContentModeScaleAspectFit];
+        [_pictureImageView setContentMode:UIViewContentModeScaleAspectFill];
     }
     return _pictureImageView;
 }

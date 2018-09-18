@@ -40,7 +40,6 @@
 
 //客服模块的宏定义
 #define kInputViewHeight 50
-#define QM_IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height-812)?NO:YES)
 
 //正式
 //#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
@@ -76,8 +75,8 @@
 #define KRedColor KUIColorFromHex(0xf85d4a)
 #define KAppDefaultColor KUIColorFromHex(0xff3529)
 #define KLineColor KUIColorFromHex(0xeeeeee)
-#define KTableBackgroundColor KUIColorFromHex(0xf0f3f3)
-#define KFont(s)     [UIFont systemFontOfSize:s]
+#define KTableBackgroundColor KUIColorFromHex(0xf2f2f2)
+#define KFont(size)     [UIFont systemFontOfSize:size]
 
 
 /**

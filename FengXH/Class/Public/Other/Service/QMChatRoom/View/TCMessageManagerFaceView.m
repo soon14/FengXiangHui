@@ -32,7 +32,7 @@
 - (void)setup{
     self.backgroundColor = [UIColor whiteColor];
     
-    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,5.0f,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds)-(QM_IS_IPHONEX ? 34 : 0)-FacePageControlHeight-FaceSectionBarHeight)];
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0f,5.0f,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds)-(KDevice_Is_iPhoneX ? 34 : 0)-FacePageControlHeight-FaceSectionBarHeight)];
     scrollView.delegate = self;
     [self addSubview:scrollView];
     [scrollView setPagingEnabled:YES];
@@ -54,7 +54,7 @@
     pageControl.currentPage   = 0;
         
     self.sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.sendButton.frame = CGRectMake(self.bounds.size.width-70, self.bounds.size.height-(QM_IS_IPHONEX ? 34 : 0)-30, 50, 30);
+    self.sendButton.frame = CGRectMake(self.bounds.size.width-70, self.bounds.size.height-(KDevice_Is_iPhoneX ? 34 : 0)-30, 50, 30);
     self.sendButton.backgroundColor = [UIColor colorWithRed:13/255.0 green:139/255.0 blue:249/255.0 alpha:1];
     [self.sendButton setTitle:NSLocalizedString(@"button.send", nil) forState:UIControlStateNormal];
     [self addSubview:self.sendButton];
