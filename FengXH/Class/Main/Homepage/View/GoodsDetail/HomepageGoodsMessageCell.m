@@ -338,7 +338,7 @@
         [window addSubview:self.codeView];
         [_codeView.imgView yy_setImageWithURL:[NSURL URLWithString:codeImgStr] placeholder:nil options:YYWebImageOptionProgressiveBlur completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
             [_codeView.imgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_offset((KMAINSIZE.width-40)/image.size.width*image.size.height);
+                make.height.mas_equalTo((KMAINSIZE.width-40)/image.size.width*image.size.height);
             }];
         }];
     }

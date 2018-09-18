@@ -95,7 +95,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
-        case 0: return [ShareManager getImageHeight:@"MyToreHeader"]+180; break;
+        case 0: return [ShareManager getImageHeight:@"MyToreHeader"]+180+(KDevice_Is_iPhoneX?44:20); break;
         case 1: return (KMAINSIZE.width/3)*3; break;
         default: return CGFLOAT_MIN; break;
     }

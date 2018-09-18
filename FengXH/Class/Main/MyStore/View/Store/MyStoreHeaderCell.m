@@ -43,7 +43,8 @@
         
         [self addSubview:self.backImageView];
         [self.backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.right.mas_offset(0);
+            make.top.mas_offset(KDevice_Is_iPhoneX?44:20);
+            make.left.right.mas_offset(0);
             make.height.mas_equalTo([ShareManager getImageHeight:@"MyToreHeader"]);
         }];
         

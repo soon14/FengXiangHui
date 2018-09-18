@@ -10,12 +10,14 @@
 @class GoodsDetailBottomView;
 
 @protocol GoodsDetailBottomViewDelegate <NSObject>
-- (void)GoodsDetailBottomView:(GoodsDetailBottomView *)bottomView buttonAction:(NSInteger)index;
+- (void)GoodsDetailBottomView:(GoodsDetailBottomView *)bottomView buttonAction:(UIButton *)sender;
 @end
 
 @interface GoodsDetailBottomView : UIView
 
 /** 代理 */
 @property(nonatomic , weak)id delegate;
+/** 是否收藏 */
+@property(nonatomic , assign)BOOL isFavorite;
 
 @end

@@ -83,13 +83,17 @@
     return self;
 }
 
+- (void)setIsFavorite:(BOOL)isFavorite {
+    _isFavorite = isFavorite;
+    [self.collecButton setSelected:_isFavorite];
+}
+
 #pragma mark - buttonAction
 - (void)buttonAction:(UIButton *)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(GoodsDetailBottomView:buttonAction:)]) {
-        [self.delegate GoodsDetailBottomView:self buttonAction:sender.tag];
+        [self.delegate GoodsDetailBottomView:self buttonAction:sender];
     }
 }
-
 
 #pragma mark - lazy
 - (UIButton *)buyNowButton {
@@ -141,7 +145,8 @@
 - (UIButton *)collecButton {
     if (!_collecButton) {
         _collecButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_collecButton setImage:[UIImage imageNamed:@"goodsDetailCollect"] forState:UIControlStateNormal];
+        [_collecButton setImage:[UIImage imageNamed:@"goodsDetailCollect_nol"] forState:UIControlStateNormal];
+        [_collecButton setImage:[UIImage imageNamed:@"goodsDetailCollect_sel"] forState:UIControlStateSelected];
         [_collecButton setTag:0];
         [_collecButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     }

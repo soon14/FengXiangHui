@@ -13,10 +13,13 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = KTableBackgroundColor;
         
         UILabel *label = [[UILabel alloc] init];
         [label setTextColor:KRedColor];
-        [label setFont:KFont(11)];
+        [label setFont:KFont(13)];
+        [label setText:@"上拉加载详情"];
+        [label setAdjustsFontSizeToFitWidth:YES];
         [label setTextAlignment:NSTextAlignmentCenter];
         [self.contentView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
