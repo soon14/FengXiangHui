@@ -13,6 +13,8 @@ typedef void (^AddressSaveSuccessBlock)(NSInteger index);
 
 @interface AddressCreatEditViewController : BaseViewController
 
+/** title */
+@property(nonatomic , copy)NSString *titleString;
 /** 要编辑的地址 */
 @property(nonatomic , strong)AddressResultListModel *editAddressModel;
 /** 保存成功后的回调 */

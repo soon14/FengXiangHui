@@ -84,7 +84,7 @@
     return _townMarr;
 }
 -(UIView *)initAddressView{
-    self.frame = CGRectMake(0, 0, KMAINSIZE.width, (KMAINSIZE.height-KNaviHeight));
+    self.frame = CGRectMake(0, 0, KMAINSIZE.width, (KMAINSIZE.height));
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     self.hidden = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapBtnAndcancelBtnClick)];
@@ -92,8 +92,13 @@
     [self addGestureRecognizer:tap];
     //设置添加地址的View
     self.addAddressView = [[UIView alloc]init];
-    self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height-KNaviHeight), KMAINSIZE.width, _defaultHeight);
+    self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height), KMAINSIZE.width, _defaultHeight);
     self.addAddressView.backgroundColor = [UIColor whiteColor];
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.addAddressView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(10,10)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.addAddressView.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.addAddressView.layer.mask = maskLayer;
     [self addSubview:self.addAddressView];
     UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 10, KMAINSIZE.width - 80, 30)];
     titleLabel.text = _title;
@@ -119,13 +124,13 @@
 -(void)addAnimate{
     self.hidden = NO;
     [UIView animateWithDuration:0.2 animations:^{
-        self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height-KNaviHeight) - self.defaultHeight, KMAINSIZE.width, self.defaultHeight);
+        self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height) - self.defaultHeight, KMAINSIZE.width, self.defaultHeight);
     }];
 }
 -(void)tapBtnAndcancelBtnClick{
     self.hidden = NO;
     [UIView animateWithDuration:0.2 animations:^{
-         self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height-KNaviHeight), KMAINSIZE.width, 200);
+         self.addAddressView.frame = CGRectMake(0, (KMAINSIZE.height), KMAINSIZE.width, 200);
     } completion:^(BOOL finished) {
         self.hidden = YES;
         NSMutableString * titleAddress = [[NSMutableString alloc]init];
@@ -144,7 +149,7 @@
                 [titleID appendString:[[NSString alloc]initWithFormat:@"%@",self.titleIDMarr[i]]];
             }
             else{
-                [titleID appendString:[[NSString alloc]initWithFormat:@"%@--",self.titleIDMarr[i]]];
+                [titleID appendString:[[NSString alloc]initWithFormat:@"%@,",self.titleIDMarr[i]]];
             }
         }
         [self.delegate1 cancelBtnClick:titleAddress titleID:titleID];
@@ -179,7 +184,7 @@
     _lineLabel.backgroundColor = [UIColor redColor];
     [self.titleScrollView addSubview:(_lineLabel)];
     CGFloat x = 10;
-    NSLog(@"%@",self.titleMarr);
+    //NSLog(@"%@",self.titleMarr);
     for (int i = 0; i < self.titleMarr.count ; i++) {
         NSString   *title = self.titleMarr[i];
         CGFloat titlelenth = title.length * 15;

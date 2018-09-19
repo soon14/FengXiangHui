@@ -2,12 +2,11 @@
 //  GoodsDetailJDAdressCell.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/9/14.
+//  Created by sun on 2018/9/14.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
 #import "GoodsDetailJDAdressCell.h"
-#import "GoodsDetailResultModel.h"
 
 @interface GoodsDetailJDAdressCell ()
 
@@ -64,9 +63,9 @@
     return self;
 }
 
-- (void)setJdGoodsModel:(GoodsDetailResultJDGoodsModel *)jdGoodsModel {
-    _jdGoodsModel = jdGoodsModel;
-    
+- (void)setAddress:(NSString *)address {
+    _address = address;
+    [self.addressLabel setText:_address];
 }
 
 #pragma mark - lazy

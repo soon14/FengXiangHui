@@ -1,29 +1,39 @@
 //
-//  GoodsListPopupView.m
-//  GoodsListPopup_demo
+//  GoodsDetailQRCodeView.m
+//  FengXH
 //
-//  Created by sun on 2018/8/28.
+//  Created by sun on 2018/9/19.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
-#import "HBPopupView.h"
+#import "GoodsDetailQRCodePopupView.h"
 
-@interface HBPopupView ()<UIGestureRecognizerDelegate>
+@interface GoodsDetailQRCodePopupView ()<UIGestureRecognizerDelegate>
+
+/** contentView */
+@property(nonatomic , strong)UIImageView *contentView;
 
 @end
 
-@implementation HBPopupView
+@implementation GoodsDetailQRCodePopupView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
         // 添加手势，点击背景视图消失
         UITapGestureRecognizer *tapBackGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeView)];
         tapBackGesture.delegate = self;
         [self addGestureRecognizer:tapBackGesture];
         
         [self addSubview:self.contentView];
+        
     }
     return self;
+}
+
+- (void)setImageURL:(NSString *)imageURL {
+    _imageURL = imageURL;
+    [self.contentView setYy_imageURL:[NSURL URLWithString:_imageURL]];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -38,9 +48,9 @@
 - (void)showInView:(UIView *)view {
     [view addSubview:self];
     MJWeakSelf
-    self.contentView.frame = CGRectMake(0, KMAINSIZE.height, KMAINSIZE.width, self.contentHeight);;
+    self.contentView.frame = CGRectMake(0, KMAINSIZE.height, KMAINSIZE.width, 500);;
     [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.contentView.frame = CGRectMake(0, KMAINSIZE.height - weakSelf.contentHeight, KMAINSIZE.width, weakSelf.contentHeight);
+        weakSelf.contentView.frame = CGRectMake(30, KNaviHeight, KMAINSIZE.width-60, 500);
     }];
 }
 
@@ -48,32 +58,20 @@
 - (void)removeView {
     MJWeakSelf
     [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.contentView.frame = CGRectMake(0, KMAINSIZE.height, KMAINSIZE.width, weakSelf.contentHeight);
+        weakSelf.contentView.frame = CGRectMake(KMAINSIZE.width/2, KMAINSIZE.height/2, 0, 0);
     } completion:^(BOOL finished) {
         [weakSelf removeFromSuperview];
     }];
 }
 
 #pragma mark - lazy
-- (UIView *)contentView {
+- (UIImageView *)contentView {
     if (!_contentView) {
-        _contentView = [[UIView alloc] initWithFrame:(CGRect){0, 0, KMAINSIZE.width, self.contentHeight}];
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_contentView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(10,10)];
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.frame = _contentView.bounds;
-        maskLayer.path = maskPath.CGPath;
-        _contentView.layer.mask = maskLayer;
+        _contentView = [[UIImageView alloc] initWithFrame:CGRectMake(30, KNaviHeight, KMAINSIZE.width-60, 500)];
+        [_contentView setContentMode:UIViewContentModeScaleAspectFit];
     }
     return _contentView;
 }
-
-- (CGFloat)contentHeight {
-    if (!_contentHeight) {
-        _contentHeight = 500;
-    }
-    return _contentHeight;
-}
-
 
 
 /*

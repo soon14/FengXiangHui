@@ -115,7 +115,7 @@
         } break;
         case 1: {//编辑
             AddressCreatEditViewController *VC = [[AddressCreatEditViewController alloc] init];
-            VC.title = @"编辑地址";
+            VC.titleString = @"编辑地址";
             VC.editAddressModel = addressModel;
             MJWeakSelf
             VC.savcSuccessBlock = ^(NSInteger index) {
@@ -136,7 +136,7 @@
 #pragma mark - 新建地址按钮被点击
 - (void)addAddressButtonDidClicked {
     AddressCreatEditViewController *VC = [[AddressCreatEditViewController alloc] init];
-    VC.title = @"新建地址";
+    VC.titleString = @"新建地址";
     MJWeakSelf
     VC.savcSuccessBlock = ^(NSInteger index) {
         [weakSelf myAddressListRequest];

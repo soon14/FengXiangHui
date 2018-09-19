@@ -258,6 +258,8 @@
 		3A4B39C0212D3EF100B88A34 /* IntegralPayOrderInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39BF212D3EF100B88A34 /* IntegralPayOrderInfoCell.m */; };
 		3A5FAB68212E96CE001FF22D /* ZYNetworkAccessibity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5FAB66212E96CE001FF22D /* ZYNetworkAccessibity.m */; };
 		3A6DE43B2150E12A00F9E7BE /* GoodsDetailContentImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DE43A2150E12A00F9E7BE /* GoodsDetailContentImageCell.m */; };
+		3A6DE43E2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DE43D2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m */; };
+		3A6DE4412152140F00F9E7BE /* AddressNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DE4402152140F00F9E7BE /* AddressNavigationView.m */; };
 		3A6E8033210F134F004A7FF6 /* PersonalDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6E8032210F134F004A7FF6 /* PersonalDataModel.m */; };
 		3A6E803621104470004A7FF6 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6E803521104470004A7FF6 /* ChangePasswordViewController.m */; };
 		3A6E80392111517A004A7FF6 /* ShoppingCartResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6E80382111517A004A7FF6 /* ShoppingCartResultModel.m */; };
@@ -295,7 +297,7 @@
 		3A7B5CED2147B5180024C201 /* GoodsDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CEC2147B5180024C201 /* GoodsDetailBottomView.m */; };
 		3A7B5CF02148F2F50024C201 /* GoodsDetailNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CEF2148F2F50024C201 /* GoodsDetailNavigationView.m */; };
 		3A7B5CF4214912DA0024C201 /* HBPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CF3214912D90024C201 /* HBPopupView.m */; };
-		3A7B5CFA21491AFF0024C201 /* GoodsDetailPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CF921491AFF0024C201 /* GoodsDetailPopupView.m */; };
+		3A7B5CFA21491AFF0024C201 /* GoodsDetailOptionsPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CF921491AFF0024C201 /* GoodsDetailOptionsPopupView.m */; };
 		3A7B5CFE214A2A320024C201 /* GoodsDetailResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5CFD214A2A320024C201 /* GoodsDetailResultModel.m */; };
 		3A7B5D01214A58E50024C201 /* GoodsDetailGoodsInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5D00214A58E50024C201 /* GoodsDetailGoodsInfoCell.m */; };
 		3A7B5D04214B53870024C201 /* GoodsDetailMemberLevelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B5D03214B53870024C201 /* GoodsDetailMemberLevelCell.m */; };
@@ -1102,6 +1104,10 @@
 		3A5FAB67212E96CE001FF22D /* ZYNetworkAccessibity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYNetworkAccessibity.h; sourceTree = "<group>"; };
 		3A6DE4392150E12A00F9E7BE /* GoodsDetailContentImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailContentImageCell.h; sourceTree = "<group>"; };
 		3A6DE43A2150E12A00F9E7BE /* GoodsDetailContentImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailContentImageCell.m; sourceTree = "<group>"; };
+		3A6DE43C2151E45500F9E7BE /* GoodsDetailQRCodePopupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailQRCodePopupView.h; sourceTree = "<group>"; };
+		3A6DE43D2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailQRCodePopupView.m; sourceTree = "<group>"; };
+		3A6DE43F2152140F00F9E7BE /* AddressNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddressNavigationView.h; sourceTree = "<group>"; };
+		3A6DE4402152140F00F9E7BE /* AddressNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddressNavigationView.m; sourceTree = "<group>"; };
 		3A6E8031210F134F004A7FF6 /* PersonalDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonalDataModel.h; sourceTree = "<group>"; };
 		3A6E8032210F134F004A7FF6 /* PersonalDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonalDataModel.m; sourceTree = "<group>"; };
 		3A6E803421104470004A7FF6 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
@@ -1176,8 +1182,8 @@
 		3A7B5CEF2148F2F50024C201 /* GoodsDetailNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailNavigationView.m; sourceTree = "<group>"; };
 		3A7B5CF2214912D90024C201 /* HBPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBPopupView.h; sourceTree = "<group>"; };
 		3A7B5CF3214912D90024C201 /* HBPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBPopupView.m; sourceTree = "<group>"; };
-		3A7B5CF821491AFF0024C201 /* GoodsDetailPopupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailPopupView.h; sourceTree = "<group>"; };
-		3A7B5CF921491AFF0024C201 /* GoodsDetailPopupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailPopupView.m; sourceTree = "<group>"; };
+		3A7B5CF821491AFF0024C201 /* GoodsDetailOptionsPopupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsPopupView.h; sourceTree = "<group>"; };
+		3A7B5CF921491AFF0024C201 /* GoodsDetailOptionsPopupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsPopupView.m; sourceTree = "<group>"; };
 		3A7B5CFC214A2A320024C201 /* GoodsDetailResultModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailResultModel.h; sourceTree = "<group>"; };
 		3A7B5CFD214A2A320024C201 /* GoodsDetailResultModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailResultModel.m; sourceTree = "<group>"; };
 		3A7B5CFF214A58E50024C201 /* GoodsDetailGoodsInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailGoodsInfoCell.h; sourceTree = "<group>"; };
@@ -2953,8 +2959,10 @@
 		3A6DE4372150DA2800F9E7BE /* CustomPopupViews */ = {
 			isa = PBXGroup;
 			children = (
-				3A7B5CF821491AFF0024C201 /* GoodsDetailPopupView.h */,
-				3A7B5CF921491AFF0024C201 /* GoodsDetailPopupView.m */,
+				3A7B5CF821491AFF0024C201 /* GoodsDetailOptionsPopupView.h */,
+				3A7B5CF921491AFF0024C201 /* GoodsDetailOptionsPopupView.m */,
+				3A6DE43C2151E45500F9E7BE /* GoodsDetailQRCodePopupView.h */,
+				3A6DE43D2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m */,
 			);
 			path = CustomPopupViews;
 			sourceTree = "<group>";
@@ -3064,6 +3072,8 @@
 		3A6E80492112F9D1004A7FF6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3A6DE43F2152140F00F9E7BE /* AddressNavigationView.h */,
+				3A6DE4402152140F00F9E7BE /* AddressNavigationView.m */,
 				3A6E805D21143A89004A7FF6 /* AddressAddBottomView.h */,
 				3A6E805E21143A89004A7FF6 /* AddressAddBottomView.m */,
 				3A6E80602114416E004A7FF6 /* AddressSelectCell.h */,
@@ -4761,6 +4771,7 @@
 				3AED3AAB20F313830095D7C1 /* IQUIView+Hierarchy.m in Sources */,
 				3AED3AB620F313830095D7C1 /* AFAutoPurgingImageCache.m in Sources */,
 				3AFD56E2211C1E8300B36A35 /* NSString+MJExtension.m in Sources */,
+				3A6DE43E2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m in Sources */,
 				04904E76211C1A06007D333B /* SpellOrderObligationCell.m in Sources */,
 				3AFD56B9211AE4A100B36A35 /* ConfirmOrderSelectCouponCell.m in Sources */,
 				3AED3AC920F313840095D7C1 /* YYImageCoder.m in Sources */,
@@ -5004,6 +5015,7 @@
 				3A6E80622114416E004A7FF6 /* AddressSelectCell.m in Sources */,
 				3AF1ACAF2150C7C1006FE68E /* QMChatRoomRichTextCell.m in Sources */,
 				3AED3AD520F313840095D7C1 /* NSDate+DateTools.m in Sources */,
+				3A6DE4412152140F00F9E7BE /* AddressNavigationView.m in Sources */,
 				3A2BF3ED20FCA42D00480F25 /* UIImageView+WebCache.m in Sources */,
 				3AF1ACD62150C7C1006FE68E /* QMPickedVideoViewController.m in Sources */,
 				3A6E80392111517A004A7FF6 /* ShoppingCartResultModel.m in Sources */,
@@ -5248,7 +5260,7 @@
 				04399D58211D75B70044D1B2 /* SpellOrderDetailBottomView.m in Sources */,
 				3A6E80472112E867004A7FF6 /* ConfirmOrderBottomView.m in Sources */,
 				3AF1ACC02150C7C1006FE68E /* TCExpressionSectionBar.m in Sources */,
-				3A7B5CFA21491AFF0024C201 /* GoodsDetailPopupView.m in Sources */,
+				3A7B5CFA21491AFF0024C201 /* GoodsDetailOptionsPopupView.m in Sources */,
 				3A2BF46720FCA70000480F25 /* TAPageControl.m in Sources */,
 				3AED3A8820F313830095D7C1 /* MJRefreshNormalHeader.m in Sources */,
 				3AF1ACD72150C7C1006FE68E /* QMPickedOtherViewController.m in Sources */,

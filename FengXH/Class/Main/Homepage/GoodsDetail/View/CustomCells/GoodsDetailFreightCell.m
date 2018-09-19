@@ -2,16 +2,19 @@
 //  GoodsDetailFreightCell.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/9/17.
+//  Created by sun on 2018/9/17.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
 #import "GoodsDetailFreightCell.h"
+#import "GoodsDetailResultModel.h"
 
 @interface GoodsDetailFreightCell ()
 
 /** 运费 */
 @property(nonatomic , strong)UILabel *freightLabel;
+/** 有无货状态 */
+@property(nonatomic , strong)UILabel *kplLabel;
 
 @end
 
@@ -38,13 +41,29 @@
             make.left.mas_equalTo(label.mas_right).offset(10);
         }];
         
+        [self.contentView addSubview:self.kplLabel];
+        [self.kplLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_offset(-15);
+            make.centerY.mas_equalTo(self.contentView.mas_centerY);
+        }];
+        
     }
     return self;
 }
 
+- (void)setJdGoodsModel:(GoodsDetailResultJDGoodsModel *)jdGoodsModel {
+    _jdGoodsModel = jdGoodsModel;
+    [self.freightLabel setText:[NSString stringWithFormat:@"%.2lf",[_jdGoodsModel.jd_freight floatValue]]];
+    [self.kplLabel setText:_jdGoodsModel.kpl];
+}
+
 - (void)setFreight:(NSString *)freight {
     _freight = freight;
-    [self.freightLabel setText:_freight];
+    if ([_freight floatValue] > 0) {
+        [self.freightLabel setText:[NSString stringWithFormat:@"%.2lf",[_freight floatValue]]];
+    } else {
+        [self.freightLabel setText:_freight];
+    }
 }
 
 #pragma mark - lazy
@@ -55,6 +74,15 @@
         [_freightLabel setFont:KFont(13)];
     }
     return _freightLabel;
+}
+
+- (UILabel *)kplLabel {
+    if (!_kplLabel) {
+        _kplLabel = [[UILabel alloc] init];
+        [_kplLabel setTextColor:KRedColor];
+        [_kplLabel setFont:KFont(13)];
+    }
+    return _kplLabel;
 }
 
 - (void)awakeFromNib {

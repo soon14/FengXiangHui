@@ -2,7 +2,7 @@
 //  GoodsDetailResultModel.h
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/9/13.
+//  Created by sun on 2018/9/13.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
@@ -157,6 +157,8 @@
 
 /** 价钱 */
 @property(nonatomic , copy)NSString *marketprice;
+/** 商品原价 */
+@property(nonatomic , copy)NSString *productprice;
 /** title */
 @property(nonatomic , copy)NSString *title;
 /** 缩略图 */

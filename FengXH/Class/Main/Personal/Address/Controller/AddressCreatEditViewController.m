@@ -9,9 +9,12 @@
 #import "AddressCreatEditViewController.h"
 #import "AddressResultModel.h"
 #import "ZHFAddTitleAddressView.h"
+#import "AddressNavigationView.h"
 
-@interface AddressCreatEditViewController ()<UITextFieldDelegate,ZHFAddTitleAddressViewDelegate>
+@interface AddressCreatEditViewController ()<UITextFieldDelegate,ZHFAddTitleAddressViewDelegate,AddressNavigationViewDelegate>
 
+/** navigationView */
+@property(nonatomic , strong)AddressNavigationView *navigationView;
 /** 收货人 */
 @property(nonatomic , strong)UITextField *nameTextField;
 /** 联系电话 */
@@ -32,6 +35,16 @@
 
 @implementation AddressCreatEditViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -51,11 +64,18 @@
     CGFloat LabelWidth = 90;
     CGFloat LabelHeight = 50;
     
+    [self.view addSubview:self.navigationView];
+    [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_offset(0);
+        make.height.mas_equalTo(KNaviHeight);
+    }];
+    
     UIView *backView = [[UIView alloc] init];
     [backView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:backView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_offset(0);
+        make.top.mas_offset(KNaviHeight);
+        make.left.right.mas_offset(0);
         make.height.mas_equalTo(LabelHeight*5);
     }];
     
@@ -264,8 +284,20 @@
     //NSLog(@"%@", [NSString stringWithFormat:@"打印的对应省市县的id=%@",titleID]);
 }
 
+- (void)AddressNavigationView:(AddressNavigationView *)view backButtonAction:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - lazy
+- (AddressNavigationView *)navigationView {
+    if (!_navigationView) {
+        _navigationView = [[AddressNavigationView alloc] init];
+        _navigationView.title = _titleString;
+        _navigationView.delegate = self;
+    }
+    return _navigationView;
+}
+
 - (ZHFAddTitleAddressView *)addTitleAddressView {
     if (!_addTitleAddressView) {
         _addTitleAddressView = [[ZHFAddTitleAddressView alloc]init];

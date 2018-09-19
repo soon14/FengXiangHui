@@ -2,7 +2,7 @@
 //  GoodsDetailViewController.m
 //  FengXH
 //
-//  Created by 孙湖滨 on 2018/9/11.
+//  Created by sun on 2018/9/11.
 //  Copyright © 2018年 HubinSun. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 #import "GoodsDetailResultModel.h"
 #import "GoodsDetailBottomView.h"//底部 View
 #import "GoodsDetailNavigationView.h"//自定义的导航栏
-#import "GoodsDetailPopupView.h"//点击加入购物车弹出的 View
+#import "GoodsDetailOptionsPopupView.h"//点击加入购物车弹出的 View
 #import "GoodsDetailGoodsInfoCell.h"//商品图片、价格、大小标题等 cell
 #import "GoodsDetailMemberLevelCell.h"//店主可享受优惠价格 cell
 #import "GoodsDetailJDAdressCell.h"//京东商品可选择地址 cell
@@ -20,6 +20,8 @@
 #import "GoodsDetailShopCell.h"//店铺信息
 #import "GoodsDetailDragCell.h"//上拉查看详情
 #import "GoodsDetailContentImageCell.h"//详情页展示图片 cell
+#import "GoodsDetailQRCodePopupView.h"//商品二维码
+#import "ZHFAddTitleAddressView.h"//京东四级地址选择
 
 /** 七陌客服 */
 #import "QMChatRoomViewController.h"
@@ -45,7 +47,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     DragType                //上拉查看详情
 };
 
-@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailGoodsInfoCellDelegate,GoodsDetailShopCellDelegate>
+@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailGoodsInfoCellDelegate,GoodsDetailShopCellDelegate,ZHFAddTitleAddressViewDelegate>
 {
     NSMutableArray *contentImageHeightArray;        //存放详情页图片高度的数组
 }
@@ -61,9 +63,13 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 @property(nonatomic , strong)UIButton *serviceButton;
 /** 商品二维码图片 */
 @property(nonatomic , strong)UIImageView *goodsQRCode;
+/** 京东四级地址选择 */
+@property(nonatomic , strong)ZHFAddTitleAddressView *addTitleAddressView;
+/** 选择完的京东四级地址，用于展示在 cell 上 */
+@property(nonatomic , copy)NSString *jdGoodsAddress;
 /** 商品详情 Model */
 @property(nonatomic , strong)GoodsDetailResultModel *resultModel;
-/**  第一个 tableView 内容高度 */
+/** 第一个 tableView 内容高度 */
 @property(nonatomic , assign)CGFloat firstTableContentHeight;
 
 /** 客服 */
@@ -103,6 +109,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     [self.view addSubview:self.navigationView];
     [self.view addSubview:self.serviceButton];
     [self caculateContentImageHeight];
+    [self.view addSubview:[self.addTitleAddressView initAddressView]];
 }
 
 #pragma mark - 计算详情页每张图片高度并放入数组
@@ -208,7 +215,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 } return CGFLOAT_MIN;
             } break;
             case JDGoodsAdressType: {
-                if (self.resultModel.jdgoods) {
+                if (self.resultModel.sku_jdid) {
                     return 40;
                 } return CGFLOAT_MIN;
             } break;
@@ -343,12 +350,18 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             case JDGoodsAdressType: {
                 if (self.resultModel.jdgoods) {
                     GoodsDetailJDAdressCell *addressCell = (GoodsDetailJDAdressCell *)cell;
-                    addressCell.jdGoodsModel = self.resultModel.jdgoods;
+                    if (_jdGoodsAddress) {
+                        addressCell.address = _jdGoodsAddress;
+                    }
                 }
             } break;
             case FreightType: {
                 GoodsDetailFreightCell *freightCell = (GoodsDetailFreightCell *)cell;
-                freightCell.freight = self.resultModel.dispatchprice;
+                if (self.resultModel.jdgoods) {
+                    freightCell.jdGoodsModel = self.resultModel.jdgoods;
+                } else {
+                    freightCell.freight = self.resultModel.dispatchprice;
+                }
             } break;
             case QualityType: {
                 GoodsDetailQuelityCell *qualityCell = (GoodsDetailQuelityCell *)cell;
@@ -381,12 +394,31 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     if (tableView == self.firstTableView) {
         switch (indexPath.section) {
             case CountType: {
-                NSLog(@"选择数量规格等。。。。");
+                //选择数量规格
+                GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+                addCartView.goodsDetailResultModel = self.resultModel;
+                [addCartView showInView:self.view];
+            } break;
+            case JDGoodsAdressType: {
+                //京东商品选择地址查看运费
+                [self.addTitleAddressView addAnimate];
             } break;
                 
             default:
                 break;
         }
+    }
+}
+
+#pragma mark - ZHFAddTitleAddressViewDelegate
+-(void)cancelBtnClick:(NSString *)titleAddress titleID:(NSString *)titleID{
+    if (titleAddress.length > 0) {
+        NSMutableString *addressString = [NSMutableString stringWithString:titleAddress];
+        [addressString deleteCharactersInRange:NSMakeRange(0, 1)];
+        _jdGoodsAddress = addressString;
+        NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:JDGoodsAdressType];
+        [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+        [self jdGoodsFreightRequest:titleID];
     }
 }
 
@@ -483,13 +515,13 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             [self.tabBarController setSelectedIndex:3];
         } break;
         case 3: {//加入购物车
-            GoodsDetailPopupView *addCartView = [[GoodsDetailPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
-            addCartView.popupType = 0;
+            GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+            addCartView.goodsDetailResultModel = self.resultModel;
             [addCartView showInView:self.view];
         } break;
         case 4: {//立即购买
-            GoodsDetailPopupView *addCartView = [[GoodsDetailPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
-            addCartView.popupType = 1;
+            GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+            addCartView.goodsDetailResultModel = self.resultModel;
             [addCartView showInView:self.view];
         } break;
         default:
@@ -514,26 +546,39 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 
 #pragma mark - 二维码扫描
 - (void)scanCodeButtonAction:(UIButton *)sender {
-    NSLog(@"弹出二维码");
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    UIView *backView = [[UIView alloc] initWithFrame:window.bounds];
-//    [backView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
-//    [window addSubview:backView];
-//    
-//    [backView addSubview:self.goodsQRCode];
-//    [self.goodsQRCode mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(window.mas_centerY);
-//        make.centerX.mas_equalTo(window.mas_centerX);
-//        make.width.mas_equalTo(300);
-//        make.width.mas_equalTo(400);
-//    }];
-//    
-//    [self.goodsQRCode yy_setImageWithURL:[NSURL URLWithString:self.resultModel.share_image] placeholder:nil options:YYWebImageOptionProgressiveBlur completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
-//        
-//    }];
+    GoodsDetailQRCodePopupView *QRCodeView = [[GoodsDetailQRCodePopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+    QRCodeView.imageURL = self.resultModel.share_image;
+    [QRCodeView showInView:self.view];
 }
 
-
+#pragma mark - 根据地址 id 查询京东商品运费请求
+- (void)jdGoodsFreightRequest:(NSString *)addressID {
+    NSMutableArray *idArray = [NSMutableArray arrayWithArray:[addressID componentsSeparatedByString:@","]];
+    if (idArray.count < 4) {
+        [idArray addObject:@"0"];
+    }
+    NSMutableString *idsString = [NSMutableString string];
+    for (NSString *str in idArray) {
+        [idsString appendString:[NSString stringWithFormat:@",%@",str]];
+    }
+    [idsString deleteCharactersInRange:NSMakeRange(0, 1)];
+    NSString *url = @"r=apply.goods.kpl_freight";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSString stringWithFormat:@"%ld",self.resultModel.sku_jdid],@"sku_jdid",
+                              idsString,@"address", nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        if ([responseDic[@"status"] integerValue] == 1) {
+            self.resultModel.jdgoods = [GoodsDetailResultJDGoodsModel yy_modelWithDictionary:responseDic[@"result"]];
+            NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:FreightType];
+            [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
 
 #pragma mark -  移除收藏网络请求
 - (void)removeCollectGoodsRequest:(UIButton *)sender {
@@ -546,7 +591,6 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
-            NSLog(@"操作成功了啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
             self.bottomView.isFavorite = !sender.selected;
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
@@ -593,7 +637,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
         if ([responseDic[@"status"] integerValue] == 1) {
             
             self.resultModel = [GoodsDetailResultModel yy_modelWithDictionary:responseDic[@"result"]];
-            NSLog(@"商品详情：%@",responseDic);
+            //NSLog(@"商品详情：%@",responseDic);
             [self initSubviews];
             
         } else {
@@ -606,7 +650,17 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     }];
 }
 
-
+#pragma mark - lazy
+- (ZHFAddTitleAddressView *)addTitleAddressView {
+    if (!_addTitleAddressView) {
+        _addTitleAddressView = [[ZHFAddTitleAddressView alloc]init];
+        _addTitleAddressView.title = @"选择地址";
+        _addTitleAddressView.delegate1 = self;
+        _addTitleAddressView.defaultHeight = 450;
+        _addTitleAddressView.titleScrollViewH = 37;
+    }
+    return _addTitleAddressView;
+}
 
 - (UIImageView *)goodsQRCode {
     if (!_goodsQRCode) {

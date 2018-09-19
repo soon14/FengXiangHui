@@ -123,7 +123,8 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 #pragma mark - 测试
 - (void)newGoodsDetailVC {
     GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
-    VC.goodsID = @"37962";
+//    VC.goodsID = @"14330";//京东商品
+    VC.goodsID = @"33315";
     VC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:VC animated:YES];
 }
