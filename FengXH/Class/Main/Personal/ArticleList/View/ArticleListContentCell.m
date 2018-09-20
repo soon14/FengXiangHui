@@ -152,8 +152,7 @@
 - (UIImageView *)articleImageV {
     if (!_articleImageV) {
         _articleImageV = [[UIImageView alloc] init];
-        [_articleImageV setContentMode:UIViewContentModeScaleAspectFill];
-        [_articleImageV setBackgroundColor:KTableBackgroundColor];
+        [_articleImageV setContentMode:UIViewContentModeScaleAspectFit];
     }
     return _articleImageV;
 }

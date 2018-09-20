@@ -256,6 +256,11 @@
 		3A4B39BA212D33F100B88A34 /* IntegralCreatOrderBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39B9212D33F100B88A34 /* IntegralCreatOrderBottomView.m */; };
 		3A4B39BD212D3DED00B88A34 /* IntegralPayOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39BC212D3DED00B88A34 /* IntegralPayOrderViewController.m */; };
 		3A4B39C0212D3EF100B88A34 /* IntegralPayOrderInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39BF212D3EF100B88A34 /* IntegralPayOrderInfoCell.m */; };
+		3A5C1A5421532FE500E5343C /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */; };
+		3A5C1A57215339AB00E5343C /* GoodsDetailOptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A56215339AB00E5343C /* GoodsDetailOptionsHeaderView.m */; };
+		3A5C1A5A21533EF900E5343C /* GoodsDetailOptionsSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5921533EF900E5343C /* GoodsDetailOptionsSelectCell.m */; };
+		3A5C1A5D2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5C2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m */; };
+		3A5C1A632153814E00E5343C /* GoodsDetailOptionsNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A622153814E00E5343C /* GoodsDetailOptionsNumberCell.m */; };
 		3A5FAB68212E96CE001FF22D /* ZYNetworkAccessibity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5FAB66212E96CE001FF22D /* ZYNetworkAccessibity.m */; };
 		3A6DE43B2150E12A00F9E7BE /* GoodsDetailContentImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DE43A2150E12A00F9E7BE /* GoodsDetailContentImageCell.m */; };
 		3A6DE43E2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DE43D2151E45500F9E7BE /* GoodsDetailQRCodePopupView.m */; };
@@ -1100,6 +1105,16 @@
 		3A4B39BC212D3DED00B88A34 /* IntegralPayOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegralPayOrderViewController.m; sourceTree = "<group>"; };
 		3A4B39BE212D3EF100B88A34 /* IntegralPayOrderInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegralPayOrderInfoCell.h; sourceTree = "<group>"; };
 		3A4B39BF212D3EF100B88A34 /* IntegralPayOrderInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegralPayOrderInfoCell.m; sourceTree = "<group>"; };
+		3A5C1A5221532FE500E5343C /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
+		3A5C1A55215339AB00E5343C /* GoodsDetailOptionsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsHeaderView.h; sourceTree = "<group>"; };
+		3A5C1A56215339AB00E5343C /* GoodsDetailOptionsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsHeaderView.m; sourceTree = "<group>"; };
+		3A5C1A5821533EF900E5343C /* GoodsDetailOptionsSelectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsSelectCell.h; sourceTree = "<group>"; };
+		3A5C1A5921533EF900E5343C /* GoodsDetailOptionsSelectCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsSelectCell.m; sourceTree = "<group>"; };
+		3A5C1A5B2153775300E5343C /* GoodsDetailOptionsIDNumberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsIDNumberCell.h; sourceTree = "<group>"; };
+		3A5C1A5C2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsIDNumberCell.m; sourceTree = "<group>"; };
+		3A5C1A612153814E00E5343C /* GoodsDetailOptionsNumberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsNumberCell.h; sourceTree = "<group>"; };
+		3A5C1A622153814E00E5343C /* GoodsDetailOptionsNumberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsNumberCell.m; sourceTree = "<group>"; };
 		3A5FAB66212E96CE001FF22D /* ZYNetworkAccessibity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYNetworkAccessibity.m; sourceTree = "<group>"; };
 		3A5FAB67212E96CE001FF22D /* ZYNetworkAccessibity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYNetworkAccessibity.h; sourceTree = "<group>"; };
 		3A6DE4392150E12A00F9E7BE /* GoodsDetailContentImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailContentImageCell.h; sourceTree = "<group>"; };
@@ -2911,6 +2926,16 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3A5C1A5121532FE500E5343C /* UICollectionViewLeftAlignedLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3A5C1A5221532FE500E5343C /* UICollectionViewLeftAlignedLayout.h */,
+				3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			name = UICollectionViewLeftAlignedLayout;
+			path = "../../../../../../iBokan/深夜互动/whale/whale/3rdLibs/UICollectionViewLeftAlignedLayout";
+			sourceTree = "<group>";
+		};
 		3A5FAB65212E96CE001FF22D /* ZYNetworkAccessibity */ = {
 			isa = PBXGroup;
 			children = (
@@ -2959,6 +2984,14 @@
 		3A6DE4372150DA2800F9E7BE /* CustomPopupViews */ = {
 			isa = PBXGroup;
 			children = (
+				3A5C1A55215339AB00E5343C /* GoodsDetailOptionsHeaderView.h */,
+				3A5C1A56215339AB00E5343C /* GoodsDetailOptionsHeaderView.m */,
+				3A5C1A5821533EF900E5343C /* GoodsDetailOptionsSelectCell.h */,
+				3A5C1A5921533EF900E5343C /* GoodsDetailOptionsSelectCell.m */,
+				3A5C1A5B2153775300E5343C /* GoodsDetailOptionsIDNumberCell.h */,
+				3A5C1A5C2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m */,
+				3A5C1A612153814E00E5343C /* GoodsDetailOptionsNumberCell.h */,
+				3A5C1A622153814E00E5343C /* GoodsDetailOptionsNumberCell.m */,
 				3A7B5CF821491AFF0024C201 /* GoodsDetailOptionsPopupView.h */,
 				3A7B5CF921491AFF0024C201 /* GoodsDetailOptionsPopupView.m */,
 				3A6DE43C2151E45500F9E7BE /* GoodsDetailQRCodePopupView.h */,
@@ -3625,6 +3658,7 @@
 		3AED397220F313830095D7C1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3A5C1A5121532FE500E5343C /* UICollectionViewLeftAlignedLayout */,
 				3AF1ABEE2150C7C0006FE68E /* Service */,
 				3A7B5CF1214912D90024C201 /* HBPopupView */,
 				3A7B5CDE21467A980024C201 /* PushAnimationTools */,
@@ -4753,6 +4787,7 @@
 				3ABEADE121229F2200C13F6F /* OrderDetailStatusCell.m in Sources */,
 				3AED3A8B20F313830095D7C1 /* MJRefreshFooter.m in Sources */,
 				3AED3AE020F313840095D7C1 /* HBNetWork.m in Sources */,
+				3A5C1A5A21533EF900E5343C /* GoodsDetailOptionsSelectCell.m in Sources */,
 				0477659A21088C9F00A459DC /* DetailViewController.m in Sources */,
 				3AED3A8620F313830095D7C1 /* MJRefreshAutoGifFooter.m in Sources */,
 				04368122211AF73B00ED6B34 /* StoreSettionThirdTableViewCell.m in Sources */,
@@ -4938,6 +4973,7 @@
 				3AF1ACB92150C7C1006FE68E /* QMChatRoomInvestigateCell.m in Sources */,
 				3AED395D20F30AF40095D7C1 /* ViewController.m in Sources */,
 				3AED3A8D20F313830095D7C1 /* MJRefreshBackFooter.m in Sources */,
+				3A5C1A632153814E00E5343C /* GoodsDetailOptionsNumberCell.m in Sources */,
 				3AED3AB520F313830095D7C1 /* UIWebView+AFNetworking.m in Sources */,
 				3A2BF3F420FCA42D00480F25 /* UIButton+WebCache.m in Sources */,
 				3AED3AE320F313840095D7C1 /* ShareManager.m in Sources */,
@@ -4996,6 +5032,7 @@
 				3A7B5C93213FB62E0024C201 /* ArticleListContentCell.m in Sources */,
 				3A7B5CFE214A2A320024C201 /* GoodsDetailResultModel.m in Sources */,
 				3A2BF2E620F5925E00480F25 /* HomepageDataModel.m in Sources */,
+				3A5C1A5D2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m in Sources */,
 				3AF1ACD02150C7C1006FE68E /* QMVideoTableCell.m in Sources */,
 				0401AD7B2114674300305F27 /* SpellGoodsDetailsModel.m in Sources */,
 				3A7B5D13214F8B760024C201 /* GoodsDetailCountCell.m in Sources */,
@@ -5145,6 +5182,7 @@
 				3A3DA5542101E4BE00F4412F /* MyOrderResultModel.m in Sources */,
 				3ABEAE612126601900C13F6F /* PhoneTopUpTableViewCell.m in Sources */,
 				3A6E8033210F134F004A7FF6 /* PersonalDataModel.m in Sources */,
+				3A5C1A57215339AB00E5343C /* GoodsDetailOptionsHeaderView.m in Sources */,
 				3AED3A8120F313830095D7C1 /* UIView+MJExtension.m in Sources */,
 				3A3DA54421007E6C00F4412F /* OrderTypeHeaderView.m in Sources */,
 				049367FB211EEB4900EB25DD /* SpellOrderCommentCheckImageView.m in Sources */,
@@ -5183,6 +5221,7 @@
 				3AED3AD720F313840095D7C1 /* DTConstants.m in Sources */,
 				3A3DA53120FDF87C00F4412F /* RegisterViewController.m in Sources */,
 				04420ACD212415BE00780BBA /* YNDatePickerView.m in Sources */,
+				3A5C1A5421532FE500E5343C /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				3AFD56A721199F3100B36A35 /* ConfirmOrderTotalPriceCell.m in Sources */,
 				3AFD5704211D726600B36A35 /* PayOrderMethodItem.m in Sources */,
 				3AED3ACF20F313840095D7C1 /* MKAnnotationView+YYWebImage.m in Sources */,

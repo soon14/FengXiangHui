@@ -515,14 +515,22 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             [self.tabBarController setSelectedIndex:3];
         } break;
         case 3: {//加入购物车
-            GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
-            addCartView.goodsDetailResultModel = self.resultModel;
-            [addCartView showInView:self.view];
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+                GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+                addCartView.goodsDetailResultModel = self.resultModel;
+                [addCartView showInView:self.view];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
+            }
         } break;
         case 4: {//立即购买
-            GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
-            addCartView.goodsDetailResultModel = self.resultModel;
-            [addCartView showInView:self.view];
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+                GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
+                addCartView.goodsDetailResultModel = self.resultModel;
+                [addCartView showInView:self.view];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
+            }
         } break;
         default:
             break;

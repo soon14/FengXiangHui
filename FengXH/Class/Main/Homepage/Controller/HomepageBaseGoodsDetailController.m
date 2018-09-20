@@ -117,7 +117,7 @@
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
-            
+            //NSLog(@"%@",responseDic);
             [self addBottomViewAndServiceButton];
             
             self.dataModel = [HomepageGoodsDetailModel yy_modelWithDictionary:responseDic[@"result"]];

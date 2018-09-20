@@ -71,6 +71,8 @@
 @property(nonatomic , assign)NSInteger viewcount;
 /**  京东商品 id */
 @property(nonatomic , assign)NSInteger sku_jdid;
+/** 如果 == 4 就代表购买此商品商品必须输入身份证用于清关 */
+@property(nonatomic , assign)NSInteger diyformid;
 /** 质量保证等信息 */
 @property(nonatomic , strong)GoodsDetailResultTagModel *tag;
 /** 京东商品实时运费 */
@@ -177,6 +179,8 @@
 @property(nonatomic , copy)NSString *stock;
 /** uniacid */
 @property(nonatomic , copy)NSString *uniacid;
+/** 是否被选择 */
+@property(nonatomic , assign)BOOL selected;
 
 @end
 

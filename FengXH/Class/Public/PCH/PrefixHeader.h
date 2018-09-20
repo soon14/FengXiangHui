@@ -54,6 +54,7 @@
 #define KOpenid @"openid"
 #define KUserId @"userid"
 #define KSalt @"salt"
+#define KUserIDCardNumber @"userIDCardNumber"
 #define KNotLoggedInCode @"400"
 #define KPageSize 10
 #define KNetworkError @"网络连接错误"
