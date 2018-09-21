@@ -10,7 +10,7 @@
 #import "JingdongImgCollectionViewCell.h"
 #import "JingdongItemCollectionViewCell.h"
 #import "FreshCollectionViewCell.h"
-#import "HomepageBaseGoodsDetailController.h"//商品详情
+#import "GoodsDetailViewController.h"//商品详情
 #import "GoodsListViewController.h"//分类
 @interface FreshViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic ,strong) UICollectionView *collectionView;
@@ -153,9 +153,9 @@
         }
     }else{
         //商品点击
-        HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-        vc.goodsId = [itemArr[indexPath.item] objectForKey:@"gid"];
-        [self.navigationController pushViewController:vc animated:YES];
+        GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+        VC.goodsID = [itemArr[indexPath.item] objectForKey:@"gid"];
+        [self.navigationController pushViewController:VC animated:YES];
     }
     
 }

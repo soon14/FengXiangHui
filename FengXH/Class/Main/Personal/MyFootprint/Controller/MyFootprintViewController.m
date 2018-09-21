@@ -10,7 +10,7 @@
 #import "MyFootprintBottomView.h"
 #import "MyFootprintCell.h"
 #import "MyFootprintResultModel.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 
 @interface MyFootprintViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -166,9 +166,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MyFootprintResultListModel *listModel = footprintListArray[indexPath.section];
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = listModel.goodsid;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = listModel.goodsid;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 

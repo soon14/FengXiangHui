@@ -24,7 +24,7 @@
 #import "SpellActivityViewController.h"
 #import "SpellOrderBaseViewController.h"
 #import "SpellOrderDetailViewController.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 #import "ConfirmOrderViewController.h"
 #import "SpellOrderListModel.h"
 #import "OrderDetailsViewController.h"
@@ -47,7 +47,7 @@
         NSMutableArray *VCArray = self.navigationController.viewControllers.mutableCopy;
         NSMutableArray *arrRemove = [NSMutableArray array];
         for (UIViewController *VC in VCArray) {
-            if ([VC isKindOfClass:[SpellGroupDetailsViewController class]] || [VC isKindOfClass:[GroupOperatingViewController class]] || [VC isKindOfClass:[CreateGroupOrderViewController class]] || [VC isKindOfClass:[PayOrderViewController class]] || [VC isKindOfClass:[HomepageBaseGoodsDetailController class]] || [VC isKindOfClass:[ConfirmOrderViewController class]]) {
+            if ([VC isKindOfClass:[SpellGroupDetailsViewController class]] || [VC isKindOfClass:[GroupOperatingViewController class]] || [VC isKindOfClass:[CreateGroupOrderViewController class]] || [VC isKindOfClass:[PayOrderViewController class]] || [VC isKindOfClass:[GoodsDetailViewController class]] || [VC isKindOfClass:[ConfirmOrderViewController class]]) {
                 [arrRemove addObject:VC];
             }
         }

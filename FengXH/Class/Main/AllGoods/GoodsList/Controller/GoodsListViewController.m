@@ -13,7 +13,7 @@
 #import "GoodsListModel.h"
 #import "AllCategoryDataModel.h"
 #import "GoodsListFilterViewController.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 // 首页板块类型
 typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
     CollectionStyle = 0 ,
@@ -288,9 +288,9 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
     [self.view endEditing:YES];
     GoodsListCommodityModel *commodityModel = _goodsListModelArray[indexPath.item];
     //NSLog(@"进入商品详情：%@",commodityModel.title);
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = commodityModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = commodityModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 创建请求的参数字典
@@ -411,16 +411,16 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
 #pragma mark - 购买按钮被点击
 - (void)GoodsListCollectionCell:(GoodsListCollectionCell *)cell didSelectShoppingCartWith:(GoodsListCommodityModel *)commodityModel {
     [self.view endEditing:YES];
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = commodityModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = commodityModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (void)GoodsListTableCell:(GoodsListTableCell *)cell didSelectShoppingCartWith:(GoodsListCommodityModel *)commodityModel {
     [self.view endEditing:YES];
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = commodityModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = commodityModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 

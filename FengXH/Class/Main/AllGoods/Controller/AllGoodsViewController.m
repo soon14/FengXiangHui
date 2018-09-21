@@ -14,7 +14,7 @@
 #import "AllCategoryDataModel.h"
 #import "GoodsListViewController.h"
 #import "JingdongCategoryViewController.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 #define TableViewWidth  [UIScreen mainScreen].bounds.size.width * 0.28
 #define CollectionViewWidth [UIScreen mainScreen].bounds.size.width * 0.72
 
@@ -243,9 +243,9 @@
             //跳转至商品详情
             NSString *jumpURLString = [linkURL stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=" withString:@""];
             
-            HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-            vc.goodsId = jumpURLString;
-            [self.navigationController pushViewController:vc animated:YES];
+            GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+            VC.goodsID = jumpURLString;
+            [self.navigationController pushViewController:VC animated:YES];
         } break;
         case AllGoodsCollectionHeaderJumpSafari: {
             //跳转至浏览器

@@ -10,7 +10,7 @@
 #import "MyFocusCell.h"
 #import "MyFocusBottomView.h"
 #import "MyFocusResultModel.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 
 @interface MyFocusViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -165,9 +165,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MyFocusResultListModel *listModel = focusListArray[indexPath.row];
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = listModel.goodsid;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = listModel.goodsid;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 

@@ -8,7 +8,7 @@
 
 #import "WebJumpViewController.h"
 #import "WKWebViewJavascriptBridge.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 #import "IntegralCreatOrderViewController.h"
 
 @interface WebJumpViewController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>

@@ -25,7 +25,7 @@
 #import "ConfirmOrderCouponPriceCell.h"
 #import "ConfirmOrderCouponPriceResultModel.h"
 #import "PayOrderViewController.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 
 static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
 
@@ -309,9 +309,9 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         //点击商品跳转
         ConfirmOrderCreatResultGoodsListModel *storeListModel = self.orderCreatResultModel.goods_list[indexPath.section-1];
         ConfirmOrderCreatResultGoodsListGoodsModel *goodsListModel = storeListModel.goods[indexPath.row];
-        HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-        vc.goodsId = goodsListModel.goodsid;
-        [self.navigationController pushViewController:vc animated:YES];
+        GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+        VC.goodsID = goodsListModel.goodsid;
+        [self.navigationController pushViewController:VC animated:YES];
     } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {

@@ -11,7 +11,7 @@
 #import "ZQCountDownView.h"
 #import "KillTableViewCell.h"
 #import "SecondsKillModel.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 @interface SecondsKillViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic ,strong) KillTableViewHeaderView *killheaderView;
@@ -131,9 +131,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.secondsKillModel = [SecondsKillModel yy_modelWithDictionary:self.dataDic[indexPath.section]];
     //NSLog(@"id = %@|goodsid = %@",_secondsKillModel.categoryID,_secondsKillModel.goodsid);
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.goodsId = _secondsKillModel.goodsid;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.goodsID = _secondsKillModel.goodsid;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

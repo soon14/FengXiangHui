@@ -284,7 +284,9 @@
                         tempModel.selected = NO;
                     }
                     optionsModel.selected = !optionsModel.selected;
-                    [self.goodsIcon setYy_imageURL:[NSURL URLWithString:optionsModel.thumb]];
+                    if (optionsModel.thumb && optionsModel.thumb.length > 0) {
+                        [self.goodsIcon setYy_imageURL:[NSURL URLWithString:optionsModel.thumb]];
+                    }
                     [self.goodsPriceLabel setText:[NSString stringWithFormat:@"¥%.2lf",[optionsModel.marketprice floatValue]]];
                     [self.collectionView reloadData];
                 }

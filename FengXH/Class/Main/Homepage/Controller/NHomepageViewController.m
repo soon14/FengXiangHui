@@ -20,7 +20,7 @@
 #import "GoodsListViewController.h"//全部商品
 #import "SecondsKillViewController.h"//今日秒杀
 #import "SpellBarViewController.h"//拼团福利
-#import "HomepageBaseGoodsDetailController.h"//商品详情
+#import "GoodsDetailViewController.h"//商品详情
 #import "JingDongViewController.h"//京东优选
 #import "FreshViewController.h"//生鲜超市
 #import "ArticleListBaseViewController.h"//赏金文章
@@ -372,10 +372,10 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         case HomePageStyle_guesslike_goods: {
             // 点击了猜你喜欢某个item
             HomepageDataGuessYouLikeGoodsDataModel * guessLikeModel = self.dataModel.M1530682437506.goods_list[indexPath.item];
-            HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
-            vc.hidesBottomBarWhenPushed=YES;
-            vc.goodsId=guessLikeModel.goodsID;
-            [self.navigationController pushViewController:vc animated:YES];
+            GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            VC.goodsID = guessLikeModel.goodsID;
+            [self.navigationController pushViewController:VC animated:YES];
             // other
             //NSLog(@"猜你喜欢商品点击了整个商品事件%@",guessLikeModel);
         } break;
@@ -607,29 +607,26 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 
 // MARK: 吃货联盟商品点击了整个商品事件
 - (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectItemWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel {
-    
-    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
-    vc.hidesBottomBarWhenPushed=YES;
-    vc.goodsId=goodsDataModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+    VC.hidesBottomBarWhenPushed = YES;
+    VC.goodsID = goodsDataModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 // MARK: 吃货联盟点击了购物车事件
 - (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectShoppingCartWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel {
-    
-    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
-    vc.hidesBottomBarWhenPushed=YES;
-    vc.goodsId = goodsDataModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+    VC.hidesBottomBarWhenPushed = YES;
+    VC.goodsID = goodsDataModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 // MARK: 猜你喜欢商品点击了购物车按钮
 - (void)HomePageFoodieGoodsDetailCell:(HomePageFoodieGoodsDetailCell *)cell didSelectShoppingCartButtonWithGuessLickModel:(HomepageDataGuessYouLikeGoodsDataModel *)guessLikeModel {
-    
-    HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
-    vc.hidesBottomBarWhenPushed=YES;
-    vc.goodsId= guessLikeModel.goodsID;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+    VC.hidesBottomBarWhenPushed = YES;
+    VC.goodsID = guessLikeModel.goodsID;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 轮播图被点击
@@ -671,10 +668,10 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
         } break;
         case BannerJumpGoodsDetails: {
             NSString *jumpURLString = [bannerModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=" withString:@""];
-            HomepageBaseGoodsDetailController *vc=[[HomepageBaseGoodsDetailController alloc]init];
-            vc.hidesBottomBarWhenPushed=YES;
-            vc.goodsId= jumpURLString;
-            [self.navigationController pushViewController:vc animated:YES];
+            GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            VC.goodsID = jumpURLString;
+            [self.navigationController pushViewController:VC animated:YES];
         } break;
         default:
             break;

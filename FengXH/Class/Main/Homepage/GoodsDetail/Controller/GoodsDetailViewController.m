@@ -210,7 +210,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     } else {
         switch (indexPath.section) {
             case GoodsInfoType: {
-                return (360*KScreenRatio + 125);
+                if (self.resultModel.seckillinfo) {
+                    return (360*KScreenRatio + 150);//秒杀商品
+                } return (360*KScreenRatio + 125);//非秒杀商品
             } break;
             case MemberLevelType: {
                 if (self.resultModel.member_level) {
@@ -403,10 +405,11 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
                 addCartView.goodsDetailResultModel = self.resultModel;
                 [addCartView showInView:self.view];
+                MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
-                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                 };
             } break;
             case JDGoodsAdressType: {
@@ -532,9 +535,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 [addCartView showInView:self.view];
                 MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
-                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                     [weakSelf addGoodsToShopCart:optionsModel IDNumber:IDNumberString Count:goodsNum];
                 };
             } else {
@@ -547,15 +550,16 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
                 addCartView.goodsDetailResultModel = self.resultModel;
                 [addCartView showInView:self.view];
+                MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
-                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                     ConfirmOrderViewController *VC = [[ConfirmOrderViewController alloc] init];
-                    VC.goodsID = self.goodsID;
+                    VC.goodsID = weakSelf.goodsID;
                     VC.optionID = optionsModel.optionsID;
                     VC.goodsNum = goodsNum;
-                    [self.navigationController pushViewController:VC animated:YES];
+                    [weakSelf.navigationController pushViewController:VC animated:YES];
                 };
             } else {
                 [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];

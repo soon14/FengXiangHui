@@ -12,7 +12,7 @@
 #import "ShoppingCartCell.h"
 #import "ShoppingCartResultModel.h"
 #import "ConfirmOrderViewController.h"
-#import "HomepageBaseGoodsDetailController.h"
+#import "GoodsDetailViewController.h"
 @interface ShopCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic , strong)UITableView *shopCartTableView;
@@ -153,10 +153,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ShoppingCartResultListModel *listModel = self.cartGoodsArray[indexPath.section][indexPath.row];
-    HomepageBaseGoodsDetailController *vc = [[HomepageBaseGoodsDetailController alloc]init];
-    vc.hidesBottomBarWhenPushed = YES;
-    vc.goodsId = listModel.goodsid;
-    [self.navigationController pushViewController:vc animated:YES];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    VC.hidesBottomBarWhenPushed = YES;
+    VC.goodsID = listModel.goodsid;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 编辑状态
