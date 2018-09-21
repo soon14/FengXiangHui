@@ -39,6 +39,10 @@
             make.left.bottom.right.mas_offset(0);
             make.height.mas_equalTo(0.5);
         }];
+        
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserIDCardNumber]) {
+            [self.IDTextField setText:[NSString stringWithFormat:@"%@",[[[NSUserDefaults standardUserDefaults] objectForKey:KUserIDCardNumber] stringByReplacingCharactersInRange:NSMakeRange(6, 8) withString:@"********"]]];
+        }
     }
     return self;
 }
@@ -50,8 +54,8 @@
         _IDTextField = [[UITextField alloc] init];
         [_IDTextField setTextColor:KUIColorFromHex(0x333333)];
         [_IDTextField setFont:KFont(14)];
-        [_IDTextField setPlaceholder:@"请输入身份证号码（用于清关）"];
-        [_IDTextField setText:[[NSUserDefaults standardUserDefaults] objectForKey:KUserIDCardNumber]];
+        [_IDTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        [_IDTextField setPlaceholder:@"请输入身份证号码（用于清关）"];        
     }
     return _IDTextField;
 }

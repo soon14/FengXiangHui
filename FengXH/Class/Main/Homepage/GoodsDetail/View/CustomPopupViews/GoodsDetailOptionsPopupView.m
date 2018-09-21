@@ -310,31 +310,38 @@
 
 #pragma mark - 确定
 - (void)confirmButtonAction:(UIButton *)sender {
-    NSMutableArray *selectOptionsArray = [NSMutableArray array];
-    if ([self.goodsDetailResultModel.options count] > 0) {
-        //如果有多规格必须选择一种规格
-        for (GoodsDetailResultOptionsModel *tempModel in self.goodsDetailResultModel.options) {
-            if (tempModel.selected == YES) {
-                [selectOptionsArray addObject:tempModel];
-                break;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+        NSMutableArray *selectOptionsArray = [NSMutableArray array];
+        if ([self.goodsDetailResultModel.options count] > 0) {
+            //如果有多规格必须选择一种规格
+            for (GoodsDetailResultOptionsModel *tempModel in self.goodsDetailResultModel.options) {
+                if (tempModel.selected == YES) {
+                    [selectOptionsArray addObject:tempModel];
+                    break;
+                }
+            }
+            if ([selectOptionsArray count] < 1) {
+                [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"请选择一种规格"];
+                return;
             }
         }
-        if ([selectOptionsArray count] < 1) {
-            [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"请选择一种规格"];
-            return;
+        if (self.goodsDetailResultModel.diyformid == 4) {
+            //购买商品要求输入身份证账号用于清关
+            if (self.IDTextField.text.length != 18) {
+                [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"请输入正确的身份证账号用于商品清关"];
+                return;
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:self.IDTextField.text forKey:KUserIDCardNumber];
         }
-    }
-    if (self.goodsDetailResultModel.diyformid == 4) {
-        //购买商品要求输入身份证账号用于清关
-        if (self.IDTextField.text.length != 18) {
-            [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"请输入正确的身份证账号用于商品清关"];
-            return;
+        GoodsDetailResultOptionsModel *selectedModel = [selectOptionsArray firstObject];
+        if (self.optionsSelectedBlock) {
+            self.optionsSelectedBlock(selectedModel, [[NSUserDefaults standardUserDefaults] objectForKey:KUserIDCardNumber], self.goodsNumTextField.text);
         }
-        [[NSUserDefaults standardUserDefaults] setObject:self.IDTextField.text forKey:KUserIDCardNumber];
+        [self removeView];
+    } else {
+        [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"请先前往个人中心登录或注册"];
     }
-    NSLog(@"s 什么鬼");
-    GoodsDetailResultOptionsModel *selectedModel = [selectOptionsArray firstObject];
-    NSLog(@"\n%@\n%@\n%@",selectedModel.title,self.IDTextField.text,self.goodsNumTextField.text);
+    
 }
 
 

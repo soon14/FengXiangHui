@@ -22,6 +22,7 @@
 #import "GoodsDetailContentImageCell.h"//详情页展示图片 cell
 #import "GoodsDetailQRCodePopupView.h"//商品二维码
 #import "ZHFAddTitleAddressView.h"//京东四级地址选择
+#import "ConfirmOrderViewController.h"//立即购买确认订单
 
 /** 七陌客服 */
 #import "QMChatRoomViewController.h"
@@ -71,6 +72,8 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 @property(nonatomic , strong)GoodsDetailResultModel *resultModel;
 /** 第一个 tableView 内容高度 */
 @property(nonatomic , assign)CGFloat firstTableContentHeight;
+/** 规格、数量，用于 cell 上展示 */
+@property(nonatomic , copy)NSString *optionsNumString;
 
 /** 客服 */
 @property(nonatomic , assign) BOOL isPushed;
@@ -372,8 +375,10 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 }
             } break;
             case CountType: {
-                //GoodsDetailCountCell *countCell = (GoodsDetailCountCell *)cell;
-                
+                GoodsDetailCountCell *countCell = (GoodsDetailCountCell *)cell;
+                if (self.optionsNumString) {
+                    countCell.optionsNumString = self.optionsNumString;
+                }
             } break;
             case ShopType: {
                 GoodsDetailShopCell *shopCell = (GoodsDetailShopCell *)cell;
@@ -398,6 +403,11 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
                 addCartView.goodsDetailResultModel = self.resultModel;
                 [addCartView showInView:self.view];
+                addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
+                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
+                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                };
             } break;
             case JDGoodsAdressType: {
                 //京东商品选择地址查看运费
@@ -514,20 +524,39 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
         case 2: {//跳转购物车
             [self.tabBarController setSelectedIndex:3];
         } break;
-        case 3: {//加入购物车
+        case 3: {
+            //加入购物车
             if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
                 GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
                 addCartView.goodsDetailResultModel = self.resultModel;
                 [addCartView showInView:self.view];
+                MJWeakSelf
+                addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
+                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
+                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf addGoodsToShopCart:optionsModel IDNumber:IDNumberString Count:goodsNum];
+                };
             } else {
                 [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
             }
         } break;
-        case 4: {//立即购买
+        case 4: {
+            //立即购买
             if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
                 GoodsDetailOptionsPopupView *addCartView = [[GoodsDetailOptionsPopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
                 addCartView.goodsDetailResultModel = self.resultModel;
                 [addCartView showInView:self.view];
+                addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
+                    self.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel.title];
+                    NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
+                    [self.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    ConfirmOrderViewController *VC = [[ConfirmOrderViewController alloc] init];
+                    VC.goodsID = self.goodsID;
+                    VC.optionID = optionsModel.optionsID;
+                    VC.goodsNum = goodsNum;
+                    [self.navigationController pushViewController:VC animated:YES];
+                };
             } else {
                 [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
             }
@@ -557,6 +586,38 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     GoodsDetailQRCodePopupView *QRCodeView = [[GoodsDetailQRCodePopupView alloc] initWithFrame:CGRectMake(0, 0, KMAINSIZE.width, KMAINSIZE.height)];
     QRCodeView.imageURL = self.resultModel.share_image;
     [QRCodeView showInView:self.view];
+}
+
+#pragma mark - 加入购物车请求
+- (void)addGoodsToShopCart:(GoodsDetailResultOptionsModel *)optionsModel IDNumber:(NSString *)IDNum Count:(NSString *)count {
+    NSString *url = @"r=apply.cart.add";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+        [paramDic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken] forKey:@"token"];
+    }
+    if (self.goodsID) {
+        [paramDic setObject:self.goodsID forKey:@"id"];
+    }
+    if (optionsModel) {
+        [paramDic setObject:optionsModel.optionsID forKey:@"optionid"];
+    }
+    if (count) {
+        [paramDic setObject:count forKey:@"total"];
+    }
+    [DBHUD ShowProgressInview:[UIApplication sharedApplication].keyWindow Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:[UIApplication sharedApplication].keyWindow];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:@"添加到购物车成功"];
+        } else {
+            [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:[UIApplication sharedApplication].keyWindow];
+        [DBHUD ShowInView:[UIApplication sharedApplication].keyWindow withTitle:KNetworkError];
+        
+    }];
 }
 
 #pragma mark - 根据地址 id 查询京东商品运费请求

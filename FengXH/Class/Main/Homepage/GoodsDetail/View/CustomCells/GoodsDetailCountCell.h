@@ -10,4 +10,7 @@
 
 @interface GoodsDetailCountCell : UITableViewCell
 
+/** 规格数量等 */
+@property(nonatomic , copy)NSString *optionsNumString;
+
 @end

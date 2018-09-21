@@ -7,17 +7,15 @@
 //
 
 #import "HBPopupView.h"
-@class GoodsDetailResultModel;
-//typedef NS_ENUM(NSInteger, GoodsDetailPopupType) {
-//    GoodsDetailAddToCartType = 0,   //添加至购物车
-//    GoodsDetailBuyNowType       //立即购买
-//};
+@class GoodsDetailResultModel,GoodsDetailResultOptionsModel;
+
+typedef void (^GoodsDetailOptionsPopupViewBlock)(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum);
 
 @interface GoodsDetailOptionsPopupView : HBPopupView
 
 /** model */
 @property(nonatomic , strong)GoodsDetailResultModel *goodsDetailResultModel;
-///** 弹出类型 */
-//@property(nonatomic , assign)GoodsDetailPopupType popupType;
+/** block */
+@property(nonatomic , strong)GoodsDetailOptionsPopupViewBlock optionsSelectedBlock;
 
 @end

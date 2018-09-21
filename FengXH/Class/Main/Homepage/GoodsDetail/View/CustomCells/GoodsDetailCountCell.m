@@ -37,9 +37,13 @@
             make.centerY.mas_equalTo(self.contentView.mas_centerY);
         }];
         
-        
     }
     return self;
+}
+
+- (void)setOptionsNumString:(NSString *)optionsNumString {
+    _optionsNumString = optionsNumString;
+    [self.countLabel setText:_optionsNumString];
 }
 
 #pragma mark - lazy

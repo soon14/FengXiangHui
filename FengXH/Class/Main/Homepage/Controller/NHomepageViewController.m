@@ -111,24 +111,24 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     [self.view addSubview:self.homeCollectionView];
     [self homepageDataRequest];
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"详情" forState:UIControlStateNormal];
-    [btn setFrame:CGRectMake(KMAINSIZE.width-50, 0, 44, 44)];
-    [btn setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
-    [btn.titleLabel setFont:KFont(14)];
-    [self.navigationController.navigationBar addSubview:btn];
-    [btn addTarget:self action:@selector(newGoodsDetailVC) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setTitle:@"详情" forState:UIControlStateNormal];
+//    [btn setFrame:CGRectMake(KMAINSIZE.width-50, 0, 44, 44)];
+//    [btn setTitleColor:KUIColorFromHex(0x999999) forState:UIControlStateNormal];
+//    [btn.titleLabel setFont:KFont(14)];
+//    [self.navigationController.navigationBar addSubview:btn];
+//    [btn addTarget:self action:@selector(newGoodsDetailVC) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - 测试
-- (void)newGoodsDetailVC {
-    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
-//    VC.goodsID = @"14330";//京东商品
-//    VC.goodsID = @"33315";//有商品规格的
-    VC.goodsID = @"37769";//需要填写身份证的
-    VC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:VC animated:YES];
-}
+//- (void)newGoodsDetailVC {
+//    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
+////    VC.goodsID = @"14330";//京东商品
+////    VC.goodsID = @"33315";//有商品规格的
+//    VC.goodsID = @"37769";//需要填写身份证的
+//    VC.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:VC animated:YES];
+//}
 
 #pragma mark - 首页数据请求
 - (void)homepageDataRequest {
