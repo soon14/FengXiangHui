@@ -13,6 +13,8 @@
 
 /** 商品 id */
 @property(nonatomic , copy)NSString *goodsID;
+/** 商铺 id */
+@property(nonatomic , copy)NSString *merchid;
 /** 类型 1 实体物品 2 虚拟物品 3 虚拟物品(卡密) 4 批发 10 话费流量充值 20 充值卡 暂只支持1实体物品 */
 @property(nonatomic , assign)NSInteger type;
 /** 商品名称 */

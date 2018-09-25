@@ -2883,6 +2883,13 @@
 			path = "../../../../../../iBokan/深夜互动/whale/whale/3rdLibs/UICollectionViewLeftAlignedLayout";
 			sourceTree = "<group>";
 		};
+		3A5C1A642154EDC000E5343C /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		3A5FAB65212E96CE001FF22D /* ZYNetworkAccessibity */ = {
 			isa = PBXGroup;
 			children = (
@@ -4158,6 +4165,7 @@
 				3A2BF2E320F5915C00480F25 /* Model */,
 				3AED3B0320F33FA00095D7C1 /* View */,
 				3AED3B0220F33F940095D7C1 /* Controller */,
+				3A5C1A642154EDC000E5343C /* New Group */,
 				3A7B5CE52147ACE50024C201 /* GoodsDetail */,
 				040E879F2119BD5400D4B95F /* FreshSupermarket */,
 				040E87922119827300D4B95F /* Jingdong */,
