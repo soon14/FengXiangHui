@@ -33,13 +33,10 @@
 #import "UITextView+Placeholder.h"
 #import "UIImage+GIF.h"
 #import "UIImageView+WebCache.h"
-#import "MLEmojiLabel.h"
-#import "QMDateManager.h"
 #import "BaseCornerShadowView.h"
 
 
-//客服模块的宏定义
-#define kInputViewHeight 50
+
 
 //正式
 //#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"

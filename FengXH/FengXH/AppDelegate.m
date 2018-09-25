@@ -25,13 +25,6 @@
 #define shareAppSecret @"f7abe8c59b142b8e19ee160bd9898020"
 #define shareAppKey @"238f87d536130"
 
-//客服
-#import "QMProfileManager.h"
-
-#import <UserNotifications/UserNotifications.h>
-#import <QMChatSDK/QMChatSDK.h>
-#import <QMChatSDK/QMChatSDK-Swift.h>
-#import "QMManager.h"
 
 //通知
 #import <UserNotifications/UserNotifications.h>
@@ -119,16 +112,6 @@
 //    }];
     
     
-    
-    //客服
-    /**
-     创建文件管理类
-     name: 可随便填写
-     password: 可随便填写
-     */
-    QMProfileManager *manger = [QMProfileManager sharedInstance];
-    [manger loadProfile:@"moor" password:@"123456"];
-    
     if (@available(iOS 11.0, *)){
         [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
     }
@@ -213,7 +196,6 @@
 // 远程通知注册成功委托
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"注册deviceToken");
-    [QMConnect setServerToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -241,7 +223,7 @@
         //弹框通知
         UIAlertController * stateAlert = [UIAlertController alertControllerWithTitle:@"客服新消息" message:messageAlert preferredStyle:UIAlertControllerStyleAlert];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
         }]];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
         [self.window.rootViewController presentViewController:stateAlert animated:YES completion:nil];
@@ -249,9 +231,9 @@
     else {
         // 判断为本地通知
 //        NSLog(@"iOS10 前台收到本地通知:{\\\\nbody:%@，\\\\ntitle:%@,\\\\nsubtitle:%@,\\\\nbadge：%@，\\\\nsound：%@，\\\\nuserInfo：%@\\\\n}",body,title,subtitle,badge,sound,userInfo);
-        [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
     }
-    [QMManager defaultManager].selectedPush = YES;
+
     completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以设置
 }
 
@@ -272,7 +254,7 @@
         //弹框通知
         UIAlertController * stateAlert = [UIAlertController alertControllerWithTitle:@"客服新消息" message:messageAlert preferredStyle:UIAlertControllerStyleAlert];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
         }]];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
         [self.window.rootViewController presentViewController:stateAlert animated:YES completion:nil];
@@ -280,9 +262,9 @@
     else {
         // 判断为本地通知
 //        NSLog(@"iOS10 前台收到本地通知:{\\\\nbody:%@，\\\\ntitle:%@,\\\\nsubtitle:%@,\\\\nbadge：%@，\\\\nsound：%@，\\\\nuserInfo：%@\\\\n}",body,title,subtitle,badge,sound,userInfo);
-        [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
     }
-    [QMManager defaultManager].selectedPush = YES;
+
     completionHandler();  // 系统要求执行这个方法
 }
 
@@ -296,15 +278,14 @@
         //弹框通知
         UIAlertController * stateAlert = [UIAlertController alertControllerWithTitle:@"客服新消息" message:messageAlert preferredStyle:UIAlertControllerStyleAlert];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
         }]];
         [stateAlert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
         [self.window.rootViewController presentViewController:stateAlert animated:YES completion:nil];
     }else {
-        [QMConnect registerSDKWithAppKey:@"" userName:@"" userId:@""];
+
     }
     
-    [QMManager defaultManager].selectedPush = YES;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -312,7 +293,6 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     //断开连接
-    [QMConnect logout];
 }
                       
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

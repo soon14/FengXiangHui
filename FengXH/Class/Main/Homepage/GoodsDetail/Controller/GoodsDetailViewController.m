@@ -24,15 +24,6 @@
 #import "ZHFAddTitleAddressView.h"//京东四级地址选择
 #import "ConfirmOrderViewController.h"//立即购买确认订单
 
-/** 七陌客服 */
-#import "QMChatRoomViewController.h"
-#import <QMChatSDK/QMChatSDK.h>
-#import <QMChatSDK/QMChatSDK-Swift.h>
-#import "QMChatRoomGuestBookViewController.h"
-#import "QMAlert.h"
-#import "QMManager.h"
-
-#define ServiceAppKey @"23327890-e082-11e7-82ef-59ca8660f8ce"
 
 #define BottomViewHeight (KBottomHeight+45)                                         //底部 View 的高度
 #define TableViewOriginHeight (KMAINSIZE.height-KNaviHeight-BottomViewHeight)       // tableView 原始高度
@@ -60,8 +51,6 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 @property(nonatomic , strong)UITableView *firstTableView;
 /** 第二个显示商品详情的 tableView */
 @property(nonatomic , strong)UITableView *secondTableView;
-/** 客服按钮 */
-@property(nonatomic , strong)UIButton *serviceButton;
 /** 商品二维码图片 */
 @property(nonatomic , strong)UIImageView *goodsQRCode;
 /** 京东四级地址选择 */
@@ -75,11 +64,6 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 /** 规格、数量，用于 cell 上展示 */
 @property(nonatomic , copy)NSString *optionsNumString;
 
-/** 客服 */
-@property(nonatomic , assign) BOOL isPushed;
-@property(nonatomic , assign) BOOL isConnecting;
-@property(nonatomic , strong) UIActivityIndicatorView *indicatorView;
-@property(nonatomic , copy) NSDictionary * dictionary;
 
 @end
 
@@ -97,11 +81,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     
     [self goodsDetailDataRequest];
     
-    //客服相关
-    self.isConnecting = NO;
-    self.isPushed = NO;
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(registerSuccess:) name:CUSTOM_LOGIN_SUCCEED object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(registerFailure:) name:CUSTOM_LOGIN_ERROR_USER object:nil];
+    
 }
 
 #pragma mark - 添加子视图
@@ -110,7 +90,6 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     [self.view addSubview:self.secondTableView];
     [self.view addSubview:self.bottomView];
     [self.view addSubview:self.navigationView];
-    [self.view addSubview:self.serviceButton];
     [self caculateContentImageHeight];
     [self.view addSubview:[self.addTitleAddressView initAddressView]];
 }
@@ -745,155 +724,14 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    self.isPushed = YES;
 }
 
-- (UIButton *)serviceButton {
-    if (!_serviceButton) {
-        _serviceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_serviceButton setFrame:CGRectMake(KMAINSIZE.width-40, KMAINSIZE.height-BottomViewHeight-80, 30, 30)];
-        [_serviceButton setImage:[UIImage imageNamed:@"kefu"] forState:UIControlStateNormal];
-        [_serviceButton addTarget:self action:@selector(serviceButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _serviceButton;
-}
 
-#pragma mark------点击客服按钮
-- (void)serviceButtonAction {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
-        [self.indicatorView startAnimating];
-        // 按钮连点控制
-        if (self.isConnecting) {
-            return;
-        }
-        self.isConnecting = YES;
-        /**
-         accessId:  接入客服系统的密钥， 登录web客服系统（渠道设置->移动APP客服里获取）
-         userName:  用户名， 区分用户， 用户名可直接在后台会话列表显示
-         userId:    用户ID， 区分用户（只能使用  数字 字母(包括大小写) 下划线）
-         以上3个都是必填项
-         */
-        [QMConnect registerSDKWithAppKey:ServiceAppKey userName:[[NSUserDefaults standardUserDefaults] objectForKey:KUserMobile] userId:[[NSUserDefaults standardUserDefaults] objectForKey:KUserId]];
-    } else {
-        [self presentLoginViewController];
-    }
-}
 
-#pragma mark----客服注册成功
-- (void)registerSuccess:(NSNotification *)sender {
-    NSLog(@"注册成功");
-    if ([QMManager defaultManager].selectedPush) {
-        [self showChatRoomViewController:@"" processType:@"" entranceId:@""]; //
-    } else {
-        // 页面跳转控制
-        if (self.isPushed) {
-            return;
-        }
-        [QMConnect sdkGetWebchatScheduleConfig:^(NSDictionary * _Nonnull scheduleDic) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.dictionary = scheduleDic;
-                if ([self.dictionary[@"scheduleEnable"] intValue] == 1) {
-                    NSLog(@"日程管理");
-                    [self starSchedule];
-                } else {
-                    NSLog(@"技能组");
-                    [self getPeers];
-                }
-            });
-        } failBlock:^{
-            
-        }];
-    }
-    [QMManager defaultManager].selectedPush = NO;
-}
-#pragma mark----客服注册失败
-- (void)registerFailure:(NSNotification *)sender {
-    NSLog(@"注册失败::%@", sender.object);
-    self.isConnecting = NO;
-    [self.indicatorView stopAnimating];
-}
-
-#pragma mark - 技能组选择
-- (void)getPeers {
-    [QMConnect sdkGetPeers:^(NSArray * _Nonnull peerArray) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSArray *peers = peerArray;
-            self.isConnecting = NO;
-            [_indicatorView stopAnimating];
-            if (peers.count == 1 && peers.count != 0) {
-                [self showChatRoomViewController:[peers.firstObject objectForKey:@"id"] processType:@"" entranceId:@""];
-            }else {
-                [self showPeersWithAlert:peers messageStr:NSLocalizedString(@"title.type", nil)];
-            }
-        });
-    } failureBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.indicatorView stopAnimating];
-            self.isConnecting = NO;
-        });
-    }];
-}
-
-#pragma mark - 日程管理
-- (void)starSchedule {
-    self.isConnecting = NO;
-    [_indicatorView stopAnimating];
-    if ([self.dictionary[@"scheduleId"]  isEqual: @""] || [self.dictionary[@"processId"]  isEqual: @""] || [self.dictionary objectForKey:@"entranceNode"] == nil || [self.dictionary objectForKey:@"leavemsgNodes"] == nil) {
-        [QMAlert showMessage:NSLocalizedString(@"title.sorryconfigurationiswrong", nil)];
-    }else{
-        NSDictionary *entranceNode = self.dictionary[@"entranceNode"];
-        NSArray *entrances = entranceNode[@"entrances"];
-        if (entrances.count == 1 && entrances.count != 0) {
-            [self showChatRoomViewController:[entrances.firstObject objectForKey:@"processTo"] processType:[entrances.firstObject objectForKey:@"processType"] entranceId:[entrances.firstObject objectForKey:@"_id"]];
-        }else{
-            [self showPeersWithAlert:entrances messageStr:NSLocalizedString(@"title.schedule_type", nil)];
-        }
-    }
-}
-
-- (void)showPeersWithAlert: (NSArray *)peers messageStr: (NSString *)message {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"title.type", nil) preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"button.cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        self.isConnecting = NO;
-    }];
-    [alertController addAction:cancelAction];
-    for (NSDictionary *index in peers) {
-        UIAlertAction *surelAction = [UIAlertAction actionWithTitle:[index objectForKey:@"name"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if ([self.dictionary[@"scheduleEnable"] integerValue] == 1) {
-                [self showChatRoomViewController:[index objectForKey:@"processTo"] processType:[index objectForKey:@"processType"] entranceId:[index objectForKey:@"_id"]];
-            }else{
-                [self showChatRoomViewController:[index objectForKey:@"id"] processType:@"" entranceId:@""];
-            }
-        }];
-        [alertController addAction:surelAction];
-    }
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-#pragma mark - 跳转聊天界面
-- (void)showChatRoomViewController:(NSString *)peerId processType:(NSString *)processType entranceId:(NSString *)entranceId {
-    QMChatRoomViewController *chatRoomViewController = [[QMChatRoomViewController alloc] init];
-    chatRoomViewController.peerId = peerId;
-    chatRoomViewController.isPush = NO;
-    chatRoomViewController.avaterStr = @"";
-    if ([self.dictionary[@"scheduleEnable"] intValue] == 1) {
-        chatRoomViewController.isOpenSchedule = true;
-        chatRoomViewController.scheduleId = self.dictionary[@"scheduleId"];
-        chatRoomViewController.processId = self.dictionary[@"processId"];
-        chatRoomViewController.currentNodeId = peerId;
-        chatRoomViewController.processType = processType;
-        chatRoomViewController.entranceId = entranceId;
-    } else {
-        chatRoomViewController.isOpenSchedule = false;
-    }
-    [self.navigationController pushViewController:chatRoomViewController animated:YES];
-}
 
 
 - (void)dealloc {
     NSLog(@"%s",__func__);
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_SUCCEED object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:CUSTOM_LOGIN_ERROR_USER object:nil];
 }
 
 
