@@ -246,7 +246,6 @@
 		3A4B39BA212D33F100B88A34 /* IntegralCreatOrderBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39B9212D33F100B88A34 /* IntegralCreatOrderBottomView.m */; };
 		3A4B39BD212D3DED00B88A34 /* IntegralPayOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39BC212D3DED00B88A34 /* IntegralPayOrderViewController.m */; };
 		3A4B39C0212D3EF100B88A34 /* IntegralPayOrderInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B39BF212D3EF100B88A34 /* IntegralPayOrderInfoCell.m */; };
-		3A5C1A5421532FE500E5343C /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */; };
 		3A5C1A57215339AB00E5343C /* GoodsDetailOptionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A56215339AB00E5343C /* GoodsDetailOptionsHeaderView.m */; };
 		3A5C1A5A21533EF900E5343C /* GoodsDetailOptionsSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5921533EF900E5343C /* GoodsDetailOptionsSelectCell.m */; };
 		3A5C1A5D2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5C1A5C2153775300E5343C /* GoodsDetailOptionsIDNumberCell.m */; };
@@ -309,6 +308,7 @@
 		3A8AB17921084AA30036DFC5 /* CommissionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB16721084AA30036DFC5 /* CommissionCell.m */; };
 		3A8AB17A21084AA30036DFC5 /* ShopkeeperTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB16A21084AA30036DFC5 /* ShopkeeperTopTableViewCell.m */; };
 		3A8AB17E21084AA30036DFC5 /* ShopkeeperCommissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AB17321084AA30036DFC5 /* ShopkeeperCommissionViewController.m */; };
+		3AAC8B032159C97B004DD300 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8B022159C97B004DD300 /* UICollectionViewLeftAlignedLayout.m */; };
 		3AAFB3AA2136636D0055E11E /* NMyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAFB3A92136636D0055E11E /* NMyStoreViewController.m */; };
 		3AB75BBC21509E1F005A0498 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB75BBB21509E1F005A0498 /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3ABEADCE2121810100C13F6F /* ArticleContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABEADCC2121810100C13F6F /* ArticleContentViewController.m */; };
@@ -1075,8 +1075,6 @@
 		3A4B39BC212D3DED00B88A34 /* IntegralPayOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegralPayOrderViewController.m; sourceTree = "<group>"; };
 		3A4B39BE212D3EF100B88A34 /* IntegralPayOrderInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegralPayOrderInfoCell.h; sourceTree = "<group>"; };
 		3A4B39BF212D3EF100B88A34 /* IntegralPayOrderInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegralPayOrderInfoCell.m; sourceTree = "<group>"; };
-		3A5C1A5221532FE500E5343C /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
-		3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		3A5C1A55215339AB00E5343C /* GoodsDetailOptionsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsHeaderView.h; sourceTree = "<group>"; };
 		3A5C1A56215339AB00E5343C /* GoodsDetailOptionsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailOptionsHeaderView.m; sourceTree = "<group>"; };
 		3A5C1A5821533EF900E5343C /* GoodsDetailOptionsSelectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailOptionsSelectCell.h; sourceTree = "<group>"; };
@@ -1201,6 +1199,8 @@
 		3A8AB16A21084AA30036DFC5 /* ShopkeeperTopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopkeeperTopTableViewCell.m; sourceTree = "<group>"; };
 		3A8AB17321084AA30036DFC5 /* ShopkeeperCommissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopkeeperCommissionViewController.m; sourceTree = "<group>"; };
 		3A8AB17521084AA30036DFC5 /* ShopkeeperCommissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopkeeperCommissionViewController.h; sourceTree = "<group>"; };
+		3AAC8B012159C97B004DD300 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		3AAC8B022159C97B004DD300 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		3AAFB3A82136636D0055E11E /* NMyStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMyStoreViewController.h; sourceTree = "<group>"; };
 		3AAFB3A92136636D0055E11E /* NMyStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NMyStoreViewController.m; sourceTree = "<group>"; };
 		3AB75BBB21509E1F005A0498 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -2873,16 +2873,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		3A5C1A5121532FE500E5343C /* UICollectionViewLeftAlignedLayout */ = {
-			isa = PBXGroup;
-			children = (
-				3A5C1A5221532FE500E5343C /* UICollectionViewLeftAlignedLayout.h */,
-				3A5C1A5321532FE500E5343C /* UICollectionViewLeftAlignedLayout.m */,
-			);
-			name = UICollectionViewLeftAlignedLayout;
-			path = "../../../../../../iBokan/深夜互动/whale/whale/3rdLibs/UICollectionViewLeftAlignedLayout";
-			sourceTree = "<group>";
-		};
 		3A5C1A642154EDC000E5343C /* New Group */ = {
 			isa = PBXGroup;
 			children = (
@@ -3344,6 +3334,15 @@
 			path = Coltroller;
 			sourceTree = "<group>";
 		};
+		3AAC8B002159C97B004DD300 /* UICollectionViewLeftAlignedLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3AAC8B012159C97B004DD300 /* UICollectionViewLeftAlignedLayout.h */,
+				3AAC8B022159C97B004DD300 /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			path = UICollectionViewLeftAlignedLayout;
+			sourceTree = "<group>";
+		};
 		3ABEADCB2121810100C13F6F /* ArticleList */ = {
 			isa = PBXGroup;
 			children = (
@@ -3612,7 +3611,7 @@
 		3AED397220F313830095D7C1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				3A5C1A5121532FE500E5343C /* UICollectionViewLeftAlignedLayout */,
+				3AAC8B002159C97B004DD300 /* UICollectionViewLeftAlignedLayout */,
 				3AF1ABEE2150C7C0006FE68E /* Service */,
 				3A7B5CF1214912D90024C201 /* HBPopupView */,
 				3A7B5CDE21467A980024C201 /* PushAnimationTools */,
@@ -4793,6 +4792,7 @@
 				3A2BF46C20FCA96800480F25 /* HomePageFunctionCell.m in Sources */,
 				04AA1A69210EE41F0048C947 /* GoodsListTableCell.m in Sources */,
 				3AFD56B3211ACCB400B36A35 /* ConfirmOrderCouponCell.m in Sources */,
+				3AAC8B032159C97B004DD300 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				3AED3AE920F32D860095D7C1 /* MyTabBarController.m in Sources */,
 				3AED3A9420F313830095D7C1 /* ZYBannerCell.m in Sources */,
 				3A2BF32720F7632200480F25 /* PersonalFourthCell.m in Sources */,
@@ -5161,7 +5161,6 @@
 				3AED3AD720F313840095D7C1 /* DTConstants.m in Sources */,
 				3A3DA53120FDF87C00F4412F /* RegisterViewController.m in Sources */,
 				04420ACD212415BE00780BBA /* YNDatePickerView.m in Sources */,
-				3A5C1A5421532FE500E5343C /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				3AFD56A721199F3100B36A35 /* ConfirmOrderTotalPriceCell.m in Sources */,
 				3AFD5704211D726600B36A35 /* PayOrderMethodItem.m in Sources */,
 				3AED3ACF20F313840095D7C1 /* MKAnnotationView+YYWebImage.m in Sources */,
