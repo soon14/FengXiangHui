@@ -23,6 +23,7 @@
 #import "GoodsDetailQRCodePopupView.h"//商品二维码
 #import "ZHFAddTitleAddressView.h"//京东四级地址选择
 #import "ConfirmOrderViewController.h"//立即购买确认订单
+#import "MerchantsUnionViewController.h"
 
 
 #define BottomViewHeight (KBottomHeight+45)                                         //底部 View 的高度
@@ -386,7 +387,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 [addCartView showInView:self.view];
                 MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",(long)[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
                     [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                 };
@@ -501,7 +502,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             }
         } break;
         case 1: {//跳转店铺
-            NSLog(@"跳转店铺");
+            MerchantsUnionViewController *VC = [[MerchantsUnionViewController alloc] init];
+            VC.goodsDetailResultModel = self.resultModel;
+            [self.navigationController pushViewController:VC animated:YES];
         } break;
         case 2: {//跳转购物车
             [self.tabBarController setSelectedIndex:3];
@@ -514,7 +517,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 [addCartView showInView:self.view];
                 MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",(long)[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
                     [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                     [weakSelf addGoodsToShopCart:optionsModel IDNumber:IDNumberString Count:goodsNum];
@@ -531,7 +534,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                 [addCartView showInView:self.view];
                 MJWeakSelf
                 addCartView.optionsSelectedBlock = ^(GoodsDetailResultOptionsModel *optionsModel, NSString *IDNumberString, NSString *goodsNum) {
-                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",[goodsNum integerValue],optionsModel?optionsModel.title:@""];
+                    weakSelf.optionsNumString = [NSString stringWithFormat:@"数量:%ld\t\t\t%@",(long)[goodsNum integerValue],optionsModel?optionsModel.title:@""];
                     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:CountType];
                     [weakSelf.firstTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                     ConfirmOrderViewController *VC = [[ConfirmOrderViewController alloc] init];
@@ -556,7 +559,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 
 #pragma mark - 进入店铺
 - (void)GoodsDetailShopCell:(GoodsDetailShopCell *)cell buttonAction:(UIButton *)sender {
-    NSLog(@"进入店铺");
+    MerchantsUnionViewController *VC = [[MerchantsUnionViewController alloc] init];
+    VC.goodsDetailResultModel = self.resultModel;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 返回按钮点击事件
@@ -617,7 +622,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     NSString *url = @"r=apply.goods.kpl_freight";
     NSString *path = [HBBaseAPI appendAPIurl:url];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSString stringWithFormat:@"%ld",self.resultModel.sku_jdid],@"sku_jdid",
+                              [NSString stringWithFormat:@"%ld",(long)self.resultModel.sku_jdid],@"sku_jdid",
                               idsString,@"address", nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         if ([responseDic[@"status"] integerValue] == 1) {

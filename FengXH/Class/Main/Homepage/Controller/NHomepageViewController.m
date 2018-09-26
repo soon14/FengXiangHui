@@ -25,7 +25,8 @@
 #import "FreshViewController.h"//生鲜超市
 #import "ArticleListBaseViewController.h"//赏金文章
 #import "PhoneViewController.h"//云通话
-#import "GoodsDetailViewController.h"
+#import "GoodsDetailViewController.h"//商品详情
+#import "PromotionPosterViewController.h"//推广海报
 
 // 首页板块类型
 typedef NS_ENUM(NSInteger , HomePageStyle) {
@@ -435,7 +436,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             return CGSizeMake(collectionViewWidth, 45.0);
         } break;
         case HomePageStyle_guesslike_goods: {
-            return CGSizeMake((collectionViewWidth - 20.0) / 3.0, 227*KScreenRatio);
+            return CGSizeMake((collectionViewWidth - 10.0) / 3.0, 227*KScreenRatio);
         } break;
         default: {
             return CGSizeZero;
@@ -447,7 +448,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
     HomePageStyle style = [self.homePlateTypeArray[section] integerValue];
     switch (style) {
         case HomePageStyle_guesslike_goods: {
-            return UIEdgeInsetsMake(5, 5, 5, 5);
+            return UIEdgeInsetsMake(5, 0, 5, 0);
         } break;
         default: {
             return UIEdgeInsetsMake(0, 0, 0, 0);
@@ -468,15 +469,7 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    HomePageStyle style = [self.homePlateTypeArray[section] integerValue];
-    switch (style) {
-        case HomePageStyle_guesslike_goods: {
-            return 5.0;
-        } break;
-        default: {
-            return CGFLOAT_MIN;
-        } break;
-    }
+    return CGFLOAT_MIN;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -581,27 +574,34 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
 
 // MARK: picturerew 图片点击
 - (void)HomePagePicturewCell:(HomePagePicturewCell *)cell didSelectPicturerwItemWith:(HomepageDataMenuDataModel *)functionItemModel {
-    NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@""];
+    NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/ttp://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@""];
     if ([jumpURLString isEqualToString:@"35"]) {
         //店主专区
-        NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+        NSString *jumpURLString = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/ttp://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
         FreshViewController *vc = [[FreshViewController alloc]init];
         vc.urlStr = jumpURLString;
         vc.typeColor = @"red";
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if([jumpURLString isEqualToString:@"139"]){
+    } else if ([jumpURLString isEqualToString:@"139"]) {
         //京东优选
-        NSString *urlStr = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
+        NSString *urlStr = [functionItemModel.linkurl stringByReplacingOccurrencesOfString:@"https://www.vipfxh.com/app/ttp://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=" withString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=apply.diypage&id="];
         JingDongViewController *vc = [[JingDongViewController alloc]init];
         vc.hidesBottomBarWhenPushed = YES;
         vc.urlStr = urlStr;
         [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        GoodsListViewController *vc = [[GoodsListViewController alloc]init];
-        vc.categatoryId = functionItemModel.linkurl;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+    } else if ([jumpURLString isEqualToString:@"https://xyk.richwealth.cn/apply/banklist/sign/79aa96b9be292b0c/extra/1000000438"]) {
+        //生活服务
+        WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
+        webVC.jumpURL = jumpURLString;
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    } else if ([jumpURLString isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=commission.qrcode"]) {
+        PromotionPosterViewController * VC = [[PromotionPosterViewController alloc] init];
+        VC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:VC animated:YES];
+    } else {
+        [DBHUD ShowInView:self.view withTitle:@"暂未开通"];
     }
 }
 

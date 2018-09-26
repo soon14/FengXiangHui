@@ -15,7 +15,6 @@
 #import "AddressSelectViewController.h"
 #import "ConfirmOrderGoodsCell.h"
 #import "ConfirmOrderTotalPriceCell.h"
-#import "ConfirmOrderJDFreightCell.h"
 #import "ConfirmOrderRemarkCell.h"
 #import "ConfirmOrderDeductCell.h"
 #import "ConfirmOrderCouponCell.h"
@@ -87,11 +86,11 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         _confirmTableView.estimatedRowHeight = 0;
         _confirmTableView.estimatedSectionHeaderHeight = 0;
         _confirmTableView.estimatedSectionFooterHeight = 0;
+        _confirmTableView.tableFooterView = [[UIView alloc] init];
         [_confirmTableView registerClass:[ConfirmOrderAddressCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderAddressCell class])];
         [_confirmTableView registerClass:[ConfirmOrderStoreHeaderView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([ConfirmOrderStoreHeaderView class])];
         [_confirmTableView registerClass:[ConfirmOrderGoodsCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderGoodsCell class])];
         [_confirmTableView registerClass:[ConfirmOrderTotalPriceCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderTotalPriceCell class])];
-        [_confirmTableView registerClass:[ConfirmOrderJDFreightCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderJDFreightCell class])];
         [_confirmTableView registerClass:[ConfirmOrderRemarkCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderRemarkCell class])];
         [_confirmTableView registerClass:[ConfirmOrderDeductCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderDeductCell class])];
         [_confirmTableView registerClass:[ConfirmOrderCouponCell class] forCellReuseIdentifier:NSStringFromClass([ConfirmOrderCouponCell class])];
@@ -126,22 +125,19 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         //商品总价+数量
         return 45;
     } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +2) {
-        //京东运费
-        return 45;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
         //买家留言
         return 45;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
         //F 币抵扣
         if ([self.orderCreatResultModel.deductcredit2 floatValue] > 0) {
             return 45;
         } return CGFLOAT_MIN;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
             return 45;
         } return CGFLOAT_MIN;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +6) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
         //购物送话费、商品小计、运费、会员优惠
         return 160;
     } else {
@@ -171,17 +167,17 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
     if (0 < section && section < self.orderCreatResultModel.goods_list.count +1) {
         //商品
         return CGFLOAT_MIN;
-    } else if (section == self.orderCreatResultModel.goods_list.count +4)  {
+    } else if (section == self.orderCreatResultModel.goods_list.count +3)  {
         //F币抵扣
          if ([self.orderCreatResultModel.deductcredit2 floatValue] > 0) {
              return 10;
          } return CGFLOAT_MIN;
-    } else if (section == self.orderCreatResultModel.goods_list.count +5) {
+    } else if (section == self.orderCreatResultModel.goods_list.count +4) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
             return 10;
         } return CGFLOAT_MIN;
-    } else if (section == self.orderCreatResultModel.goods_list.count +6) {
+    } else if (section == self.orderCreatResultModel.goods_list.count +5) {
         //会员优惠
         return CGFLOAT_MIN;
     }
@@ -206,30 +202,26 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         ConfirmOrderTotalPriceCell *totalPriceCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderTotalPriceCell class])];
         return totalPriceCell;
     } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +2) {
-        //京东运费
-        ConfirmOrderJDFreightCell *freightCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderJDFreightCell class])];
-        return freightCell;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
         //买家留言
         ConfirmOrderRemarkCell *remarkCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderRemarkCell class])];
         return remarkCell;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
         //F 币抵扣
         if ([self.orderCreatResultModel.deductcredit2 floatValue] > 0) {
             ConfirmOrderDeductCell *deductCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderDeductCell class])];
             return deductCell;
         }
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
             ConfirmOrderCouponCell *couponCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderCouponCell class])];
             return couponCell;
         }
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +6) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
         //各项价格明细
         ConfirmOrderDetailPriceCell *detailCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderDetailPriceCell class])];
         return detailCell;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +7) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +6) {
         //优惠券优惠
         if (self.couponPriceModel) {
             ConfirmOrderCouponPriceCell *couponPriceCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ConfirmOrderCouponPriceCell class])];
@@ -254,15 +246,11 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         //商品总价+数量
         ConfirmOrderTotalPriceCell *totalPriceCell = (ConfirmOrderTotalPriceCell *)cell;
         totalPriceCell.resultModel = self.orderCreatResultModel;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +2) {
-        //京东运费
-        ConfirmOrderJDFreightCell *freightCell = (ConfirmOrderJDFreightCell *)cell;
-        freightCell.resultModel = self.orderCreatResultModel;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
+    }else if (indexPath.section == self.orderCreatResultModel.goods_list.count +2) {
         //买家留言
         ConfirmOrderRemarkCell *remarkCell = (ConfirmOrderRemarkCell *)cell;
         self.remarkTextField = remarkCell.remarkTextField;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +3) {
         //F 币抵扣
         if ([self.orderCreatResultModel.deductcredit2 floatValue] > 0) {
             ConfirmOrderDeductCell *deductCell = (ConfirmOrderDeductCell *)cell;
@@ -273,17 +261,17 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
                 [weakSelf caculateTotalPrice];
             };
         }
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
             ConfirmOrderCouponCell *couponCell = (ConfirmOrderCouponCell *)cell;
             couponCell.resultModel = self.orderCreatResultModel;
         }
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +6) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
         //各项价格明细
         ConfirmOrderDetailPriceCell *detailCell = (ConfirmOrderDetailPriceCell *)cell;
         detailCell.resultModel = self.orderCreatResultModel;
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +7) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +6) {
         //优惠券优惠
         if (self.couponPriceModel) {
             ConfirmOrderCouponPriceCell *couponPriceCell = (ConfirmOrderCouponPriceCell *)cell;
@@ -312,7 +300,7 @@ static NSString *confirmOrderNothingCellID = @"confirmOrderNothingCellID";
         GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
         VC.goodsID = goodsListModel.goodsid;
         [self.navigationController pushViewController:VC animated:YES];
-    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +5) {
+    } else if (indexPath.section == self.orderCreatResultModel.goods_list.count +4) {
         //可用优惠券
         if (self.orderCreatResultModel.couponcount > 0) {
             [self availableCouponRequest];

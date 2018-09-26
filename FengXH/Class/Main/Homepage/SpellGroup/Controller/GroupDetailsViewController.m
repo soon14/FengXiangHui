@@ -193,12 +193,12 @@
         CGFloat scale = scrollView.contentOffset.x/2;
         _mySpellHeaderView.moveLine.frame = CGRectMake(scale, 40, KMAINSIZE.width/2, 2);
         if (scale<KMAINSIZE.width/2/2) {
-            [_mySpellHeaderView.firstBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_mySpellHeaderView.firstBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_mySpellHeaderView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             
         } else if (scale>KMAINSIZE.width/2/2 && scale<(KMAINSIZE.width/2/2)*2) {
             [_mySpellHeaderView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_mySpellHeaderView.secondBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_mySpellHeaderView.secondBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             
         }
         

@@ -167,7 +167,7 @@
         [_participateGroupBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _participateGroupBtn.layer.cornerRadius = 5;
         _participateGroupBtn.titleLabel.font = KFont(15);
-//        KUIColorFromHex(0xff463c)
+//        KRedColor
         _participateGroupBtn.tag = 80;
         _participateGroupBtn.layer.borderColor = [UIColor blackColor].CGColor;//颜色
         _participateGroupBtn.layer.borderWidth = 0.5f;//设置边框粗细
@@ -193,11 +193,10 @@
 - (UIButton *)openGroupBtn{
     if (!_openGroupBtn) {
         _openGroupBtn = [[UIButton alloc]init];
-        _openGroupBtn.backgroundColor = KUIColorFromHex(0xff463c);
+        _openGroupBtn.backgroundColor = KRedColor;
         [_openGroupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _openGroupBtn.layer.cornerRadius = 5;
         _openGroupBtn.titleLabel.font = KFont(15);
-        //        KUIColorFromHex(0xff463c)
         _openGroupBtn.tag = 81;
         
         [_openGroupBtn setTitle:@"我要开团" forState:UIControlStateNormal];

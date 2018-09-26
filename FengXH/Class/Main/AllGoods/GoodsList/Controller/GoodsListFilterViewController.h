@@ -7,14 +7,12 @@
 //
 
 #import "PopupViewController.h"
-@class AllCategoryDataModel;
+
 typedef void (^PopupViewControllerBlock)(NSInteger index);
-typedef void (^PopupViewControllerConfirmBlock)(NSString *isrecommand ,NSString *isnew ,NSString *ishot, NSString *isdiscount, NSString *issendfree, NSString *istime, NSString *categoryID);
+typedef void (^PopupViewControllerConfirmBlock)(NSString *isrecommand ,NSString *isnew ,NSString *ishot, NSString *isdiscount, NSString *issendfree, NSString *istime);
 
 @interface GoodsListFilterViewController : PopupViewController
 
-/** 全部商品分类的数据模型 */
-@property(nonatomic , strong)AllCategoryDataModel *categoryDataModel;
 /** 取消按钮 block */
 @property(nonatomic , strong)PopupViewControllerBlock takeBackBlock;
 /** 确定按钮 block */

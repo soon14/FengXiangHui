@@ -47,7 +47,7 @@
         [self addSubview:titleBtn];
         
         if (i==0) {
-            [titleBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [titleBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [titleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.bottom.mas_offset(0);
                 make.top.mas_offset(0);

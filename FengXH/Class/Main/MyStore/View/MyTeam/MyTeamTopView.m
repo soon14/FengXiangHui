@@ -53,7 +53,7 @@
 {
     if (!_stairShopkeeper) {
         _stairShopkeeper = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_stairShopkeeper setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+        [_stairShopkeeper setTitleColor:KRedColor forState:UIControlStateNormal];
         [_stairShopkeeper setTag:2000];
         [_stairShopkeeper.titleLabel setFont:KFont(14)];
         _stairShopkeeper.titleLabel.textAlignment=NSTextAlignmentCenter;

@@ -7,13 +7,9 @@
 //
 
 #import "GoodsListFilterViewController.h"
-#import "AllCategoryDataModel.h"
 #import "GoodsListFilterCell.h"
 
-static NSString *leftCellID = @"leftCellID";
-static NSString *rightCellID = @"rightCellID";
-
-@interface GoodsListFilterViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface GoodsListFilterViewController ()
 
 /** 推荐商品 */
 @property(nonatomic , strong)UIButton *recommendButton;
@@ -31,14 +27,6 @@ static NSString *rightCellID = @"rightCellID";
 @property(nonatomic , strong)UIButton *cancelButton;
 /** 确定按钮 */
 @property(nonatomic , strong)UIButton *confirmButton;
-/** lefTableView */
-@property(nonatomic , strong)UITableView *leftTableView;
-/** rightTableView */
-@property(nonatomic , strong)UITableView *rightTableView;
-/** 一级分类模型 */
-@property(nonatomic , strong)AllCategoryDataResultModel *categoryResultModel;
-/** 二级分类模型 */
-@property(nonatomic , strong)AllCategoryDataChildrenModel *categoryChildrenModel;
 
 @end
 
@@ -46,11 +34,10 @@ static NSString *rightCellID = @"rightCellID";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.popupView.frame = CGRectMake(0, 0, KMAINSIZE.width, 350);
+    self.popupView.frame = CGRectMake(0, 0, KMAINSIZE.width, 135);
     
     [self initUI];
     
-//    [self.leftTableView reloadData];
 }
 
 - (void)takeBackView {
@@ -99,17 +86,9 @@ static NSString *rightCellID = @"rightCellID";
     if (self.timeLimitButton.selected) {
         istime = @"1";
     }
-    //分类 ID
-    NSString *categoryID = nil;
-    if (_categoryResultModel) {
-        categoryID = _categoryResultModel.categoryID;
-    }
-    if (_categoryChildrenModel && [_categoryResultModel.children containsObject:_categoryChildrenModel]) {
-        categoryID = _categoryChildrenModel.categoryChildrenID;
-    }
     
     if (self.confirmBlock) {
-        self.confirmBlock(isrecommand, isnew, ishot, isdiscount, issendfree, istime, categoryID);
+        self.confirmBlock(isrecommand, isnew, ishot, isdiscount, issendfree, istime);
     };
     [self takeBackView];
 }
@@ -173,40 +152,6 @@ static NSString *rightCellID = @"rightCellID";
     }
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == _leftTableView) {
-        return _categoryDataModel.result.count;
-    } return _categoryResultModel.children.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == _leftTableView) {
-        GoodsListFilterCell *cell = [tableView dequeueReusableCellWithIdentifier:leftCellID];
-        cell.resultModel = _categoryDataModel.result[indexPath.row];
-        return cell;
-    }
-    GoodsListFilterCell *cell = [tableView dequeueReusableCellWithIdentifier:rightCellID];
-    cell.childrenModel = _categoryResultModel.children[indexPath.row];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == _leftTableView) {
-        _categoryResultModel = _categoryDataModel.result[indexPath.row];
-        [self.rightTableView reloadData];
-    } else if (tableView == _rightTableView) {
-        _categoryChildrenModel = _categoryResultModel.children[indexPath.row];
-    }
-}
-
 #pragma mark - 设置 UI
 - (void)initUI {
     CGFloat disWidth = 15;
@@ -261,37 +206,17 @@ static NSString *rightCellID = @"rightCellID";
         make.height.mas_equalTo(buttonHeight);
     }];
     
-    UILabel *label_1 = [[UILabel alloc] init];
-    [label_1 setText:@"选择分类"];
-    [label_1 setTextColor:KUIColorFromHex(0x666666)];
-    [label_1 setFont:KFont(14)];
-    [label_1 setTextAlignment:NSTextAlignmentCenter];
-    [self.popupView addSubview:label_1];
-    [label_1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_discountButton.mas_bottom).offset(10);
-        make.centerX.mas_equalTo(self.popupView.mas_centerX);
-    }];
-    
-    UIView *line_1 = [[UIView alloc] init];
-    [line_1 setBackgroundColor:KLineColor];
-    [self.popupView addSubview:line_1];
-    [line_1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_offset(0);
-        make.top.mas_equalTo(label_1.mas_bottom).offset(10);
-        make.height.mas_equalTo(1);
-    }];
-    
     [self.popupView addSubview:self.cancelButton];
     [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.mas_offset(0);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(40);
     }];
     
     [self.popupView addSubview:self.confirmButton];
     [self.confirmButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.bottom.mas_offset(0);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(40);
     }];
     
@@ -301,57 +226,12 @@ static NSString *rightCellID = @"rightCellID";
     [line_2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_offset(0);
         make.bottom.mas_equalTo(_cancelButton.mas_top);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
-    //leftTableView
-    [self.popupView addSubview:self.leftTableView];
-    [self.leftTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(line_1.mas_bottom);
-        make.left.mas_offset(0);
-        make.bottom.mas_equalTo(line_2.mas_top);
-        make.width.mas_equalTo(KMAINSIZE.width/2);
-    }];
-    
-    //rightTableView
-    [self.popupView addSubview:self.rightTableView];
-    [self.rightTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(line_1.mas_bottom);
-        make.right.mas_offset(0);
-        make.bottom.mas_equalTo(line_2.mas_top);
-        make.width.mas_equalTo(KMAINSIZE.width/2);
-    }];
 }
 
 #pragma mark - lazy
-- (UITableView *)rightTableView {
-    if (!_rightTableView) {
-        _rightTableView = [[UITableView alloc] init];
-        _rightTableView.backgroundColor = [UIColor whiteColor];
-        _rightTableView.separatorInset = UIEdgeInsetsMake(0, -15, 0, 0);
-        _rightTableView.separatorColor = KLineColor;
-        _rightTableView.delegate = self;
-        _rightTableView.dataSource = self;
-        [_rightTableView registerClass:[GoodsListFilterCell class] forCellReuseIdentifier:rightCellID];
-        _rightTableView.tableFooterView = [[UIView alloc] init];
-    }
-    return _rightTableView;
-}
-
-- (UITableView *)leftTableView {
-    if (!_leftTableView) {
-        _leftTableView = [[UITableView alloc] init];
-        _leftTableView.backgroundColor = [UIColor whiteColor];
-        _leftTableView.separatorInset = UIEdgeInsetsMake(0, -15, 0, 0);
-        _leftTableView.separatorColor = KLineColor;
-        _leftTableView.delegate = self;
-        _leftTableView.dataSource = self;
-        [_leftTableView registerClass:[GoodsListFilterCell class] forCellReuseIdentifier:leftCellID];
-        _leftTableView.tableFooterView = [[UIView alloc] init];
-    }
-    return _leftTableView;
-}
-
 - (UIButton *)confirmButton {
     if (!_confirmButton) {
         _confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];

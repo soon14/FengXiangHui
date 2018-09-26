@@ -78,6 +78,7 @@
         _shopCartTableView.estimatedRowHeight = 0;
         _shopCartTableView.estimatedSectionHeaderHeight = 0;
         _shopCartTableView.estimatedSectionFooterHeight = 0;
+        _shopCartTableView.tableFooterView = [[UIView alloc] init];
         [_shopCartTableView registerClass:[CartCellHeaderView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([CartCellHeaderView class])];
         _shopCartTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
     }

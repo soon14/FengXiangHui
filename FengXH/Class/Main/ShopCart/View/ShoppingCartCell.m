@@ -141,7 +141,7 @@
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc]init];
-        [_priceLabel setTextColor:KUIColorFromHex(0xff463c)];
+        [_priceLabel setTextColor:KRedColor];
         [_priceLabel setFont:KFont(16)];
         [_priceLabel setText:@" "];
     }

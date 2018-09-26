@@ -11,7 +11,6 @@
 #import "GoodsListCollectionCell.h"
 #import "GoodsListTableCell.h"
 #import "GoodsListModel.h"
-#import "AllCategoryDataModel.h"
 #import "GoodsListFilterViewController.h"
 #import "GoodsDetailViewController.h"
 // 首页板块类型
@@ -64,22 +63,15 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
     self.title = @"全部商品";
     _goodsListModelArray = [NSMutableArray array];
     _filterViewPop = NO;
-    
-    //首页9.9专区直达这个界面，所以需重新请求全部分类
-    if (!self.categoryDataModel) {
-        [self goodsCategoryRequest];
-    }
+
     
     _layoutStyle = CollectionStyle;
     [self.view addSubview:self.headerView];
     [self.view addSubview:self.listCollectionView];
     
     requestPage = 1;
-    [self goodsListRequest];
+    [self goodsListRequest:requestPage];
 }
-
-
-
 
 #pragma mark - header所有点击事件的响应
 - (void)headerViewBlockAction:(NSInteger)index {
@@ -99,32 +91,56 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
             //NSLog(@"综合");
             _orderingRule = nil;
             _priceSorted = nil;
+            _isrecommand = nil;
+            _isnew = nil;
+            _ishot = nil;
+            _isdiscount = nil;
+            _issendfree = nil;
+            _istime = nil;
             requestPage = 1;
-            [self goodsListRequest];
+            [self goodsListRequest:requestPage];
             [_filterVC takeBackView];
         } break;
         case 1004: {
             //NSLog(@"销量");
             _orderingRule = @"sales";
             _priceSorted = nil;
+            _isrecommand = nil;
+            _isnew = nil;
+            _ishot = nil;
+            _isdiscount = nil;
+            _issendfree = nil;
+            _istime = nil;
             requestPage = 1;
-            [self goodsListRequest];
+            [self goodsListRequest:requestPage];
             [_filterVC takeBackView];
         } break;
         case 1005: {
             //NSLog(@"价格低到高");
             _orderingRule = @"minprice";
             _priceSorted = @"asc";
+            _isrecommand = nil;
+            _isnew = nil;
+            _ishot = nil;
+            _isdiscount = nil;
+            _issendfree = nil;
+            _istime = nil;
             requestPage = 1;
-            [self goodsListRequest];
+            [self goodsListRequest:requestPage];
             [_filterVC takeBackView];
         } break;
         case 1006: {
             //NSLog(@"价格高到低");
             _orderingRule = @"minprice";
             _priceSorted = @"desc";
+            _isrecommand = nil;
+            _isnew = nil;
+            _ishot = nil;
+            _isdiscount = nil;
+            _issendfree = nil;
+            _istime = nil;
             requestPage = 1;
-            [self goodsListRequest];
+            [self goodsListRequest:requestPage];
             [_filterVC takeBackView];
         } break;
         case 1007: {
@@ -134,26 +150,24 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
                 _filterVC.view.frame = CGRectMake(0, 90, KMAINSIZE.width, KMAINSIZE.height-90-KNaviHeight);
                 [self addChildViewController:_filterVC];
                 MJWeakSelf
-                _filterVC.categoryDataModel = self.categoryDataModel;
                 _filterVC.takeBackBlock = ^(NSInteger index) {
                     _filterViewPop = NO;
                 };
-                _filterVC.confirmBlock = ^(NSString *isrecommand, NSString *isnew, NSString *ishot, NSString *isdiscount, NSString *issendfree, NSString *istime, NSString *categoryID) {
+                _filterVC.confirmBlock = ^(NSString *isrecommand, NSString *isnew, NSString *ishot, NSString *isdiscount, NSString *issendfree, NSString *istime) {
                     _isrecommand = isrecommand;
                     _isnew = isnew;
                     _ishot = ishot;
                     _isdiscount = isdiscount;
                     _issendfree = issendfree;
                     _istime = istime;
-                    if (categoryID.length > 0) {
-                        _categatoryId = categoryID;
-                    }
+                    _orderingRule = nil;
+                    _priceSorted = nil;
+                    requestPage = 1;
                     //再次搜索
-                    [weakSelf goodsListRequest];
+                    [weakSelf goodsListRequest:1];
                 };
                 [self.view addSubview:_filterVC.view];
                 [_filterVC showView];
-                
                 _filterViewPop = YES;
             }
         } break;
@@ -195,7 +209,7 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
 #pragma mark - 上拉加载更多
 - (void)loadmore {
     requestPage++;
-    [self goodsListRequest];
+    [self goodsListRequest:requestPage];
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -218,7 +232,7 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
             return 5;
         } break;
         case TableStyle: {
-            return 1;
+            return 0.5;
         } break;
         default: {
             return CGFLOAT_MIN;
@@ -232,38 +246,36 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
 
 #pragma mark - <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //每行3个 item，每个间隔为5，collection 左右间距也为5
     switch (_layoutStyle) {
         case CollectionStyle: {
-            return (CGSize){(KMAINSIZE.width-5)/2, 270*KScreenRatio};
+            return (CGSize){(KMAINSIZE.width-5)/2, 180*KScreenRatio+90};
         } break;
         case TableStyle: {
-            return (CGSize){KMAINSIZE.width, 165*KScreenRatio};
+            return (CGSize){KMAINSIZE.width, 160*KScreenRatio};
         } break;
         default: {
             return CGSizeZero;
-        }
-            break;
+        } break;
     }
 }
 
 #pragma mark - <UICollectionViewDataSource>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    switch (_layoutStyle) {
-        case CollectionStyle: {
-            GoodsListCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([GoodsListCollectionCell class]) forIndexPath:indexPath];
-            cell.delegate = self;
-            return cell;
-        } break;
-        case TableStyle: {
-            GoodsListTableCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([GoodsListTableCell class]) forIndexPath:indexPath];
-            cell.delegate = self;
-            return cell;
-        } break;
-        default: {
-            return nil;
-        } break;
-    }
+    if ([_goodsListModelArray count] > 0) {
+        switch (_layoutStyle) {
+            case CollectionStyle: {
+                GoodsListCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([GoodsListCollectionCell class]) forIndexPath:indexPath];
+                return cell;
+            } break;
+            case TableStyle: {
+                GoodsListTableCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([GoodsListTableCell class]) forIndexPath:indexPath];
+                return cell;
+            } break;
+            default: {
+                return nil;
+            } break;
+        }
+    } return nil;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -271,10 +283,12 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
         switch (_layoutStyle) {
             case CollectionStyle: {
                 GoodsListCollectionCell * collectionCell = (GoodsListCollectionCell *)cell;
+                collectionCell.delegate = self;
                 collectionCell.goodsListCommodityModel = _goodsListModelArray[indexPath.item];
             } break;
             case TableStyle: {
                 GoodsListTableCell * tableCell = (GoodsListTableCell *)cell;
+                tableCell.delegate = self;
                 tableCell.goodsListCommodityModel = _goodsListModelArray[indexPath.item];
             } break;
                 
@@ -345,7 +359,7 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
 }
 
 #pragma mark - 全部商品数据请求
-- (void)goodsListRequest {
+- (void)goodsListRequest:(NSInteger)page {
     NSString * urlString = @"r=apply.goods.get_list";
     NSString *path = [HBBaseAPI appendAPIurl:urlString];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
@@ -375,31 +389,12 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
     }];
 }
 
-#pragma mark - 分类类别数据请求
-- (void)goodsCategoryRequest {
-    NSString * urlString = @"r=apply.shop.category";
-    NSString *path = [HBBaseAPI appendAPIurl:urlString];
-    [DBHUD ShowProgressInview:self.view Withtitle:nil];
-    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:nil WithSuccessBlock:^(NSDictionary *responseDic) {
-        [DBHUD Hiden:YES fromView:self.view];
-        if ([responseDic[@"status"] integerValue] == 1) {
-            
-            self.categoryDataModel = [AllCategoryDataModel yy_modelWithDictionary:responseDic];
-            
-        } else {
-            [DBHUD ShowInView:self.view withTitle:KRequestError];
-        }
-    } WithFailureBlock:^(NSError *error) {
-        [DBHUD Hiden:YES fromView:self.view];
-        [DBHUD ShowInView:self.view withTitle:KNetworkError];
-    }];
-}
-
 #pragma mark - TextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view endEditing:YES];
     _searchKeywords = textField.text;
-    [self goodsListRequest];
+    requestPage = 1;
+    [self goodsListRequest:requestPage];
     return YES;
 }
 
@@ -411,14 +406,14 @@ typedef NS_ENUM(NSInteger , GoodsListLayoutStyle) {
 #pragma mark - 购买按钮被点击
 - (void)GoodsListCollectionCell:(GoodsListCollectionCell *)cell didSelectShoppingCartWith:(GoodsListCommodityModel *)commodityModel {
     [self.view endEditing:YES];
-    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
     VC.goodsID = commodityModel.goodsID;
     [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (void)GoodsListTableCell:(GoodsListTableCell *)cell didSelectShoppingCartWith:(GoodsListCommodityModel *)commodityModel {
     [self.view endEditing:YES];
-    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc]init];
+    GoodsDetailViewController *VC = [[GoodsDetailViewController alloc] init];
     VC.goodsID = commodityModel.goodsID;
     [self.navigationController pushViewController:VC animated:YES];
 }

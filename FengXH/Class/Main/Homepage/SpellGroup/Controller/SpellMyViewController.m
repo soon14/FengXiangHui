@@ -111,18 +111,18 @@
         CGFloat scale = scrollView.contentOffset.x/3;
         _mySpellHeaderView.moveLine.frame = CGRectMake(scale, 40, KMAINSIZE.width/3, 2);
         if (scale<KMAINSIZE.width/3/2) {
-            [_mySpellHeaderView.firstBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_mySpellHeaderView.firstBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_mySpellHeaderView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_mySpellHeaderView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         } else if (scale>KMAINSIZE.width/3/2 && scale<(KMAINSIZE.width/3/2)*3) {
             [_mySpellHeaderView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_mySpellHeaderView.secondBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_mySpellHeaderView.secondBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_mySpellHeaderView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             //NSLog(@"--2--");
         } else if (scale>(KMAINSIZE.width/3/2)*3 && scale<(KMAINSIZE.width/3/2)*5) {
             [_mySpellHeaderView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_mySpellHeaderView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_mySpellHeaderView.thirdBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_mySpellHeaderView.thirdBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             //NSLog(@"--3--");
         }
         

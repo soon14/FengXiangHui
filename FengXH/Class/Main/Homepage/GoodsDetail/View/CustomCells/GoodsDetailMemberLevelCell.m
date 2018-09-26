@@ -40,6 +40,7 @@
             make.left.mas_equalTo(label.mas_right).offset(30);
             make.centerY.mas_equalTo(self.contentView.mas_centerY);
             make.height.mas_equalTo(18);
+            make.width.mas_equalTo(36);
         }];
         
         [self.contentView addSubview:self.priceLabel];
@@ -54,7 +55,7 @@
 
 - (void)setMemberLevelModel:(GoodsDetailResultMember_levelModel *)memberLevelModel {
     _memberLevelModel = memberLevelModel;
-    [self.levelLabel setText:[NSString stringWithFormat:@"\t\t%@\t\t",_memberLevelModel.level]];
+    [self.levelLabel setText:[NSString stringWithFormat:@"%@",_memberLevelModel.level]];
     NSMutableAttributedString *astring = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"可享受 ¥%@ 的价格",_memberLevelModel.memberprice]];
     [astring addAttributes:@{NSForegroundColorAttributeName:KRedColor} range:NSMakeRange(4, _memberLevelModel.memberprice.length+1)];
     [self.priceLabel setAttributedText:astring];

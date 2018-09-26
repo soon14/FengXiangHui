@@ -143,7 +143,7 @@
 - (UIButton *)allButton {
     if (!_allButton) {
         _allButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_allButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+        [_allButton setTitleColor:KRedColor forState:UIControlStateNormal];
         [_allButton.titleLabel setFont:KFont(15)];
         [_allButton setTitle:@"全部" forState:UIControlStateNormal];
         [_allButton setTag:9001];

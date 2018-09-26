@@ -64,22 +64,9 @@
 }
 
 //图片上传接口
-- (void)requestWithPath:(NSString *)path WithParams:(id)params WithImageName:(NSString *)imageName WithImage:(UIImage *)image WithSuccessBlock:(requestSuccessBlock)success WithFailureBlock:(requestFailureBlock)failure
-{
+- (void)requestWithPath:(NSString *)path WithParams:(id)params WithImageName:(NSString *)imageName WithImage:(UIImage *)image WithSuccessBlock:(requestSuccessBlock)success WithFailureBlock:(requestFailureBlock)failure {
 
     [self POST:path parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
-        //上传文件参数
-        
-        /*
-        for (NSInteger i=0; i<image.count; i++) {
-            NSData *imageData = UIImageJPEGRepresentation(image[i], 1);
-            if (imageData == nil) {
-                imageData = UIImagePNGRepresentation(image[i]);
-            }
-            [formData appendPartWithFileData:imageData name:@"imgFile0" fileName:imageName[i] mimeType:@"image/jpg/png/jpeg"];
-        }
-         */
         
         NSData *imageData = UIImageJPEGRepresentation(image, 1);
         if (imageData == nil) {
@@ -89,7 +76,7 @@
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         //打印下上传进度
-//        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+        //NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

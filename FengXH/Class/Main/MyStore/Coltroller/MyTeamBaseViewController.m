@@ -108,12 +108,12 @@
         CGFloat scale = scrollView.contentOffset.x/2;
         _topButtonView.moveLine.frame = CGRectMake(scale, 40, KMAINSIZE.width/2, 2);
         if (scale<KMAINSIZE.width/2/2) {
-            [_topButtonView.stairShopkeeper setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.stairShopkeeper setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.secondShopkeeper setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             
         } else if (scale>KMAINSIZE.width/2/2 && scale<(KMAINSIZE.width/2/2)*3) {
             [_topButtonView.stairShopkeeper setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.secondShopkeeper setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.secondShopkeeper setTitleColor:KRedColor forState:UIControlStateNormal];
             
         }
         if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {

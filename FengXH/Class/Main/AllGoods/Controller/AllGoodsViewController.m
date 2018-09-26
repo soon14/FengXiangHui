@@ -216,12 +216,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     AllCategoryDataChildrenModel *childrenModel = self.categoryDataResultModel.children[indexPath.item];
-//    NSLog(@"%@",childrenModel.name);
+    //NSLog(@"%@",childrenModel.name);
     GoodsListViewController *listVC = [[GoodsListViewController alloc]init];
     listVC.hidesBottomBarWhenPushed = YES;
-//    listVC.titleStr = childrenModel.name;
     listVC.categatoryId = childrenModel.categoryChildrenID;
-    listVC.categoryDataModel = self.categoryDataModel;
     [self.navigationController pushViewController:listVC animated:YES];
 }
 

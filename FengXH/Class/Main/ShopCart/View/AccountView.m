@@ -114,7 +114,7 @@
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
         _totalPriceLabel = [[UILabel alloc]init];
-        [_totalPriceLabel setTextColor:KUIColorFromHex(0xff463c)];
+        [_totalPriceLabel setTextColor:KRedColor];
         [_totalPriceLabel setFont:KFont(16)];
         [_totalPriceLabel setTextAlignment:NSTextAlignmentRight];
         [_totalPriceLabel setText:@"合计：¥0"];

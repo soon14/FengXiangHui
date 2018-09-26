@@ -212,7 +212,7 @@
             make.width.mas_equalTo(inter);
         }];
         //百分比
-        [self.seckillPercentLabel setText:[NSString stringWithFormat:@"%ld%%",[_goodsDetailResultModel.seckillinfo.percent integerValue]]];
+        [self.seckillPercentLabel setText:[NSString stringWithFormat:@"%ld%%",(long)[_goodsDetailResultModel.seckillinfo.percent integerValue]]];
         //原价
         NSMutableAttributedString *pruductPriceString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2lf",[_goodsDetailResultModel.seckillinfo.oldprice floatValue]]];
         [pruductPriceString addAttributes:@{NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(0, pruductPriceString.length)];
@@ -224,9 +224,11 @@
         //商品现价
         [self.pruductPriceLabel setText:[NSString stringWithFormat:@"¥%.2lf",[_goodsDetailResultModel.marketprice floatValue]]];
         //商品原价
-        NSMutableAttributedString *marketPriceString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2lf",[_goodsDetailResultModel.productprice floatValue]]];
-        [marketPriceString addAttributes:@{NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(0, marketPriceString.length)];
-        [self.marketPriceLabel setAttributedText:marketPriceString];
+        if ([_goodsDetailResultModel.productprice floatValue] > 0) {
+            NSMutableAttributedString *marketPriceString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%.2lf",[_goodsDetailResultModel.productprice floatValue]]];
+            [marketPriceString addAttributes:@{NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid), NSBaselineOffsetAttributeName:@(0)} range:NSMakeRange(0, marketPriceString.length)];
+            [self.marketPriceLabel setAttributedText:marketPriceString];
+        }
     }
     //商品名称
     [self.goodsNameLabel setText:_goodsDetailResultModel.title];

@@ -1,14 +1,14 @@
 //
-//  GoodsListHeaderView.m
+//  MerchantsUnionHeaderView.m
 //  FengXH
 //
-//  Created by sun on 2018/7/25.
-//  Copyright © 2018年 HubinSun. All rights reserved.
+//  Created by sun on 2018/9/25.
+//  Copyright © 2018 HubinSun. All rights reserved.
 //
 
-#import "GoodsListHeaderView.h"
+#import "MerchantsUnionHeaderView.h"
 
-@interface GoodsListHeaderView ()
+@interface MerchantsUnionHeaderView ()
 
 /** layoutButton */
 @property(nonatomic , strong)UIButton *layoutButton;
@@ -23,12 +23,12 @@
 
 @end
 
-@implementation GoodsListHeaderView
+@implementation MerchantsUnionHeaderView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
-
+        
         UIView *whiteBackView = [[UIView alloc] init];
         [whiteBackView setBackgroundColor:KUIColorFromHex(0xf1f1f2)];
         [whiteBackView.layer setMasksToBounds:YES];
@@ -115,10 +115,10 @@
             make.height.mas_equalTo(1);
         }];
         
-        
     }
     return self;
 }
+
 
 #pragma mark - layoutButtonAction
 - (void)buttonAction:(UIButton *)sender {
@@ -248,13 +248,5 @@
 }
 
 
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

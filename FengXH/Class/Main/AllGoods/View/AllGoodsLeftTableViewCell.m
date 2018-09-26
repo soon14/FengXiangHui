@@ -39,7 +39,7 @@
         }];
         
         if (self.selected==YES) {
-            [self.titleLabel setTextColor:KUIColorFromHex(0xff463c)];
+            [self.titleLabel setTextColor:KRedColor];
         } else {
             [_titleLabel setTextColor:KUIColorFromHex(0x333333)];
         }
@@ -68,7 +68,7 @@
 - (UIView *)redLineView {
     if (!_redLineView) {
         _redLineView = [[UIView alloc]init];
-        [_redLineView setBackgroundColor:KUIColorFromHex(0xff463c)];
+        [_redLineView setBackgroundColor:KRedColor];
     }
     return _redLineView;
 }
@@ -82,7 +82,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     if (selected==YES) {
-        [self.titleLabel setTextColor:KUIColorFromHex(0xff463c)];
+        [self.titleLabel setTextColor:KRedColor];
     } else {
         [self.titleLabel setTextColor:KUIColorFromHex(0x333333)];
     }

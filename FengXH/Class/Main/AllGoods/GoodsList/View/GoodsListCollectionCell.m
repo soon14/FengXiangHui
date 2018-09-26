@@ -27,7 +27,7 @@
         [self addSubview:self.listTImageView];
         [self.listTImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.mas_offset(0);
-            make.height.mas_equalTo(180);
+            make.height.mas_equalTo(180*KScreenRatio);
         }];
         
         
@@ -97,7 +97,7 @@
 - (UILabel *)listTPriceLabel{
     if (!_listTPriceLabel) {
         _listTPriceLabel = [[UILabel alloc]init];
-        [_listTPriceLabel setTextColor:KUIColorFromHex(0xff463c)];
+        [_listTPriceLabel setTextColor:KRedColor];
         [_listTPriceLabel setTextAlignment:NSTextAlignmentLeft];
         [_listTPriceLabel setFont:KFont(15)];
         
@@ -108,7 +108,7 @@
 - (UIButton *)listTBuyButton {
     if (!_listTBuyButton) {
         _listTBuyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_listTBuyButton setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+        [_listTBuyButton setTitleColor:KRedColor forState:UIControlStateNormal];
         [_listTBuyButton.titleLabel setFont:KFont(14)];
         [_listTBuyButton setTitle:@"购买" forState:UIControlStateNormal];
         [_listTBuyButton addTarget:self action:@selector(cartButtonAction:) forControlEvents:UIControlEventTouchUpInside];

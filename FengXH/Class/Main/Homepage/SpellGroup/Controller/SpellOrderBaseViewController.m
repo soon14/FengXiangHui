@@ -122,35 +122,35 @@
         CGFloat scale = scrollView.contentOffset.x/5;
         _topButtonView.moveLine.frame = CGRectMake(scale, 40, KMAINSIZE.width/5, 2);
         if (scale<KMAINSIZE.width/5/2) {
-            [_topButtonView.firstBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.firstBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fifthBtn setTitleColor:KUIColorFromHex(0x666666)forState:UIControlStateNormal];
         } else if (scale>KMAINSIZE.width/5/2 && scale<(KMAINSIZE.width/5/2)*3) {
             [_topButtonView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.secondBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.secondBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fifthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         } else if (scale>(KMAINSIZE.width/5/2)*3 && scale<(KMAINSIZE.width/5/2)*5) {
             [_topButtonView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.thirdBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.thirdBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fifthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         } else if (scale>(KMAINSIZE.width/5/2)*5 && scale<(KMAINSIZE.width/5/2)*7) {
             [_topButtonView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.fourthBtn setTitleColor:KRedColor forState:UIControlStateNormal];
             [_topButtonView.fifthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
         }else if (scale>(KMAINSIZE.width/5/2)*7 && scale<(KMAINSIZE.width/5/2)*9) {
             [_topButtonView.firstBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.secondBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.thirdBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
-            [_topButtonView.fifthBtn setTitleColor:KUIColorFromHex(0xff463c) forState:UIControlStateNormal];
+            [_topButtonView.fifthBtn setTitleColor:KRedColor forState:UIControlStateNormal];
         }
         
     }

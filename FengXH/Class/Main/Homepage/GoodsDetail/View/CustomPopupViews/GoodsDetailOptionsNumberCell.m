@@ -67,7 +67,7 @@
     } else if ([textField.text integerValue] < 1) {
         [self.numTextField setText:@"1"];
     }
-    [self.numTextField setText:[NSString stringWithFormat:@"%ld",[self.numTextField.text integerValue]]];
+    [self.numTextField setText:[NSString stringWithFormat:@"%ld",(long)[self.numTextField.text integerValue]]];
     return YES;
 }
 
@@ -75,7 +75,7 @@
     NSInteger i = [self.numTextField.text integerValue];
     if (i < 99) {
         i++;
-        [self.numTextField setText:[NSString stringWithFormat:@"%ld",i]];
+        [self.numTextField setText:[NSString stringWithFormat:@"%ld",(long)i]];
     }
 }
 
@@ -83,7 +83,7 @@
     NSInteger i = [self.numTextField.text integerValue];
     if (i > 1) {
         i--;
-        [self.numTextField setText:[NSString stringWithFormat:@"%ld",i]];
+        [self.numTextField setText:[NSString stringWithFormat:@"%ld",(long)i]];
     }
 }
 

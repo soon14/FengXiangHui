@@ -501,9 +501,9 @@
         }
             break;
         case 1: {
-            PromotionPosterViewController *vc=[[PromotionPosterViewController alloc]init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            PromotionPosterViewController * VC = [[PromotionPosterViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
         case 2: {
