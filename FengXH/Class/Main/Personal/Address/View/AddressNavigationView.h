@@ -18,6 +18,6 @@
 /** title */
 @property(nonatomic , copy)NSString *title;
 /** delegate */
-@property(nonatomic , weak)id delegate;
+@property(nonatomic , weak)id <AddressNavigationViewDelegate> delegate;
 
 @end

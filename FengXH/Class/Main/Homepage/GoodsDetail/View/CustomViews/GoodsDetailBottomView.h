@@ -16,7 +16,7 @@
 @interface GoodsDetailBottomView : UIView
 
 /** 代理 */
-@property(nonatomic , weak)id delegate;
+@property(nonatomic , weak)id <GoodsDetailBottomViewDelegate> delegate;
 /** 是否收藏 */
 @property(nonatomic , assign)BOOL isFavorite;
 

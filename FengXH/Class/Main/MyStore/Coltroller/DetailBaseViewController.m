@@ -179,7 +179,7 @@
             [_topButtonView.fourthBtn setTitleColor:KUIColorFromHex(0x666666) forState:UIControlStateNormal];
             [_topButtonView.fifthBtn setTitleColor:KRedColor forState:UIControlStateNormal];
         }
-        if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {
+        if (scrollView.contentOffset.x < -(KMAINSIZE.width/4-20)) {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

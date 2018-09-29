@@ -8,6 +8,11 @@
 
 #import "BaseViewController.h"
 
+typedef void (^LoginViewControllerSuccessBlock)();
+
 @interface LoginViewController : BaseViewController
+
+/** 登录成功 block */
+@property(nonatomic , strong)LoginViewControllerSuccessBlock loginSuccessBlock;
 
 @end

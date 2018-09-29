@@ -79,9 +79,13 @@
     } else if ([menuModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=sns.newv2&id=29"]) {
         //分享圈子
         return FunctionJumpShareCircle;
+    } else if ([menuModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=29"]) {
+        //积分兑换
+        return IntegralExchange;
+    } else {
+        //  跳转网页
+        return FunctionJumpWebView;
     }
-    //  跳转网页
-    return FunctionJumpWebView;
 }
 
 #pragma mark - 传入 HomepageDataBannerDataModel 判断跳转至啥地方

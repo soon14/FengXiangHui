@@ -14,19 +14,21 @@
     if (self=[super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
         
+        
+        //
+        [self addSubview:self.accountButton];
+        [self.accountButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.mas_offset(0);
+            make.width.mas_equalTo(106);
+            make.height.mas_equalTo(50);
+        }];
+        
         //
         [self addSubview:self.allSelectButton];
         [self.allSelectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(13);
             make.height.mas_equalTo(30);
-            make.centerY.mas_equalTo(self.mas_centerY);
-        }];
-        
-        //
-        [self addSubview:self.accountButton];
-        [self.accountButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.mas_offset(0);
-            make.width.mas_equalTo(106);
+            make.centerY.mas_equalTo(_accountButton.mas_centerY);
         }];
         
         //
@@ -42,23 +44,24 @@
         [self.freightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(_totalPriceLabel.mas_bottom).offset(0);
             make.right.mas_equalTo(_accountButton.mas_left).offset(-15);
-            make.bottom.mas_offset(-2);
         }];
         
         
         //移入收藏
         [self addSubview:self.collectButton];
         [self.collectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_offset(0);
-            make.right.mas_equalTo(_accountButton.mas_left).offset(-0.5);
+            make.top.mas_offset(0);
+            make.right.mas_equalTo(_accountButton.mas_left);
             make.width.mas_equalTo(106);
+            make.height.mas_equalTo(50);
         }];
         
         //删除
         [self addSubview:self.deleteButton];
         [self.deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.mas_offset(0);
+            make.top.right.mas_offset(0);
             make.width.mas_equalTo(106);
+            make.height.mas_equalTo(50);
         }];
         
         
@@ -86,7 +89,7 @@
 - (UIButton *)deleteButton {
     if (!_deleteButton) {
         _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_deleteButton setBackgroundColor:KUIColorFromHex(0x999999)];
+        [_deleteButton setBackgroundColor:KRedColor];
         [_deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
         [_deleteButton.titleLabel setFont:KFont(16)];

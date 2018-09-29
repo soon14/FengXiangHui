@@ -27,6 +27,7 @@
 #import "PhoneViewController.h"//云通话
 #import "GoodsDetailViewController.h"//商品详情
 #import "PromotionPosterViewController.h"//推广海报
+#import "IntegralBaseViewController.h"//积分兑换
 
 // 首页板块类型
 typedef NS_ENUM(NSInteger , HomePageStyle) {
@@ -550,6 +551,18 @@ typedef NS_ENUM(NSInteger , HomePageStyle) {
             webVC.jumpURL = [NSString stringWithFormat:@"%@&footerMenus=1",functionItemModel.linkurl];
             webVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:webVC animated:YES];
+        } break;
+        case IntegralExchange: {
+            /** 积分兑换 */
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
+                IntegralBaseViewController *VC = [[IntegralBaseViewController alloc] init];
+                VC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:VC animated:YES];
+            } else {
+                [self presentLoginViewControllerWithSuccessBlock:^{
+                    
+                } WithFailureBlock:nil];
+            }
         } break;
         default:
             break;

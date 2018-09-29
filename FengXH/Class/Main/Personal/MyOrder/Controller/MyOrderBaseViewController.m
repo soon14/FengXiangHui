@@ -164,7 +164,7 @@
             [_topButtonView.waitEvaluateButton setTitleColor:KRedColor forState:UIControlStateNormal];
             //NSLog(@"--5--");
         }
-        if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {
+        if (scrollView.contentOffset.x < -(KMAINSIZE.width/4-20)) {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

@@ -38,6 +38,7 @@
 #import "PersonalTopUpViewController.h"
 #import "ArticleListBaseViewController.h"
 #import "FreshViewController.h"
+#import "ShopCartSubViewController.h"
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource,CustomActionSheetDelagate>
 
@@ -73,17 +74,19 @@
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token", nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
-//        NSLog(@"%@",responseDic);
         if ([responseDic[@"status"] integerValue] == 1) {
             
             self.dataModel = [PersonalDataModel yy_modelWithDictionary:responseDic[@"result"]];
 
             [self.personalTableView reloadData];
+        } else if ([responseDic[@"status"] integerValue] == 401) {
+            [self presentLoginViewControllerWithSuccessBlock:^{
+                [self requestPersonalViewControllerDada];
+            } WithFailureBlock:nil];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }
     } WithFailureBlock:^(NSError *error) {
-        NSLog(@"%@",error);
         [DBHUD Hiden:YES fromView:self.view];
         [DBHUD ShowInView:self.view withTitle:KNetworkError];
     
@@ -353,32 +356,27 @@
 - (void)secondCellAction:(NSInteger)index {
     switch (index) {
         case 0: {
-            
-            PhoneViewController *phoneVC = [[PhoneViewController alloc]init];
+            //云通话
+            PhoneViewController *phoneVC = [[PhoneViewController alloc] init];
             phoneVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:phoneVC animated:YES];
-        }
-            break;
+        } break;
         case 1: {
-            
-            PhoneRecordViewController *vc = [[PhoneRecordViewController alloc]init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-            break;
+            //通话记录
+            PhoneRecordViewController *VC = [[PhoneRecordViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        } break;
         case 2: {
-            
+            //折扣商城
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://shop.xmhualao.com/home/index?id=e1106916-a66c-4e9c-9693-3d9c6aeeb1b0"]];
-            
-        }
-            break;
+        } break;
         case 3: {
-            [DBHUD ShowInView:self.view withTitle:@"时长充值"];
-            PhoneLengthViewController *vc = [[PhoneLengthViewController alloc]init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-            break;
+            //时长充值
+            PhoneLengthViewController *VC = [[PhoneLengthViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+        } break;
             
         default:
             break;
@@ -413,7 +411,8 @@
         }
             break;
         case 4: {
-            [self.tabBarController setSelectedIndex:3];
+            ShopCartSubViewController *VC = [[ShopCartSubViewController alloc] init];
+            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
             

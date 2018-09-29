@@ -22,12 +22,14 @@
 }
 
 #pragma mark - 弹出登录界面
-- (void)presentLoginViewController {
+- (void)presentLoginViewControllerWithSuccessBlock:(BaseViewControllerLoginSuccess)success WithFailureBlock:(BaseViewControllerLoginFailure)failure {
     LoginViewController *loginVC = [[LoginViewController alloc] init];
-    [self presentViewController:loginVC animated:YES completion:^{
-        
-    }];
+    loginVC.loginSuccessBlock = ^{
+        success();
+    };
+    [self presentViewController:loginVC animated:YES completion:nil];
 }
+
 
 #pragma mark - 收回界面
 - (void)dismissCurrenViewController {

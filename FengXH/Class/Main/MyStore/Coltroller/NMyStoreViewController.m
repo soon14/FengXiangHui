@@ -56,6 +56,10 @@
             self.resultModel = [MyStoreResultModel yy_modelWithDictionary:responseDic[@"result"]];
             [self.storeTableView reloadData];
             
+        } else if ([responseDic[@"status"] integerValue] == 401) {
+            [self presentLoginViewControllerWithSuccessBlock:^{
+                [self myStoreDataRequest];
+            } WithFailureBlock:nil];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
         }

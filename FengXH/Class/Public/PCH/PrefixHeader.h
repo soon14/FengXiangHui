@@ -39,10 +39,10 @@
 
 
 //正式
-//#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 //测试
-#define KBasicURL @"http://dev.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+//#define KBasicURL @"http://dev.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 
 
@@ -96,6 +96,7 @@
 
 
 
+
 /**
  个人中心全部订单类型
  */
@@ -134,6 +135,8 @@ typedef NS_ENUM(NSInteger , HomePageFunctionJumpType) {
     FunctionJumpSignIn,
     /** 分享圈子 */
     FunctionJumpShareCircle,
+    /** 积分兑换 */
+    IntegralExchange,
     
 };
 

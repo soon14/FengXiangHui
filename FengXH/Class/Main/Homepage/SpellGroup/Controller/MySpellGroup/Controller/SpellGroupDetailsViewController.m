@@ -108,18 +108,14 @@
                     });
                 });
                 
-                
-                
             
-//            });
-            
-            
-            
-        }else{
-            NSLog(@"%@",[NSString stringWithFormat:@"%@",[responseDic objectForKey:@"message"]]);
+        } else if ([responseDic[@"status"] integerValue] == 401) {
+            [self presentLoginViewControllerWithSuccessBlock:^{
+                [self spellHomeDataRequest];
+            } WithFailureBlock:nil];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }
-        
-        
         
     } WithFailureBlock:^(NSError *error) {
         [DBHUD Hiden:YES fromView:self.view];

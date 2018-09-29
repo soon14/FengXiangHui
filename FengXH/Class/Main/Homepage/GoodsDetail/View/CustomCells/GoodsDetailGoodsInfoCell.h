@@ -18,6 +18,6 @@
 /** model */
 @property(nonatomic , strong)GoodsDetailResultModel *goodsDetailResultModel;
 /** delegate */
-@property(nonatomic , weak)id delegate;
+@property(nonatomic , weak)id <GoodsDetailGoodsInfoCellDelegate> delegate;
 
 @end

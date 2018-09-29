@@ -99,6 +99,11 @@
             [ShareManager saveUserInfo:infoModel];
             
             [DBHUD ShowInView:self.view withTitle:@"登录成功"];
+            
+            if (self.loginSuccessBlock) {
+                self.loginSuccessBlock();
+            }
+            
             [self performSelector:@selector(dismissViewController) withObject:nil afterDelay:0.8f];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];

@@ -89,7 +89,7 @@
         CGFloat moveLineScale = ((TopButtonWidth/KMAINSIZE.width)*scrollView.contentOffset.x)/self.resultModel.categorys.count;
         self.moveLine.frame = CGRectMake(moveLineScale+12, 40, TopButtonWidth/self.resultModel.categorys.count-24, 2);
         
-        if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {
+        if (scrollView.contentOffset.x < -(KMAINSIZE.width/4-20)) {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

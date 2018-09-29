@@ -11,7 +11,7 @@
 #import "NHomepageViewController.h"
 #import "AllGoodsViewController.h"
 #import "NMyStoreViewController.h"
-#import "ShopCartViewController.h"
+#import "ShopCartRootViewController.h"
 #import "PersonalViewController.h"
 #import "LoginViewController.h"
 
@@ -36,19 +36,19 @@
 
 - (void)initSubVC{
     
-    NHomepageViewController * homeVC = [[NHomepageViewController alloc]init];
+    NHomepageViewController * homeVC = [[NHomepageViewController alloc] init];
     [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_sel"];
     
-    AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc]init];
+    AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc] init];
     [self setupChildVC:allGoodsVC Title:@"全部商品" UnselectedImageName:@"home_icon_all_nol" SelectedImageName:@"home_icon_all_sel"];
     
-    NMyStoreViewController * myStoreVC = [[NMyStoreViewController alloc]init];
+    NMyStoreViewController * myStoreVC = [[NMyStoreViewController alloc] init];
     [self setupChildVC:myStoreVC Title:@"我的小店" UnselectedImageName:@"home_icon_store_nol" SelectedImageName:@"home_icon_store_sel"];
     
-    ShopCartViewController * shopCartVC = [[ShopCartViewController alloc]init];
+    ShopCartRootViewController * shopCartVC = [[ShopCartRootViewController alloc] init];
     [self setupChildVC:shopCartVC Title:@"购物车" UnselectedImageName:@"home_icon_cart_nol" SelectedImageName:@"home_icon_cart_sel"];
     
-    PersonalViewController * personalVC = [[PersonalViewController alloc]init];
+    PersonalViewController * personalVC = [[PersonalViewController alloc] init];
     [self setupChildVC:personalVC Title:@"会员中心" UnselectedImageName:@"home_icon_mine_nol" SelectedImageName:@"home_icon_mine_sel"];
 }
 
@@ -95,7 +95,7 @@
         willShowViewController = navigation.visibleViewController;
     }
     
-    if ([willShowViewController isKindOfClass:[NMyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
+    if ([willShowViewController isKindOfClass:[NMyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartRootViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
             LoginViewController *loginVC = [[LoginViewController alloc] init];
             [self presentViewController:loginVC animated:YES completion:nil];

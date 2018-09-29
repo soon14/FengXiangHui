@@ -60,7 +60,7 @@
     }
     //用于分享出去的文章 url
     NSString *articleURL = [NSString stringWithFormat:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=article&aid=%@",_articleModel.articleID];
-    NSLog(@"articleURL:%@",articleURL);
+    //NSLog(@"articleURL:%@",articleURL);
     NSString *url = @"r=apply.article";
     NSString *path = [HBBaseAPI appendAPIurl:url];
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -70,10 +70,13 @@
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
-            //NSLog(@"%@",responseDic);
         
             [ShareManager shareWithTitle:responseDic[@"result"][@"article_title"] andMessage:responseDic[@"result"][@"resp_desc"] andUrl:articleURL andImg:@[responseDic[@"result"][@"resp_img"]]];
             
+        } else if ([responseDic[@"status"] integerValue] == 401) {
+            [self presentLoginViewControllerWithSuccessBlock:^{
+                [self shareButtonDidClicked:nil];
+            } WithFailureBlock:nil];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:@"请求失败"];
         }

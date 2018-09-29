@@ -87,9 +87,9 @@
     NSString *urlString = [NSString stringWithFormat:@"%@",URL];
     if ([urlString containsString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=creditshop.create&mid="]) {
         //积分兑换，点击立即兑换，跳转至生成订单界面
-        IntegralCreatOrderViewController *VC = [[IntegralCreatOrderViewController alloc] init];
-        VC.goodsID = _integralGoodsID;
-        [self.navigationController pushViewController:VC animated:YES];
+//        IntegralCreatOrderViewController *VC = [[IntegralCreatOrderViewController alloc] init];
+//        VC.goodsID = _integralGoodsID;
+//        [self.navigationController pushViewController:VC animated:YES];
         
         decisionHandler(WKNavigationActionPolicyCancel);
         return;

@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^BaseViewControllerLoginSuccess)();
+typedef void (^BaseViewControllerLoginFailure)();
+
 @interface BaseViewController : UIViewController
 
 #pragma mark - 弹出登录界面
-- (void)presentLoginViewController;
+- (void)presentLoginViewControllerWithSuccessBlock:(BaseViewControllerLoginSuccess)success
+                                  WithFailureBlock:(BaseViewControllerLoginFailure)failure;
 #pragma mark - 收回界面
 - (void)dismissCurrenViewController;
 

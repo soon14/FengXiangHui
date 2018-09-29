@@ -23,7 +23,8 @@
 #import "GoodsDetailQRCodePopupView.h"//商品二维码
 #import "ZHFAddTitleAddressView.h"//京东四级地址选择
 #import "ConfirmOrderViewController.h"//立即购买确认订单
-#import "MerchantsUnionViewController.h"
+#import "MerchantsUnionViewController.h"//联盟商户店铺
+#import "ShopCartSubViewController.h"//购物车
 
 
 #define BottomViewHeight (KBottomHeight+45)                                         //底部 View 的高度
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     DragType                //上拉查看详情
 };
 
-@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailGoodsInfoCellDelegate,GoodsDetailShopCellDelegate,ZHFAddTitleAddressViewDelegate>
+@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailBottomViewDelegate,GoodsDetailGoodsInfoCellDelegate,GoodsDetailShopCellDelegate,ZHFAddTitleAddressViewDelegate,GoodsDetailNavigationViewDelegate>
 {
     NSMutableArray *contentImageHeightArray;        //存放详情页图片高度的数组
 }
@@ -498,7 +499,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                     [self addCollectGoodsRequest:sender];//添加收藏
                 }
             } else {
-                [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
+                [self presentLoginViewControllerWithSuccessBlock:^{
+                    [self goodsDetailDataRequest];
+                } WithFailureBlock:nil];
             }
         } break;
         case 1: {//跳转店铺
@@ -507,7 +510,8 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             [self.navigationController pushViewController:VC animated:YES];
         } break;
         case 2: {//跳转购物车
-            [self.tabBarController setSelectedIndex:3];
+            ShopCartSubViewController *VC = [[ShopCartSubViewController alloc] init];
+            [self.navigationController pushViewController:VC animated:YES];
         } break;
         case 3: {
             //加入购物车
@@ -523,7 +527,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                     [weakSelf addGoodsToShopCart:optionsModel IDNumber:IDNumberString Count:goodsNum];
                 };
             } else {
-                [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
+                [self presentLoginViewControllerWithSuccessBlock:^{
+                    [self goodsDetailDataRequest];
+                } WithFailureBlock:nil];
             }
         } break;
         case 4: {
@@ -544,7 +550,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
                     [weakSelf.navigationController pushViewController:VC animated:YES];
                 };
             } else {
-                [DBHUD ShowInView:self.view withTitle:@"请先前往个人中心登录或注册"];
+                [self presentLoginViewControllerWithSuccessBlock:^{
+                    [self goodsDetailDataRequest];
+                } WithFailureBlock:nil];
             }
         } break;
         default:
@@ -687,16 +695,18 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
                               self.goodsID?self.goodsID:@"",@"id",
                               [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token", nil];
-//    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:self.goodsID?self.goodsID:@"",@"id", nil];
     [DBHUD ShowProgressInview:self.view Withtitle:nil];
     [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
         [DBHUD Hiden:YES fromView:self.view];
         if ([responseDic[@"status"] integerValue] == 1) {
             
             self.resultModel = [GoodsDetailResultModel yy_modelWithDictionary:responseDic[@"result"]];
-            //NSLog(@"商品详情：%@",responseDic);
             [self initSubviews];
             
+        } else if ([responseDic[@"status"] integerValue] == 401) {
+            [self presentLoginViewControllerWithSuccessBlock:^{
+                [self goodsDetailDataRequest];
+            } WithFailureBlock:nil];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
         }

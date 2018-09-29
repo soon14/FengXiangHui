@@ -22,6 +22,6 @@
 /** 移动光标 */
 @property(nonatomic , strong)UIView *moveLine;
 /** delegate */
-@property(nonatomic , weak)id delegate;
+@property(nonatomic , weak)id <GoodsDetailNavigationViewDelegate> delegate;
 
 @end

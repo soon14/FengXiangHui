@@ -20,28 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Class/Main/Homepage/SpellGroup/Controller/MySpellGroup/Controller/SpellGroupDetailsViewController.m"
-            timestampString = "557804424.132082"
+            timestampString = "559805133.88806"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "-onItemClick:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Class/Main/Homepage/Controller/NHomepageViewController.m"
-            timestampString = "559619966.629817"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
-            landmarkName = "-HomePagePicturewCell:didSelectPicturerwItemWith:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

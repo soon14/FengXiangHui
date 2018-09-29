@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"时长充值";
     self.view.backgroundColor = [UIColor whiteColor];
     [self request];
 }

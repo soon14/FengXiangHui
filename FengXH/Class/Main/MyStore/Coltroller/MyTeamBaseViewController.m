@@ -116,7 +116,7 @@
             [_topButtonView.secondShopkeeper setTitleColor:KRedColor forState:UIControlStateNormal];
             
         }
-        if (scrollView.contentOffset.x < -KMAINSIZE.width/4) {
+        if (scrollView.contentOffset.x < -(KMAINSIZE.width/4-20)) {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

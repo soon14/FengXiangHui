@@ -152,16 +152,48 @@
 #pragma mark - 支付按钮被点击
 - (void)payButtonDidClicked {
     if (self.addressModel) {
-        IntegralPayOrderViewController *VC = [[IntegralPayOrderViewController alloc] init];
-        VC.addressModel = self.addressModel;
-        VC.integralResultModel = self.resultModel;
-        [self.navigationController pushViewController:VC animated:YES];
+        if ([self.resultModel.money floatValue] > 0) {
+            IntegralPayOrderViewController *VC = [[IntegralPayOrderViewController alloc] init];
+            VC.addressModel = self.addressModel;
+            VC.integralResultModel = self.resultModel;
+            [self.navigationController pushViewController:VC animated:YES];
+        } else {
+            [self integralPayRequest];
+        }
     } else {
         [DBHUD ShowInView:self.view withTitle:@"请选择地址"];
     }
 }
 
+#pragma mark - 积分商品支付请求
+- (void)integralPayRequest {
+    NSString *url = @"r=apply.creditshop.create.payconfirm";
+    NSString *path = [HBBaseAPI appendAPIurl:url];
+    NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken],@"token",
+                              self.resultModel.orderID,@"id",
+                              self.addressModel.addressID,@"addressid", nil];
+    [DBHUD ShowProgressInview:self.view Withtitle:nil];
+    [[HBNetWork sharedManager] requestWithMethod:POST WithPath:path WithParams:paramDic WithSuccessBlock:^(NSDictionary *responseDic) {
+        [DBHUD Hiden:YES fromView:self.view];
+        if ([responseDic[@"status"] integerValue] == 1) {
+            
+            [DBHUD ShowInView:self.view withTitle:@"兑换成功"];
+            [self performSelector:@selector(popAction) withObject:nil afterDelay:0.8f];
+            
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:@"后台繁忙"];
+        }
+    } WithFailureBlock:^(NSError *error) {
+        [DBHUD Hiden:YES fromView:self.view];
+        [DBHUD ShowInView:self.view withTitle:KNetworkError];
+    }];
+}
 
+#pragma mark - pop
+- (void)popAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - 创建积分商品订单
 - (void)creditshopOrderCreatRequest {
