@@ -39,10 +39,10 @@
 
 
 //正式
-#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+//#define KBasicURL @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 //测试
-//#define KBasicURL @"http://dev.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
+#define KBasicURL @"http://dev.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&"
 
 
 
