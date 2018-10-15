@@ -18,7 +18,7 @@
  @param cell cell
  @param goodsDataModel 商品模型
  */
-- (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectItemWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel;;
+- (void)HomePageFoodieGoodsCell:(HomePageFoodieGoodsCell *)cell didSelectItemWith:(HomepageDataCategoryGoodsDataModel *)goodsDataModel;
 
 /**
  点击了购物车item
