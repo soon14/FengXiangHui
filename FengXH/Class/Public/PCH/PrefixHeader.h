@@ -34,6 +34,7 @@
 #import "UIImage+GIF.h"
 #import "UIImageView+WebCache.h"
 #import "BaseCornerShadowView.h"
+#import "YYText.h"
 
 
 
@@ -67,10 +68,12 @@
 
 #define KMAINSIZE [UIScreen mainScreen].bounds.size
 #define KScreenRatio [UIScreen mainScreen].bounds.size.width/375
+#define KHeightRatio [UIScreen mainScreen].bounds.size.height/667
+
 
 #define KUIColorFromHex(s)  [UIColor colorWithRed:(((s &0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s &0xFF))/255.0 alpha:1.0]
 #define KGreenColor KUIColorFromHex(0x45ba3c)
-#define KRedColor KUIColorFromHex(0xff463c)
+#define KRedColor KUIColorFromHex(0xFC2C47)
 #define KAppDefaultColor KUIColorFromHex(0xff3529)
 #define KLineColor KUIColorFromHex(0xeeeeee)
 #define KTableBackgroundColor KUIColorFromHex(0xf9f9f9)
@@ -137,6 +140,8 @@ typedef NS_ENUM(NSInteger , HomePageFunctionJumpType) {
     FunctionJumpShareCircle,
     /** 积分兑换 */
     IntegralExchange,
+    /** 全部分类 */
+    AllCategoryGoods,
     
 };
 

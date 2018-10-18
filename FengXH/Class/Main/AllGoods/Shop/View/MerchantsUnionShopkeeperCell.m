@@ -8,6 +8,7 @@
 
 #import "MerchantsUnionShopkeeperCell.h"
 #import "GoodsDetailResultModel.h"
+#import "UnionMerchantResultModel.h"
 
 @interface MerchantsUnionShopkeeperCell ()
 
@@ -55,6 +56,17 @@
     }
     if (_shopDetailModel.shopDescription && _shopDetailModel.shopDescription.length > 0) {
         [self.shopDescriptionLabel setText:_shopDetailModel.shopDescription];
+    }
+}
+
+- (void)setUnionMerchantModel:(UnionMerchantResultItemsItemsModel *)unionMerchantModel {
+    _unionMerchantModel = unionMerchantModel;
+    [self.shopkeeperIcon setYy_imageURL:[NSURL URLWithString:_unionMerchantModel.thumb]];
+    if (_unionMerchantModel.name && _unionMerchantModel.name.length > 0) {
+        [self.shopkeeperNameLabel setText:_unionMerchantModel.name];
+    }
+    if (_unionMerchantModel.desc && _unionMerchantModel.desc.length > 0) {
+        [self.shopDescriptionLabel setText:_unionMerchantModel.desc];
     }
 }
 

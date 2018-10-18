@@ -50,7 +50,7 @@
     MJWeakSelf
     self.contentView.frame = CGRectMake(0, KMAINSIZE.height, KMAINSIZE.width, 500);;
     [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.contentView.frame = CGRectMake(30, KNaviHeight, KMAINSIZE.width-60, 500);
+        weakSelf.contentView.frame = CGRectMake(30, KNaviHeight*KHeightRatio, KMAINSIZE.width-60, 500);
     }];
 }
 
@@ -67,11 +67,13 @@
 #pragma mark - lazy
 - (UIImageView *)contentView {
     if (!_contentView) {
-        _contentView = [[UIImageView alloc] initWithFrame:CGRectMake(30, KNaviHeight, KMAINSIZE.width-60, 500)];
+        _contentView = [[UIImageView alloc] initWithFrame:CGRectMake(30, KNaviHeight*KHeightRatio, KMAINSIZE.width-60, 500)];
         [_contentView setContentMode:UIViewContentModeScaleAspectFit];
     }
     return _contentView;
 }
+
+
 
 
 /*

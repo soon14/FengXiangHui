@@ -138,7 +138,7 @@
         }
         if (scrollView.contentOffset.x < -(KMAINSIZE.width/4-20)) {
             [self.navigationController popViewControllerAnimated:YES];
-        } else if (scrollView.contentOffset.x > KMAINSIZE.width + KMAINSIZE.width/4) {
+        } else if (scrollView.contentOffset.x > KMAINSIZE.width + (KMAINSIZE.width/4-20)) {
             IntegralRecordBaseViewController *VC = [[IntegralRecordBaseViewController alloc] init];
             [self.navigationController pushViewController:VC animated:YES];
         }
@@ -160,7 +160,9 @@
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self requestPersonalDada];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+                
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }

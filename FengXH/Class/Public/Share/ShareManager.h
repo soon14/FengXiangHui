@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class UserInfoModel,HomepageDataMenuDataModel,HomepageDataBannerDataModel;
+@class UserInfoModel,HomepageDataMenuDataModel,HomepageResultPictureModel;
 
 @interface ShareManager : NSObject
 
@@ -24,10 +24,10 @@
 + (BOOL)isPureInt:(NSString *)string;
 
 #pragma mark - 传入 HomepageDataMenuDataModel 判断跳转至啥地方
-+ (NSInteger)getHomePageFunctionJumpTypeWithMenuDataModel:(HomepageDataMenuDataModel *)menuModel;
++ (NSInteger)getHomePageFunctionJumpTypeWithMenuDataModel:(HomepageResultPictureModel *)menuModel;
 
 #pragma mark - 传入 HomepageDataBannerDataModel 判断跳转至啥地方
-+ (NSInteger)getHomePageBannerJumpTypeWithBannerDataModel:(HomepageDataBannerDataModel *)bannerModel;
++ (NSInteger)getHomePageBannerJumpTypeWithBannerDataModel:(HomepageResultPictureModel *)bannerModel;
 
 #pragma mark - 全部商品二级分类的头视图 —— 传入 URLString 判断跳转至啥地方
 + (NSInteger)getAllGoodsCollectionHeaderJumpTypeWithLinkUrl:(NSString *)linkUrl;
@@ -43,5 +43,17 @@
 
 #pragma mark - 判断是否为数字（含小数）
 + (BOOL)isNumber:(NSString *)strValue;
+
+#pragma mark - 根据date获取当月总天数
++ (NSInteger)convertDateToTotalDays:(NSDate *)date;
+
+#pragma mark - 根据date获取当月1号周几
++ (NSInteger)convertDateToFirstWeekDay:(NSDate *)date;
+
+#pragma mark - 获取当前年月
++ (NSString *)getNowTimeYearMonthstamp;
+
+#pragma mark - 获取当前日
++ (NSString *)getNowTimeDaystamp;
 
 @end

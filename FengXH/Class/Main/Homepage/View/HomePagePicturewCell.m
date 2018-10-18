@@ -7,7 +7,7 @@
 //
 
 #import "HomePagePicturewCell.h"
-#import "HomepageDataModel.h"
+#import "HomepageResultModel.h"
 #import "ZLCollectionViewFlowLayout.h"
 
 @interface HomePagePicturewCell ()<UICollectionViewDelegate,UICollectionViewDataSource,ZLCollectionViewFlowLayoutDelegate>
@@ -100,7 +100,7 @@
 
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    HomepageDataMenuDataModel * menuDateModel = self.pictureArray[indexPath.item];
+    HomepageResultPictureModel * menuDateModel = self.pictureArray[indexPath.item];
     if (self.delegate && [self.delegate respondsToSelector:@selector(HomePagePicturewCell:didSelectPicturerwItemWith:)]) {
         [self.delegate HomePagePicturewCell:self didSelectPicturerwItemWith:menuDateModel];
     }
@@ -141,7 +141,7 @@
     self.pictureImageView.frame = self.contentView.frame;
 }
 
-- (void)setPictureModel:(HomepageDataMenuDataModel *)pictureModel {
+- (void)setPictureModel:(HomepageResultPictureModel *)pictureModel {
     _pictureModel = pictureModel;
     [self.pictureImageView setYy_imageURL:[NSURL URLWithString:_pictureModel.imgurl]];
 }

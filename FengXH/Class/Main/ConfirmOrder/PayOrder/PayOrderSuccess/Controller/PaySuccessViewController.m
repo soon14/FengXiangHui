@@ -12,7 +12,6 @@
 #import "PaySuccessAddressCell.h"
 #import "PaySuccessPriceCell.h"
 #import "PersonalViewController.h"
-#import "NHomepageViewController.h"
 #import "AllGoodsViewController.h"
 #import "PaySuccessFooterCell.h"
 #import "SpellHomeViewController.h"

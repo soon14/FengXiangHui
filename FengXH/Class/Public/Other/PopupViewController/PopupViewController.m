@@ -50,7 +50,7 @@
 }
 
 #pragma 动画效果
-- (void)CAtransitionLoad{
+- (void)CAtransitionLoad {
     
     CATransition *transitionViewIn =[CATransition animation];
     // 动画时间.

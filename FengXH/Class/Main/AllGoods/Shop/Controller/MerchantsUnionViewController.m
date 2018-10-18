@@ -8,6 +8,7 @@
 
 #import "MerchantsUnionViewController.h"
 #import "GoodsDetailResultModel.h"
+#import "UnionMerchantResultModel.h"
 #import "UICollectionViewFlowLayout+Add.h"
 #import "MerchantsUnionShopkeeperCell.h"
 #import "merchantsUnionHeaderView.h"
@@ -109,7 +110,7 @@ typedef NS_ENUM(NSInteger , ShopGoodsLayoutStyle) {
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (section) {
         case 0: {
-            if (self.goodsDetailResultModel) {
+            if (self.goodsDetailResultModel || self.unionMerchantModel) {
                 return 1;
             } return 0;
         } break;
@@ -124,7 +125,7 @@ typedef NS_ENUM(NSInteger , ShopGoodsLayoutStyle) {
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0: {
-            if (self.goodsDetailResultModel) {
+            if (self.goodsDetailResultModel || self.unionMerchantModel) {
                 return CGSizeMake(KMAINSIZE.width, 70);
             } return CGSizeZero;
         } break;
@@ -261,9 +262,13 @@ typedef NS_ENUM(NSInteger , ShopGoodsLayoutStyle) {
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0: {
-            if (self.goodsDetailResultModel) {
+            if (self.goodsDetailResultModel || self.unionMerchantModel) {
                 MerchantsUnionShopkeeperCell *shopkeeperCell = (MerchantsUnionShopkeeperCell *)cell;
-                shopkeeperCell.shopDetailModel = self.goodsDetailResultModel.shopdetail;
+                if (self.goodsDetailResultModel) {
+                    shopkeeperCell.shopDetailModel = self.goodsDetailResultModel.shopdetail;
+                } else if (self.unionMerchantModel) {
+                    shopkeeperCell.unionMerchantModel = self.unionMerchantModel;
+                }
             }
         } break;
         case 1: {
@@ -457,6 +462,8 @@ typedef NS_ENUM(NSInteger , ShopGoodsLayoutStyle) {
     // 商户 ID
     if (self.goodsDetailResultModel.merchid && self.goodsDetailResultModel.merchid.length > 0) {
         [paramDic setObject:self.goodsDetailResultModel.merchid forKey:@"merchid"];
+    } else if (self.unionMerchantModel.merchid && self.unionMerchantModel.merchid.length > 0) {
+        [paramDic setObject:self.unionMerchantModel.merchid forKey:@"merchid"];
     }
     // 搜索关键词
     if (_searchTextField.text.length > 0) {

@@ -157,7 +157,11 @@
         VC.goodsID = goodsModel.gid;
         [self.navigationController pushViewController:VC animated:YES];
     } else {
-        [self presentLoginViewControllerWithSuccessBlock:nil WithFailureBlock:nil];
+        [self presentLoginViewControllerWithSuccessBlock:^{
+            
+        } WithFailureBlock:^{
+            
+        }];
     }
     
 }

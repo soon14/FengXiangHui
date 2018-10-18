@@ -9,7 +9,7 @@
 #import "SpellHomeViewController.h"
 #import "SpellHomeTableViewCell.h"
 #import "SpellHomeModel.h"
-#import "LoginViewController.h"
+#import "NPhoneLoginViewController.h"
 #import "SpellGroupDetailsViewController.h"
 
 @interface SpellHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -121,7 +121,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
-        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        NPhoneLoginViewController *loginVC = [[NPhoneLoginViewController alloc] init];
         [self presentViewController:loginVC animated:YES completion:nil];
         
     }else{

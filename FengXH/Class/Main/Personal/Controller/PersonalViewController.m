@@ -15,7 +15,6 @@
 #import "PersonalSixthCell.h"
 #import "PersonalSectionCell.h"
 #import "PersonalFooterView.h"
-#import "LoginViewController.h"
 #import "MyOrderBaseViewController.h"
 #import "PersonalDataModel.h"
 #import "ChangePasswordViewController.h"
@@ -39,6 +38,8 @@
 #import "ArticleListBaseViewController.h"
 #import "FreshViewController.h"
 #import "ShopCartSubViewController.h"
+#import "IntegralBaseViewController.h"
+#import <ShareSDK/ShareSDK.h>
 
 @interface PersonalViewController ()<UITableViewDelegate,UITableViewDataSource,CustomActionSheetDelagate>
 
@@ -82,7 +83,9 @@
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self requestPersonalViewControllerDada];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+                
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }
@@ -337,11 +340,9 @@
             break;
         case 3: {
             //积分兑换
-            WebJumpViewController *webVC = [[WebJumpViewController alloc] init];
-            webVC.jumpURL = @"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=29";
-            webVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:webVC animated:YES];
-            
+            IntegralBaseViewController *VC = [[IntegralBaseViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
             
@@ -551,9 +552,14 @@
 - (void)footerViewAction:(NSInteger)index {
     switch (index) {
         case 0: {
-            ChangePasswordViewController *VC = [[ChangePasswordViewController alloc] init];
-            VC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:VC animated:YES];
+            NSString *mobileString = [[NSUserDefaults standardUserDefaults] objectForKey:KUserMobile];
+            if (mobileString && mobileString.length > 0) {
+                ChangePasswordViewController *VC = [[ChangePasswordViewController alloc] init];
+                VC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:VC animated:YES];
+            } else {
+                [DBHUD ShowInView:self.view withTitle:@"仅支持手机号登录用户修改密码"];
+            }
         }
             break;
         case 1: {
@@ -570,6 +576,9 @@
 
 #pragma mark - CustomActionSheetDelegate
 - (void)sheet:(CustomActionSheet *)sheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
+    }
     [ShareManager clearUserInfo];
     [self.tabBarController setSelectedIndex:0];
 }

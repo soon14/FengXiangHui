@@ -73,7 +73,12 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -254,6 +259,11 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             case JDGoodsAdressType:
             case FreightType: {
                 return CGFLOAT_MIN;
+            } break;
+            case QualityType: {
+                if (self.resultModel.sku_jdid || [self.resultModel.tag.quality count] > 0) {
+                    return CGFLOAT_MIN;
+                } return 8;
             } break;
                 
             default: {
@@ -501,7 +511,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             } else {
                 [self presentLoginViewControllerWithSuccessBlock:^{
                     [self goodsDetailDataRequest];
-                } WithFailureBlock:nil];
+                } WithFailureBlock:^{
+                    
+                }];
             }
         } break;
         case 1: {//跳转店铺
@@ -529,7 +541,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             } else {
                 [self presentLoginViewControllerWithSuccessBlock:^{
                     [self goodsDetailDataRequest];
-                } WithFailureBlock:nil];
+                } WithFailureBlock:^{
+                    
+                }];
             }
         } break;
         case 4: {
@@ -552,7 +566,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
             } else {
                 [self presentLoginViewControllerWithSuccessBlock:^{
                     [self goodsDetailDataRequest];
-                } WithFailureBlock:nil];
+                } WithFailureBlock:^{
+                    
+                }];
             }
         } break;
         default:
@@ -706,7 +722,9 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self goodsDetailDataRequest];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+                
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
         }
@@ -735,14 +753,6 @@ typedef NS_ENUM(NSInteger , GoodsDetailCellType) {
     }
     return _goodsQRCode;
 }
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-
-
 
 
 - (void)dealloc {

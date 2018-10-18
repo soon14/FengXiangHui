@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HomepageDataNoticeDataModel;
+@class HomepageResultNoticeModel;
 
 @interface HomePageHotSpotCell : UICollectionViewCell
 /** 数据模型 */
-@property(nonatomic , strong)HomepageDataNoticeDataModel *noticeDataModel;
+@property(nonatomic , strong)HomepageResultNoticeModel *noticeDataModel;
 @end

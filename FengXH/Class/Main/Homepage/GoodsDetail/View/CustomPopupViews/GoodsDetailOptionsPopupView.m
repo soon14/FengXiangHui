@@ -80,8 +80,9 @@
         
         [self.contentView addSubview:self.confirmButton];
         [self.confirmButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.right.mas_offset(0);
-            make.height.mas_equalTo(45+KBottomHeight);
+            make.left.right.mas_offset(0);
+            make.bottom.mas_offset(-KBottomHeight);
+            make.height.mas_equalTo(45);
         }];
         
         [self.contentView addSubview:self.collectionView];

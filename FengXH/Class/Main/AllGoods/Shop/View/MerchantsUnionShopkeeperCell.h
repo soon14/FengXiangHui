@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class GoodsDetailResultShopdetailModel;
+@class GoodsDetailResultShopdetailModel,UnionMerchantResultItemsItemsModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** model */
 @property(nonatomic , strong)GoodsDetailResultShopdetailModel *shopDetailModel;
+/** 联盟商户页传进来的 Model */
+@property(nonatomic , strong)UnionMerchantResultItemsItemsModel *unionMerchantModel;
 
 @end
 

@@ -11,8 +11,7 @@
 @implementation UserInfoModel
 
 + (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"userid" : @"id",
-             };
+    return @{@"userid" : @"id"};
 }
 
 @end

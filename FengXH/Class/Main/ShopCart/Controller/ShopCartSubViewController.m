@@ -437,11 +437,11 @@
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self getShoppingCarDataRequest];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:KRequestError];
         }
-        
     } WithFailureBlock:^(NSError *error) {
         [DBHUD Hiden:YES fromView:self.view];
         [DBHUD ShowInView:self.view withTitle:KNetworkError];

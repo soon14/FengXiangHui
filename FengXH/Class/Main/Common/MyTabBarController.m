@@ -8,12 +8,12 @@
 
 #import "MyTabBarController.h"
 #import "HBNavigationController.h"
-#import "NHomepageViewController.h"
+#import "HomepageViewController.h"
 #import "AllGoodsViewController.h"
 #import "NMyStoreViewController.h"
 #import "ShopCartRootViewController.h"
 #import "PersonalViewController.h"
-#import "LoginViewController.h"
+#import "NPhoneLoginViewController.h"
 
 @interface MyTabBarController ()
 
@@ -36,7 +36,7 @@
 
 - (void)initSubVC{
     
-    NHomepageViewController * homeVC = [[NHomepageViewController alloc] init];
+    HomepageViewController * homeVC = [[HomepageViewController alloc] init];
     [self setupChildVC:homeVC Title:@"商城首页" UnselectedImageName:@"home_icon_home_nol" SelectedImageName:@"home_icon_home_sel"];
     
     AllGoodsViewController * allGoodsVC = [[AllGoodsViewController alloc] init];
@@ -97,7 +97,7 @@
     
     if ([willShowViewController isKindOfClass:[NMyStoreViewController class]] ||[willShowViewController isKindOfClass:[ShopCartRootViewController class]] || [willShowViewController isKindOfClass:[PersonalViewController class]]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
-            LoginViewController *loginVC = [[LoginViewController alloc] init];
+            NPhoneLoginViewController *loginVC = [[NPhoneLoginViewController alloc] init];
             [self presentViewController:loginVC animated:YES completion:nil];
             return NO;
         }

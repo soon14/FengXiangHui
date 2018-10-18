@@ -9,7 +9,7 @@
 
 #import "ShareManager.h"
 #import "UserInfoModel.h"
-#import "HomepageDataModel.h"
+#import "HomepageResultModel.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 
@@ -54,7 +54,7 @@
     return[scan scanInt:&val] && [scan isAtEnd];
 }
 
-+ (NSInteger)getHomePageFunctionJumpTypeWithMenuDataModel:(HomepageDataMenuDataModel *)menuModel {
++ (NSInteger)getHomePageFunctionJumpTypeWithMenuDataModel:(HomepageResultPictureModel *)menuModel {
     if ([ShareManager isPureInt:menuModel.linkurl]) {
         //  纯数字，跳转至全部商品页
         return FunctionJumpAllGoods;
@@ -82,14 +82,17 @@
     } else if ([menuModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=29"]) {
         //积分兑换
         return IntegralExchange;
-    } else {
+    } else if ([menuModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=shop.category"]) {
+        return AllCategoryGoods;
+    }
+    else {
         //  跳转网页
         return FunctionJumpWebView;
     }
 }
 
 #pragma mark - 传入 HomepageDataBannerDataModel 判断跳转至啥地方
-+ (NSInteger)getHomePageBannerJumpTypeWithBannerDataModel:(HomepageDataBannerDataModel *)bannerModel {
++ (NSInteger)getHomePageBannerJumpTypeWithBannerDataModel:(HomepageResultPictureModel *)bannerModel {
     if ([bannerModel.linkurl containsString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id="]) {
         //商品详情
         return BannerJumpGoodsDetails;
@@ -102,6 +105,9 @@
     } else if ([bannerModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=139"]) {
         //京东优选
         return BannerJumpJingDongOptimization;
+    } else if ([bannerModel.linkurl isEqualToString:@"https://www.vipfxh.com/app/index.php?i=7&c=entry&m=ewei_shopv2&do=mobile&r=creditshop"]) {
+        //积分商城
+        return BannerJumpExchangeStore;
     }
     //网页
     return BannerJumpWebView;
@@ -143,6 +149,7 @@
     [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
     return mutStr;
 }
+
 #pragma mark - 分享
 + (void)shareWithTitle:(NSString *)titleStr andMessage:(NSString *)message andUrl:(NSString *)urlStr andImg:(NSArray *)imgArr {
     
@@ -188,7 +195,49 @@
     return YES;
 }
 
+#pragma mark - 根据date获取当月总天数
++ (NSInteger)convertDateToTotalDays:(NSDate *)date {
+    NSRange daysInOfMonth = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
+    return daysInOfMonth.length;
+}
 
+#pragma mark - 根据date获取当月1号周几
++ (NSInteger)convertDateToFirstWeekDay:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setFirstWeekday:1];//1.Sun. 2.Mon. 3.Thes. 4.Wed. 5.Thur. 6.Fri. 7.Sat.
+    NSDateComponents *comp = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
+    [comp setDay:1];
+    NSDate *firstDayOfMonthDate = [calendar dateFromComponents:comp];
+    NSUInteger firstWeekday = [calendar ordinalityOfUnit:NSCalendarUnitWeekday inUnit:NSCalendarUnitWeekOfMonth forDate:firstDayOfMonthDate];
+    return firstWeekday - 1;  //美国时间周日为星期的第一天，所以周日-周六为1-7，改为0-6方便计算
+}
 
+#pragma mark - 获取当前年月
++ (NSString *)getNowTimeYearMonthstamp {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY-MM"]; //设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+    //设置时区,这个对于时间的处理有时很重要
+    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    [formatter setTimeZone:timeZone];
+    NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
+    NSString *timeSp = [NSString stringWithFormat:@"%@", [formatter stringFromDate:datenow]];
+    return timeSp;
+}
+
+#pragma mark - 获取当前日
++ (NSString *)getNowTimeDaystamp {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"dd"]; //设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+    //设置时区,这个对于时间的处理有时很重要
+    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    [formatter setTimeZone:timeZone];
+    NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
+    NSString *timeSp = [NSString stringWithFormat:@"%@", [formatter stringFromDate:datenow]];
+    return timeSp;
+}
 
 @end

@@ -42,9 +42,6 @@
             [self.collectionView reloadData];
             
         }
-        
-        
-        
     } WithFailureBlock:^(NSError *error) {
         [DBHUD Hiden:YES fromView:self.view];
         [DBHUD ShowInView:self.view withTitle:KNetworkError];

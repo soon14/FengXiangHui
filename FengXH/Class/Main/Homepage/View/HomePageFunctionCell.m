@@ -7,7 +7,7 @@
 //
 
 #import "HomePageFunctionCell.h"
-#import "HomepageDataModel.h"
+#import "HomepageResultModel.h"
 
 @interface HomePageFunctionCell ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 /** 功能functionCell */
@@ -29,7 +29,7 @@
     self.functionCollection.frame = self.contentView.frame;
 }
 
-- (void)setMenuDataArray:(NSArray<HomepageDataMenuDataModel *> *)menuDataArray {
+- (void)setMenuDataArray:(NSArray<HomepageResultPictureModel *> *)menuDataArray {
     _menuDataArray = menuDataArray;
     [self.functionCollection reloadData];
 }
@@ -52,7 +52,7 @@
 
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    HomepageDataMenuDataModel * menuDateModel = self.menuDataArray[indexPath.item];
+    HomepageResultPictureModel * menuDateModel = self.menuDataArray[indexPath.item];
     if (self.delegate && [self.delegate respondsToSelector:@selector(HomePageFunctionCell:didSelectFunctiomItemWith:)]) {
         [self.delegate HomePageFunctionCell:self didSelectFunctiomItemWith:menuDateModel];
     }
@@ -62,7 +62,6 @@
 - (UICollectionView *)functionCollection {
     if (!_functionCollection) {
         UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         flowLayout.minimumLineSpacing = 0;
         flowLayout.minimumInteritemSpacing = 0;
         _functionCollection = [[UICollectionView alloc] initWithFrame:self.contentView.frame collectionViewLayout:flowLayout];
@@ -104,7 +103,7 @@
     return self;
 }
 
-- (void)setFunctionItemModel:(HomepageDataMenuDataModel *)functionItemModel {
+- (void)setFunctionItemModel:(HomepageResultPictureModel *)functionItemModel {
     _functionItemModel = functionItemModel;
     [self.itemImageView setYy_imageURL:[NSURL URLWithString:_functionItemModel.imgurl]];
     [self.itemTitleLabel setText:_functionItemModel.text];

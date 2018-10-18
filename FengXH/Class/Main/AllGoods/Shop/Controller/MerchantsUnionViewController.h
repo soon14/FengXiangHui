@@ -7,13 +7,16 @@
 //
 
 #import "BaseViewController.h"
-@class GoodsDetailResultModel;
+@class GoodsDetailResultModel,UnionMerchantResultItemsItemsModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MerchantsUnionViewController : BaseViewController
 
+/** 商品详情页传进来的 Model */
 @property(nonatomic , strong)GoodsDetailResultModel *goodsDetailResultModel;
+/** 联盟商户传进来的 Model */
+@property(nonatomic , strong)UnionMerchantResultItemsItemsModel *unionMerchantModel;
 
 @end
 

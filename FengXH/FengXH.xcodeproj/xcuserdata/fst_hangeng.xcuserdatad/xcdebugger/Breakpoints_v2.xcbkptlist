@@ -20,12 +20,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Class/Main/Homepage/SpellGroup/Controller/MySpellGroup/Controller/SpellGroupDetailsViewController.m"
-            timestampString = "559805133.88806"
+            timestampString = "560745741.426208"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "-onItemClick:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Class/Main/Homepage/SignIn/SignInDetail/SignInDetailViewController.m"
+            timestampString = "560680028.291935"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "-signInDetailRequestWithPage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HomepageDataMenuDataModel,HomePageFunctionCell;
+@class HomepageResultPictureModel,HomePageFunctionCell;
 
 @protocol HomePageFunctionDelegate <NSObject>
-- (void)HomePageFunctionCell:(HomePageFunctionCell *)cell didSelectFunctiomItemWith:(HomepageDataMenuDataModel *)functionItemModel;
+- (void)HomePageFunctionCell:(HomePageFunctionCell *)cell didSelectFunctiomItemWith:(HomepageResultPictureModel *)functionItemModel;
 @end
 
 @interface HomePageFunctionCell : UICollectionViewCell
 
 /** 数组 */
-@property(nonatomic , strong)NSArray <HomepageDataMenuDataModel *> *menuDataArray;
+@property(nonatomic , strong)NSArray <HomepageResultPictureModel *> *menuDataArray;
 /** 代理 */
 @property (weak , nonatomic) id <HomePageFunctionDelegate> delegate;
 
@@ -25,5 +25,5 @@
 
 @interface HomePageFunctionItemCell : UICollectionViewCell
 /** functionItem模型 */
-@property(nonatomic , strong)HomepageDataMenuDataModel *functionItemModel ;
+@property(nonatomic , strong)HomepageResultPictureModel *functionItemModel ;
 @end

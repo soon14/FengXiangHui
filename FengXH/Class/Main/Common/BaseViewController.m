@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-#import "LoginViewController.h"
+#import "NPhoneLoginViewController.h"
 
 @interface BaseViewController ()
 
@@ -23,7 +23,7 @@
 
 #pragma mark - 弹出登录界面
 - (void)presentLoginViewControllerWithSuccessBlock:(BaseViewControllerLoginSuccess)success WithFailureBlock:(BaseViewControllerLoginFailure)failure {
-    LoginViewController *loginVC = [[LoginViewController alloc] init];
+    NPhoneLoginViewController *loginVC = [[NPhoneLoginViewController alloc] init];
     loginVC.loginSuccessBlock = ^{
         success();
     };

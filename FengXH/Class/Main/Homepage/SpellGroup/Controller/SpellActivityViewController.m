@@ -11,7 +11,7 @@
 #import "SpellHomeModel.h"
 #import "SpellHomeTableViewCell.h"
 #import "SpellGroupDetailsViewController.h"
-#import "LoginViewController.h"
+#import "NPhoneLoginViewController.h"
 @interface SpellActivityViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 /** 搜索框 */
 @property(nonatomic , strong)AllGoodsSearchView *searchView;
@@ -129,7 +129,7 @@
     
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
-        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        NPhoneLoginViewController *loginVC = [[NPhoneLoginViewController alloc] init];
         [self presentViewController:loginVC animated:YES completion:nil];
         
     }else{

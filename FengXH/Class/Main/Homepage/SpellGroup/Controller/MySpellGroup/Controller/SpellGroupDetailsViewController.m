@@ -112,7 +112,9 @@
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self spellHomeDataRequest];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+                
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }

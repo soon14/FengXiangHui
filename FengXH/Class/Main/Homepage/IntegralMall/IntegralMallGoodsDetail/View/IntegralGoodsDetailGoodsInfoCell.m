@@ -186,7 +186,7 @@
                         if (days==0) {
                             self.dayString = @"0";
                         } else {
-                            self.dayString = [NSString stringWithFormat:@"%d天",days];
+                            self.dayString = [NSString stringWithFormat:@"%d",days];
                         }
                         if (hours<10) {
                             self.hourString = [NSString stringWithFormat:@"0%d",hours];

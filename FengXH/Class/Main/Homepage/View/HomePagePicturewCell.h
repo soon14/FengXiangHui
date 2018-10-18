@@ -9,7 +9,7 @@
 
 
 #import <UIKit/UIKit.h>
-@class HomepageDataHotPictureModel,HomepageDataMenuDataModel,HomepageDataFirstCategoryImageModel,HomePagePicturewCell;
+@class HomePagePicturewCell,HomepageResultPictureModel;
 
 @protocol HomePagePicturewDelegate <NSObject>
 /**
@@ -18,7 +18,7 @@
  @param cell cell
  @param functionItemModel 图片模型
  */
-- (void)HomePagePicturewCell:(HomePagePicturewCell *)cell didSelectPicturerwItemWith:(HomepageDataMenuDataModel *)functionItemModel;
+- (void)HomePagePicturewCell:(HomePagePicturewCell *)cell didSelectPicturerwItemWith:(HomepageResultPictureModel *)functionItemModel;
 @end
 
 @interface HomePagePicturewCell : UICollectionViewCell
@@ -33,5 +33,5 @@
 
 @interface HomePagePicturewImageCell : UICollectionViewCell
 /** 模型 */
-@property(nonatomic , strong)HomepageDataMenuDataModel * pictureModel ;
+@property(nonatomic , strong)HomepageResultPictureModel * pictureModel ;
 @end

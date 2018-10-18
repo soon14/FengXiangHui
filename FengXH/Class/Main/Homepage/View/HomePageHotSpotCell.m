@@ -7,7 +7,7 @@
 //
 
 #import "HomePageHotSpotCell.h"
-#import "HomepageDataModel.h"
+#import "HomepageResultModel.h"
 
 @interface HomePageHotSpotCell ()
 {
@@ -66,13 +66,13 @@
     return self;
 }
 
-- (void)setNoticeDataModel:(HomepageDataNoticeDataModel *)noticeDataModel {
+- (void)setNoticeDataModel:(HomepageResultNoticeModel *)noticeDataModel {
     _noticeDataModel = noticeDataModel;
     [self.hotImageView setYy_imageURL:[NSURL URLWithString:_noticeDataModel.iconurl]];
     
     _turnArray = [NSMutableArray array];
-    for (NSInteger i=0; i<_noticeDataModel.data.count; i++) {
-        HomepageDataNoticeDataDetailsModel *noticeDetailsDataModel = _noticeDataModel.data[i];
+    for (NSInteger i=0; i<_noticeDataModel.nice.count; i++) {
+        HomepageResultNoticeNiceModel *noticeDetailsDataModel = _noticeDataModel.nice[i];
         if (noticeDetailsDataModel.title.length > 0) {
             [_turnArray addObject:noticeDetailsDataModel.title];
         }
@@ -123,11 +123,17 @@
         self->wichOne = !self->wichOne;
         if ((int)self.label1.frame.origin.y==-self.frame.size.height) {
             self.label1.frame = CGRectMake(90, self.frame.size.height, self.frame.size.width-100, self.frame.size.height);
-            self.label1.text = self->_turnArray[self->count];
+            if ([self->_turnArray count] > 0) {
+                self.label1.text = self->_turnArray[self->count];
+            }
+            
         }
         if ((int)self.label2.frame.origin.y==-self.frame.size.height) {
             self.label2.frame = CGRectMake(90, self.frame.size.height, self.frame.size.width-100, self.frame.size.height);
-            self.label2.text = self->_turnArray[self->count];
+            if ([self->_turnArray count] > 0) {
+                self.label2.text = self->_turnArray[self->count];
+            }
+            
         }
     }];
     

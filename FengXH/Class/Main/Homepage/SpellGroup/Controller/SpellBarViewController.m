@@ -12,7 +12,7 @@
 #import "SpellActivityViewController.h"//活动列表
 #import "SpellOrderBaseViewController.h"//我的订单
 #import "SpellMyViewController.h"//我的团
-#import "LoginViewController.h"
+#import "NPhoneLoginViewController.h"
 @interface SpellBarViewController ()<UITabBarDelegate,UITabBarControllerDelegate>
 
 @end
@@ -97,7 +97,7 @@
     
         if ([willShowViewController isKindOfClass:[SpellOrderBaseViewController class]] ||[willShowViewController isKindOfClass:[SpellMyViewController class]]) {
             if (![[NSUserDefaults standardUserDefaults] objectForKey:KUserToken]) {
-                LoginViewController *loginVC = [[LoginViewController alloc] init];
+                NPhoneLoginViewController *loginVC = [[NPhoneLoginViewController alloc] init];
                 [self presentViewController:loginVC animated:YES completion:nil];
                 return NO;
             }

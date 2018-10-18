@@ -70,6 +70,8 @@
 
             self.tableView.tableHeaderView = self.killheaderView;
             [self.tableView reloadData];
+        } else {
+            [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]];
         }
         
     } WithFailureBlock:^(NSError *error) {

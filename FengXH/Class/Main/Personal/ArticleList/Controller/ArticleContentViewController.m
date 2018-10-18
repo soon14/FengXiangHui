@@ -76,7 +76,9 @@
         } else if ([responseDic[@"status"] integerValue] == 401) {
             [self presentLoginViewControllerWithSuccessBlock:^{
                 [self shareButtonDidClicked:nil];
-            } WithFailureBlock:nil];
+            } WithFailureBlock:^{
+                
+            }];
         } else {
             [DBHUD ShowInView:self.view withTitle:responseDic[@"message"]?responseDic[@"message"]:@"请求失败"];
         }
